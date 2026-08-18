@@ -1,0 +1,52 @@
+folder,
+            file.name
+          );
+
+
+        const filename =
+          document.createElement("div");
+
+        filename.className = "filename";
+
+        filename.textContent =
+          file.name;
+
+
+        card.appendChild(img);
+        card.appendChild(filename);
+
+        grid.appendChild(card);
+
+      });
+
+
+      section.appendChild(heading);
+      section.appendChild(count);
+      section.appendChild(grid);
+
+      admin.appendChild(section);
+
+    }
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+    admin.innerHTML =
+      '<div class="error">' +
+      'Could not load the products.' +
+      '</div>';
+
+  }
+
+}
+
+
+loadAdmin();
+
+</script>
+
+</body>
+</html>
