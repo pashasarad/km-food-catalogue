@@ -128,73 +128,101 @@ function chunks(arr,size){
   return out;
 }
 
-async function loadCatalogue(){
+      pageNumber++;                                                    
+    async function loadCatalogue(){
 
-  const catalogue=document.getElementById("catalogue");
+  const catalogue = document.getElementById("catalogue");
+  catalogue.innerHTML = "";
 
-  const pages=await getData(
+  // Keep your normal catalogue pages
+  const pages = await getData(
     "/rest/v1/catalog_page?select=*&order=display_order.asc"
   );
 
-  const products=await getData(
-    "/rest/v1/product?select=*&is_active=eq.true&order=category.asc,display_order.asc,id.asc"
-  );
-
-  catalogue.innerHTML="";
-
-  pages.forEach(p=>{
-    const img=document.createElement("img");
-    img.src=p.image_url;
-    img.className="static-page";
+  pages.forEach(p => {
+    const img = document.createElement("img");
+    img.src = p.image_url;
+    img.className = "static-page";
     catalogue.appendChild(img);
   });
 
-  const groups={};
+  // FOLDER NAME = CATEGORY NAME
+  const categories = [
+    { folder: "rice", title: "RICE" },
+    { folder: "drinks", title: "DRINKS" },
+    { folder: "snacks", title: "SNACKS & SWEETS" }
+  ];
 
-  products.forEach(p=>{
-    const cat=(p.category||"Other Products").trim();
+  let pageNumber = pages.length + 1;
 
-    if(!groups[cat]){
-      groups[cat]=[];
-    }
+  for (const category of categories) {
 
-    groups[cat].push(p);
-  });
+    const response = await fetch(
+      SUPABASE_URL + "/storage/v1/object/list/product-image",
+      {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          prefix: category.folder,
+          limit: 1000,
+          offset: 0,
+          sortBy: {
+            column: "name",
+            order: "asc"
+          }
+        })
+      }
+    );
 
-  let pageNumber=pages.length+1;
+    const files = await response.json();
 
-  Object.keys(groups).forEach(category=>{
+    const images = files.filter(file =>
+      /\.(png|jpg|jpeg|webp)$/i.test(file.name)
+    );
 
-    chunks(groups[category],6).forEach(group=>{
+    const groups = chunks(images, 6);
 
-      const page=document.createElement("div");
-      page.className="product-page";
+    groups.forEach(group => {
 
-      const header=document.createElement("div");
-      header.className="header";
-      header.innerHTML=
-        "<strong>K&M FOOD SUPPLIERS LTD</strong>"+
-        "<h2>"+category+"</h2>";
+      const page = document.createElement("div");
+      page.className = "product-page";
 
-      const grid=document.createElement("div");
-      grid.className="grid";
+      const header = document.createElement("div");
+      header.className = "header";
+      header.innerHTML =
+        "<strong>K&M FOOD SUPPLIERS LTD</strong>" +
+        "<h2>" + category.title + "</h2>";
 
-      group.forEach(product=>{
-        const card=document.createElement("div");
-        card.className="card";
+      const grid = document.createElement("div");
+      grid.className = "grid";
 
-        const img=document.createElement("img");
-        img.src=product.image_url;
+      group.forEach(file => {
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const img = document.createElement("img");
+
+        img.src =
+          SUPABASE_URL +
+          "/storage/v1/object/public/product-image/" +
+          category.folder + "/" +
+          encodeURIComponent(file.name);
 
         card.appendChild(img);
         grid.appendChild(card);
+
       });
 
-      const footer=document.createElement("div");
-      footer.className="footer";
-      footer.innerHTML=
-        "<span>QUALITY FOOD, TRUSTED EVERYTIME</span>"+
-        "<span>PAGE "+pageNumber+"</span>";
+      const footer = document.createElement("div");
+      footer.className = "footer";
+      footer.innerHTML =
+        "<span>QUALITY FOOD, TRUSTED EVERYTIME</span>" +
+        "<span>PAGE " + pageNumber + "</span>";
 
       page.appendChild(header);
       page.appendChild(grid);
@@ -202,9 +230,10 @@ async function loadCatalogue(){
 
       catalogue.appendChild(page);
 
-      pageNumber++;                                                    
+      pageNumber++;
+
     });
-  });
+  }
 }
 
 loadCatalogue();
