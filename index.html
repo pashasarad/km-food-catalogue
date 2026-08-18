@@ -166,7 +166,7 @@ function chunks(arr,size){
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          prefix: category.folder,
+          prefix: category.folder + "/",
           limit: 1000,
           offset: 0,
           sortBy: {
