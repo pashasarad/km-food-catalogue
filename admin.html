@@ -147,7 +147,29 @@ async function getFolderFiles(folder) {
     throw new Error("Could not load folder: " + folder);
   }
 
-  return await response.json();
+  const files = await response.json();
+
+const productResponse = await fetch(
+  SUPABASE_URL + "/rest/v1/product?select=image_url,is_active",
+  {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: "Bearer " + SUPABASE_ANON_KEY
+    }
+  }
+);
+
+const products = await productResponse.json();
+
+return files.map(file => {
+  const imageUrl = getImageUrl(folder, file.name);
+  const product = products.find(p => p.image_url === imageUrl);
+
+  return {
+    ...file,
+    is_active: product ? product.is_active : true
+  };
+});
 }
 
 function getImageUrl(folder, filename) {
@@ -196,7 +218,31 @@ async function loadAdmin() {
         const filename = document.createElement("div");
         filename.className = "filename";
         filename.textContent = file.name;
+const toggle = document.createElement("input");
+toggle.type = "checkbox";
+toggle.checked = file.is_active !== false;
+card.appendChild(toggle);
+        toggle.addEventListener("change", async () => {
+  const response = await fetch(
+    SUPABASE_URL + "/rest/v1/product?image_url=eq." + encodeURIComponent(img.src),
+    {
+      method: "PATCH",
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: "Bearer " + SUPABASE_ANON_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        is_active: toggle.checked
+      })
+    }
+  );
 
+  if (!response.ok) {
+    alert("Could not update product");
+    toggle.checked = !toggle.checked;
+  }
+});
         card.appendChild(img);
         card.appendChild(filename);
         grid.appendChild(card);
