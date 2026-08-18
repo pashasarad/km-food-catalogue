@@ -178,7 +178,7 @@ function chunks(arr,size){
     );
 
     const files = await response.json();
-
+console.log(category.folder, response.status, files);
     const images = files.filter(file =>
       /\.(png|jpg|jpeg|webp)$/i.test(file.name)
     );
