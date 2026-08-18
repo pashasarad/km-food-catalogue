@@ -224,15 +224,18 @@ toggle.checked = file.is_active !== false;
 card.appendChild(toggle);
         toggle.addEventListener("change", async () => {
   const response = await fetch(
-    SUPABASE_URL + "/rest/v1/product?image_url=eq." + encodeURIComponent(img.src),
+    SUPABASE_URL + "/rest/v1/product?on_conflict=image_url",
     {
-      method: "PATCH",
+      method: "POST",
       headers: {
         apikey: SUPABASE_ANON_KEY,
         Authorization: "Bearer " + SUPABASE_ANON_KEY,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Prefer: "resolution=merge-duplicates"
       },
       body: JSON.stringify({
+        image_url: img.src,
+        category: category.folder,
         is_active: toggle.checked
       })
     }
