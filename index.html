@@ -109,124 +109,211 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
 "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
 
-async function getData(path){
-  const r = await fetch(SUPABASE_URL + path,{
-    headers:{
-      apikey:SUPABASE_ANON_KEY,
-      Authorization:"Bearer " + SUPABASE_ANON_KEY
+async function getData(path) {
+  const r = await fetch(SUPABASE_URL + path, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: "Bearer " + SUPABASE_ANON_KEY
     }
   });
+
+  if (!r.ok) {
+    throw new Error("Request failed: " + r.status);
+  }
 
   return await r.json();
 }
 
-function chunks(arr,size){
-  const out=[];
-  for(let i=0;i<arr.length;i+=size){
-    out.push(arr.slice(i,i+size));
+function chunks(arr, size) {
+  const out = [];
+
+  for (let i = 0; i < arr.length; i += size) {
+    out.push(arr.slice(i, i + size));
   }
+
   return out;
 }
-      async function loadCatalogue(){
+
+function getImageUrl(folder, filename) {
+  return (
+    SUPABASE_URL +
+    "/storage/v1/object/public/product%20-image/" +
+    encodeURIComponent(folder) +
+    "/" +
+    encodeURIComponent(filename)
+  );
+}
+
+async function loadCatalogue() {
 
   const catalogue = document.getElementById("catalogue");
   catalogue.innerHTML = "";
 
-  // Keep your normal catalogue pages
-  const pages = await getData(
-    "/rest/v1/catalog_page?select=*&order=display_order.asc"
-  );
+  try {
 
-  pages.forEach(p => {
-    const img = document.createElement("img");
-    img.src = p.image_url;
-    img.className = "static-page";
-    catalogue.appendChild(img);
-  });
+    // LOAD NORMAL CATALOGUE PAGES
+    const pages = await getData(
+      "/rest/v1/catalog_page?select=*&order=display_order.asc"
+    );
 
-  // FOLDER NAME = CATEGORY NAME
-        const categories = [
-  { folder: "rise", title: "RICE" },
-  { folder: "drink", title: "DRINKS" },
-  { folder: "snacks", title: "SNACKS & SWEETS" },
-  { folder: "spices", title: "SPICES" }
-];
+    pages.forEach(p => {
+      const img = document.createElement("img");
+      img.src = p.image_url;
+      img.className = "static-page";
+      catalogue.appendChild(img);
+    });
 
-  let pageNumber = pages.length + 1;
 
-  for (const category of categories) {
+    // LOAD PRODUCT ON/OFF STATUS
+    const products = await getData(
+      "/rest/v1/product?select=image_url,is_active"
+    );
 
-    const response = await fetch(
-      SUPABASE_URL + "/storage/v1/object/list/product%20-image",
-      {
-        method: "POST",
-        headers: {
-          "apikey": SUPABASE_ANON_KEY,
-          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          prefix: category.folder,
-          limit: 1000,
-          offset: 0,
-          sortBy: {
-            column: "name",
-            order: "asc"
-          }
-        })
+
+    const categories = [
+      { folder: "rise", title: "RICE" },
+      { folder: "drink", title: "DRINKS" },
+      { folder: "snacks", title: "SNACKS & SWEETS" },
+      { folder: "spices", title: "SPICES" }
+    ];
+
+    let pageNumber = pages.length + 1;
+
+
+    for (const category of categories) {
+
+      const response = await fetch(
+        SUPABASE_URL + "/storage/v1/object/list/product%20-image",
+        {
+          method: "POST",
+
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: "Bearer " + SUPABASE_ANON_KEY,
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            prefix: category.folder,
+            limit: 1000,
+            offset: 0,
+            sortBy: {
+              column: "name",
+              order: "asc"
+            }
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Could not load category: " + category.folder
+        );
       }
-    );
 
-    const files = await response.json();
-console.log(category.folder, response.status, files);
-    const images = files.filter(file =>
-      /\.(png|jpg|jpeg|webp)$/i.test(file.name)
-    );
+      const files = await response.json();
 
-    const groups = chunks(images, 6);
 
-    groups.forEach(group => {
+      // GET IMAGE FILES
+      const imageFiles = files.filter(file =>
+        /\.(png|jpg|jpeg|webp)$/i.test(file.name)
+      );
 
-      const page = document.createElement("div");
-      page.className = "product-page";
 
-      const header = document.createElement("div");
-      header.className = "header";
-      header.innerHTML =
-        "<strong>K&M FOOD SUPPLIERS LTD</strong>" +
-        "<h2>" + category.title + "</h2>";
+      // REMOVE PRODUCTS SWITCHED OFF IN ADMIN
+      const images = imageFiles.filter(file => {
 
-      const grid = document.createElement("div");
-      grid.className = "grid";
+        const imageUrl = getImageUrl(
+          category.folder,
+          file.name
+        );
 
-      group.forEach(file => {
+        const product = products.find(
+          p => p.image_url === imageUrl
+        );
 
-        const card = document.createElement("div");
-        card.className = "card";
+        // OFF = DON'T SHOW
+        if (product && product.is_active === false) {
+          return false;
+        }
 
-        const img = document.createElement("img");
-img.src = SUPABASE_URL + "/storage/v1/object/public/product%20-image/" + category.folder + "/" + encodeURIComponent(file.name);
-
-        card.appendChild(img);
-        grid.appendChild(card);
-
+        // ON = SHOW
+        return true;
       });
 
-      const footer = document.createElement("div");
-      footer.className = "footer";
-      footer.innerHTML =
-        "<span>QUALITY FOOD, TRUSTED EVERYTIME</span>" +
-        "<span>PAGE " + pageNumber + "</span>";
 
-      page.appendChild(header);
-      page.appendChild(grid);
-      page.appendChild(footer);
+      // DON'T CREATE EMPTY CATEGORY
+      if (images.length === 0) {
+        continue;
+      }
 
-      catalogue.appendChild(page);
 
-      pageNumber++;
+      const groups = chunks(images, 6);
 
-    });
+
+      groups.forEach(group => {
+
+        const page = document.createElement("div");
+        page.className = "product-page";
+
+
+        const header = document.createElement("div");
+        header.className = "header";
+
+        header.innerHTML =
+          "<strong>K&M FOOD SUPPLIERS LTD</strong>" +
+          "<h2>" + category.title + "</h2>";
+
+
+        const grid = document.createElement("div");
+        grid.className = "grid";
+
+
+        group.forEach(file => {
+
+          const card = document.createElement("div");
+          card.className = "card";
+
+          const img = document.createElement("img");
+
+          img.src = getImageUrl(
+            category.folder,
+            file.name
+          );
+
+          img.alt = file.name;
+
+          card.appendChild(img);
+          grid.appendChild(card);
+
+        });
+
+
+        const footer = document.createElement("div");
+        footer.className = "footer";
+
+        footer.innerHTML =
+          "<span>QUALITY FOOD, TRUSTED EVERYTIME</span>" +
+          "<span>PAGE " + pageNumber + "</span>";
+
+
+        page.appendChild(header);
+        page.appendChild(grid);
+        page.appendChild(footer);
+
+        catalogue.appendChild(page);
+
+        pageNumber++;
+
+      });
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    catalogue.innerHTML =
+      "<p style='padding:20px;color:red;'>Could not load catalogue.</p>";
   }
 }
 
