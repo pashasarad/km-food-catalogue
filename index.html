@@ -434,8 +434,7 @@ loadCatalogue();
     }
 
     let match = false;
-
-    if (search.includes("rice") && category === "rise") match = true;
+if ((search.includes("rice") || search.includes("rise")) && category === "rise") match = true;
     if (search.includes("drink") && category === "drink") match = true;
     if (search.includes("oil") && category === "oil") match = true;
     if (search.includes("snack") && category === "snacks") match = true;
