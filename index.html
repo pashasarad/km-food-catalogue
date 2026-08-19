@@ -170,14 +170,7 @@
 }
   </style>
 </head>
-<div class="search-box">
-  <input
-    type="text"
-    id="categorySearch"
-    placeholder="Search category..."
-    oninput="searchCategory()"
-  >
-</div>
+
 <body>
   
 <div id="catalogue">Loading catalogue...</div>
@@ -243,19 +236,7 @@ async function loadCatalogue() {
       catalogue.appendChild(img);
     });
 
-const searchBox = document.createElement("div");
-searchBox.className = "search-box";
 
-searchBox.innerHTML = `
-  <input
-    type="text"
-    id="categorySearch"
-    placeholder="Search Rice, Drinks, Oils, Snacks or Spices..."
-    oninput="searchCategory()"
-  >
-`;
-
-catalogue.appendChild(searchBox);
     // LOAD PRODUCT ON/OFF STATUS
     const products = await getData(
       "/rest/v1/product?select=image_url,is_active"
@@ -271,7 +252,19 @@ catalogue.appendChild(searchBox);
 
     let pageNumber = pages.length + 1;
 
+const searchBox = document.createElement("div");
+searchBox.className = "search-box";
 
+searchBox.innerHTML = `
+  <input
+    type="text"
+    id="categorySearch"
+    placeholder="Search products..."
+    oninput="searchCategory()"
+  >
+`;
+
+catalogue.appendChild(searchBox);
     for (const category of categories) {
 
       const response = await fetch(
