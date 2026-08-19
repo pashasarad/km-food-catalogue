@@ -152,16 +152,16 @@
 }
   </style>
 </head>
-
-<body>
-<div class="category-filter">
-  <button onclick="filterCategory('all')">ALL</button>
-  <button onclick="filterCategory('rise')">RICE</button>
-  <button onclick="filterCategory('drink')">DRINKS</button>
-  <button onclick="filterCategory('oil')">OILS</button>
-  <button onclick="filterCategory('snacks')">SNACKS</button>
-  <button onclick="filterCategory('spices')">SPICES</button>
+<div class="search-box">
+  <input
+    type="text"
+    id="categorySearch"
+    placeholder="Search category..."
+    oninput="searchCategory()"
+  >
 </div>
+<body>
+  
 <div id="catalogue">Loading catalogue...</div>
 
 <script>
@@ -391,6 +391,34 @@ loadCatalogue();
     } else {
       page.style.display = "none";
     }
+  });
+}
+  function searchCategory() {
+  const search = document
+    .getElementById("categorySearch")
+    .value
+    .trim()
+    .toLowerCase();
+
+  const pages = document.querySelectorAll(".product-page");
+
+  pages.forEach(page => {
+    const category = (page.dataset.category || "").toLowerCase();
+
+    if (search === "") {
+      page.style.display = "";
+      return;
+    }
+
+    let match = false;
+
+    if (search.includes("rice") && category === "rise") match = true;
+    if (search.includes("drink") && category === "drink") match = true;
+    if (search.includes("oil") && category === "oil") match = true;
+    if (search.includes("snack") && category === "snacks") match = true;
+    if (search.includes("spice") && category === "spices") match = true;
+
+    page.style.display = match ? "" : "none";
   });
 }
 </script>
