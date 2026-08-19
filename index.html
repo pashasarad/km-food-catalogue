@@ -317,7 +317,7 @@ async function loadCatalogue() {
 
         const page = document.createElement("div");
         page.className = "product-page";
-
+page.dataset.category = category.slug;
 
         const header = document.createElement("div");
         header.className = "header";
@@ -380,6 +380,19 @@ async function loadCatalogue() {
 }
 
 loadCatalogue();
+  function filterCategory(category) {
+  const pages = document.querySelectorAll(".product-page");
+
+  pages.forEach(page => {
+    const pageCategory = page.getAttribute("data-category");
+
+    if (category === "all" || pageCategory === category) {
+      page.style.display = "";
+    } else {
+      page.style.display = "none";
+    }
+  });
+}
 </script>
 
 </body>
