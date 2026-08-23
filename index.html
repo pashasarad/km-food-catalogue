@@ -492,9 +492,9 @@ async function loadCatalogue() {
             Never treat this as a product.
           */
 
-       if (
+      if (
   category.folder === SPECIAL_OFFER_FOLDER &&
-  file.name === "Codex Image 23 Aug 2026, 12_07_13.png"
+  getImageUrl(category.folder, file.name) === SPECIAL_OFFER_BANNER_URL
 ) {
   return false;
 }
