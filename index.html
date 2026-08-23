@@ -54,6 +54,24 @@
       color:#e2b63d;
       text-transform:uppercase;
     }
+    /* SPECIAL OFFER ONLY */
+.special-offer-banner {
+  width: 100%;
+  height: 25%;
+  overflow: hidden;
+  background: white;
+}
+
+.special-offer-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-page.special-offer-page .grid {
+  height: calc(75% - 42px);
+}
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -304,10 +322,10 @@ catalogue.appendChild(searchBox);
 
 
       // GET IMAGE FILES
-      const imageFiles = files.filter(file =>
-        /\.(png|jpg|jpeg|webp)$/i.test(file.name)
-      );
-
+     const imageFiles = files.filter(file =>
+  /\.(png|jpg|jpeg|webp)$/i.test(file.name) &&
+  file.name !== "special-offer-banner.jpg"
+);
 
       // REMOVE PRODUCTS SWITCHED OFF IN ADMIN
       const images = imageFiles.filter(file => {
@@ -331,13 +349,16 @@ catalogue.appendChild(searchBox);
       });
 
 
-      // DON'T CREATE EMPTY CATEGORY
-      if (images.length === 0) {
-        continue;
-      }
+    // DON'T CREATE EMPTY NORMAL CATEGORIES
+// SPECIAL OFFER can still show its banner with no products
+if (images.length === 0 && category.folder !== "special-offer") {
+  continue;
+}
 
-
-      const groups = chunks(images, 6);
+const groups =
+  category.folder === "special-offer" && images.length === 0
+    ? [[]]
+    : chunks(images, 6);
 
 
       groups.forEach(group => {
@@ -346,13 +367,35 @@ catalogue.appendChild(searchBox);
         page.className = "product-page";
 page.dataset.category = category.folder;
 
-        const header = document.createElement("div");
-        header.className = "header";
+       let header;
 
-        header.innerHTML =
-          "<strong>K&M FOOD SUPPLIERS LTD</strong>" +
-          "<h2>" + category.title + "</h2>";
+if (category.folder === "special-offer") {
 
+  page.classList.add("special-offer-page");
+
+  header = document.createElement("div");
+  header.className = "special-offer-banner";
+
+  const bannerImg = document.createElement("img");
+
+  bannerImg.src = getImageUrl(
+    "special-offer",
+    "special-offer-banner.jpg"
+  );
+
+  bannerImg.alt = "Special Offer";
+
+  header.appendChild(bannerImg);
+
+} else {
+
+  header = document.createElement("div");
+  header.className = "header";
+
+  header.innerHTML =
+    "<strong>K&M FOOD SUPPLIERS LTD</strong>" +
+    "<h2>" + category.title + "</h2>";
+}
 
         const grid = document.createElement("div");
         grid.className = "grid";
