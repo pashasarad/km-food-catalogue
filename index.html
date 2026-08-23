@@ -492,14 +492,12 @@ async function loadCatalogue() {
             Never treat this as a product.
           */
 
-          if (
-            category.folder ===
-              SPECIAL_OFFER_FOLDER &&
-            file.name.toLowerCase() ===
-              "special-offer-banner.jpg"
-          ) {
-            return false;
-          }
+       if (
+  category.folder === SPECIAL_OFFER_FOLDER &&
+  file.name === "Codex Image 23 Aug 2026, 12_07_13.png"
+) {
+  return false;
+}
 
           return true;
         });
