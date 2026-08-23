@@ -3,231 +3,374 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>K&M Food Catalogue</title>
 
   <style>
-    body{
-      margin:0;
-      background:#eee;
-      font-family:Arial,sans-serif;
+    * {
+      box-sizing: border-box;
     }
 
-    #catalogue{
-      max-width:794px;
-      margin:auto;
-      padding:20px 0;
+    body {
+      margin: 0;
+      background: #eee;
+      font-family: Arial, sans-serif;
     }
+
+    #catalogue {
+      width: 100%;
+      max-width: 794px;
+      margin: auto;
+      padding: 20px 0;
+    }
+
+    /* =========================
+       STATIC / PRODUCT PAGES
+       ========================= */
 
     .static-page,
-    .product-page{
-      width:100%;
-      max-width:794px;
-      aspect-ratio:210/297;
-      background:white;
-      margin-bottom:25px;
-      box-shadow:0 2px 12px rgba(0,0,0,.15);
+    .product-page {
+      width: 100%;
+      max-width: 794px;
+      aspect-ratio: 210 / 297;
+      background: white;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.15);
     }
 
-    .static-page{
-      object-fit:cover;
-      display:block;
+    .static-page {
+      object-fit: cover;
+      display: block;
     }
 
-    .product-page{
-      position:relative;
-      overflow:hidden;
+    .product-page {
+      position: relative;
+      overflow: hidden;
+      padding: 0;
     }
 
-    .header{
-      height:90px;
-      background:#003e2b;
-      color:white;
-      border-bottom:5px solid #d4a62a;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:0 25px;
+    /* =========================
+       NORMAL CATEGORY HEADER
+       ========================= */
+
+    .header {
+      width: 100%;
+      height: 90px;
+      background: #003e2b;
+      color: white;
+      border-bottom: 5px solid #d4a62a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 25px;
     }
 
-    .header h2{
-      margin:0;
-      color:#e2b63d;
-      text-transform:uppercase;
+    .header strong {
+      font-size: 18px;
     }
-.special-offer-banner {
-  width: 100%;
-  height: 25%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  line-height: 0;
-}
 
-.special-offer-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position:center center;
-  display: block;
-  margin: 0;
-  padding: 0; 
-}
-
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  grid-template-rows:repeat(3,1fr);
-  column-gap:8px;
-  row-gap:0;
-  padding:4px 8px 44px;
-  height:calc(100% - 90px);
-  box-sizing:border-box;
-}
-
-.card{
-  padding:0;
-  margin:0;
-  border:none;
-  background:transparent;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.card img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  transform:scale(1.04);
-}
-
-    .card{
-  padding:0;
-  margin:0;
-  border:none;
-  background:transparent;
-  overflow:visible;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-    .card img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
-}
-
-.card{
-    padding:0;
-    margin:0;
-    border:none;
-    background:transparent;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-width:0;
-    min-height:0;
-}
-
-    .footer{
-      position:absolute;
-      bottom:0;
-      left:0;
-      right:0;
-      height:42px;
-      background:#003e2b;
-      color:white;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:0 20px;
-      font-size:11px;
+    .header h2 {
+      margin: 0;
+      color: #e2b63d;
+      text-transform: uppercase;
     }
-  .category-filter{
-  max-width:794px;
-  margin:15px auto;
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
 
-.category-filter button{
-  padding:10px 16px;
-  border:none;
-  border-radius:6px;
-  background:#003e2b;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
+    /* =========================
+       SPECIAL OFFER BANNER
+       TOP 25% OF PAGE
+       ========================= */
 
-.category-filter button:hover{
-  background:#d4a62a;
-  color:#003e2b;
-}
-.search-box {
-  width: 100%;
-  max-width: 700px;
-  margin: 30px auto;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
+    .special-offer-banner {
+      width: 100%;
+      height: 25%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      line-height: 0;
+      background: white;
+    }
 
-.search-box input {
-  width: 100%;
-  padding: 16px 20px;
-  font-size: 18px;
-  border: 2px solid #003e2b;
-  border-radius: 10px;
-  text-align: center;
-  box-sizing: border-box;
-  outline: none;
-}
+    .special-offer-banner img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center center;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* When there are NO offer products:
+       show banner only, not an empty A4 page */
+
+    .special-offer-only {
+      width: 100%;
+      max-width: 794px;
+
+      /* Exactly 1/4 of an A4 page */
+      aspect-ratio: 210 / 74.25;
+
+      margin: 0 0 25px 0;
+      padding: 0;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    }
+
+    .special-offer-only img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center center;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* =========================
+       NORMAL GRID
+       6 PRODUCTS = 2 x 3
+       ========================= */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+
+      column-gap: 8px;
+      row-gap: 0;
+
+      width: 100%;
+      height: calc(100% - 90px);
+
+      padding: 4px 8px 44px;
+    }
+
+    /* =========================
+       SPECIAL OFFER GRID
+       4 PRODUCTS = 2 x 2
+       ========================= */
+
+    .special-offer-page .grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+
+      /*
+        Page:
+        25% banner
+        42px footer
+        remaining space = products
+      */
+      height: calc(75% - 42px);
+
+      padding: 4px 8px;
+    }
+
+    /* =========================
+       PRODUCT CARDS
+       ========================= */
+
+    .card {
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: transparent;
+
+      overflow: hidden;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      height: 42px;
+
+      background: #003e2b;
+      color: white;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 0 20px;
+
+      font-size: 11px;
+    }
+
+    /* =========================
+       SEARCH
+       ========================= */
+
+    .search-box {
+      width: 100%;
+      max-width: 700px;
+
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .search-box input {
+      width: 100%;
+
+      padding: 16px 20px;
+
+      font-size: 18px;
+
+      border: 2px solid #003e2b;
+      border-radius: 10px;
+
+      text-align: center;
+
+      outline: none;
+    }
+
+    /* =========================
+       OPTIONAL CATEGORY BUTTONS
+       ========================= */
+
+    .category-filter {
+      max-width: 794px;
+      margin: 15px auto;
+
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .category-filter button {
+      padding: 10px 16px;
+
+      border: none;
+      border-radius: 6px;
+
+      background: #003e2b;
+      color: white;
+
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .category-filter button:hover {
+      background: #d4a62a;
+      color: #003e2b;
+    }
   </style>
 </head>
 
 <body>
-  
-<div id="catalogue">Loading catalogue...</div>
+
+<div id="catalogue">
+  Loading catalogue...
+</div>
 
 <script>
+
 const SUPABASE_URL =
-"https://gynnbpmghwwzimdzhxfw.supabase.co";
+  "https://gynnbpmghwwzimdzhxfw.supabase.co";
 
 const SUPABASE_ANON_KEY =
-"sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
+  "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
+
+
+/*
+  SPECIAL OFFER PRODUCT FOLDER
+
+  Normal Special Offer PRODUCTS go in:
+  product-image / special-offer
+*/
+
+const SPECIAL_OFFER_FOLDER =
+  "special-offer";
+
+
+/*
+  YOUR WORKING SPECIAL OFFER BANNER
+
+  This is kept separate from product images.
+*/
+
+const SPECIAL_OFFER_BANNER_URL =
+  "https://gynnbpmghwwzimdzhxfw.supabase.co/storage/v1/object/public/product%20-image/Special-offer/special-offer-banner.jpg/Codex%20Image%2023%20Aug%202026,%2011_03_39.png";
+
+
+/* =========================
+   SUPABASE DATA
+   ========================= */
 
 async function getData(path) {
-  const r = await fetch(SUPABASE_URL + path, {
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: "Bearer " + SUPABASE_ANON_KEY
+
+  const response = await fetch(
+    SUPABASE_URL + path,
+    {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization:
+          "Bearer " + SUPABASE_ANON_KEY
+      }
     }
-  });
+  );
 
-  if (!r.ok) {
-    throw new Error("Request failed: " + r.status);
+  if (!response.ok) {
+    throw new Error(
+      "Request failed: " +
+      response.status
+    );
   }
 
-  return await r.json();
+  return await response.json();
 }
 
-function chunks(arr, size) {
-  const out = [];
 
-  for (let i = 0; i < arr.length; i += size) {
-    out.push(arr.slice(i, i + size));
+/* =========================
+   SPLIT PRODUCTS INTO PAGES
+   ========================= */
+
+function chunks(array, size) {
+
+  const output = [];
+
+  for (
+    let i = 0;
+    i < array.length;
+    i += size
+  ) {
+
+    output.push(
+      array.slice(i, i + size)
+    );
   }
 
-  return out;
+  return output;
 }
+
+
+/* =========================
+   PRODUCT IMAGE URL
+   ========================= */
 
 function getImageUrl(folder, filename) {
+
   return (
     SUPABASE_URL +
     "/storage/v1/object/public/product%20-image/" +
@@ -237,255 +380,751 @@ function getImageUrl(folder, filename) {
   );
 }
 
+
+/* =========================
+   CREATE SPECIAL OFFER BANNER
+   ========================= */
+
+function createSpecialOfferBanner() {
+
+  const banner =
+    document.createElement("div");
+
+  banner.className =
+    "special-offer-banner";
+
+
+  const image =
+    document.createElement("img");
+
+  image.src =
+    SPECIAL_OFFER_BANNER_URL;
+
+  image.alt =
+    "Special Offer";
+
+
+  banner.appendChild(image);
+
+  return banner;
+}
+
+
+/* =========================
+   LOAD CATALOGUE
+   ========================= */
+
 async function loadCatalogue() {
 
-  const catalogue = document.getElementById("catalogue");
+  const catalogue =
+    document.getElementById(
+      "catalogue"
+    );
+
   catalogue.innerHTML = "";
+
 
   try {
 
-    // LOAD NORMAL CATALOGUE PAGES
+    /* =========================
+       FIRST / STATIC PAGES
+       ========================= */
+
     const pages = await getData(
       "/rest/v1/catalog_page?select=*&order=display_order.asc"
     );
 
-    pages.forEach(p => {
-      const img = document.createElement("img");
-      img.src = p.image_url;
-      img.className = "static-page";
-      catalogue.appendChild(img);
+
+    pages.forEach(pageData => {
+
+      const image =
+        document.createElement("img");
+
+      image.src =
+        pageData.image_url;
+
+      image.className =
+        "static-page";
+
+      catalogue.appendChild(
+        image
+      );
+
     });
 
 
-    // LOAD PRODUCT ON/OFF STATUS
+    /* =========================
+       PRODUCT ON / OFF STATUS
+       ========================= */
+
     const products = await getData(
       "/rest/v1/product?select=image_url,is_active"
     );
 
 
-   const categories = [
-  { folder: "special-offer", title: "SPECIAL OFFER" },
-  { folder: "rise", title: "RICE" },
-  { folder: "cooking essentials", title: "COOKING ESSENTIALS" },
-     { folder: "PICKLES", title: "PICKLES" },
-  { folder: "spices", title: "SPICES" },
-  { folder: "beans&chickpease", title: "BEANS & CHICKPEAS" },
-  { folder: "drink", title: "DRINKS" },
-     { folder: "TEA & COFFE", title: "TEA & COFFEE" },
-  { folder: "snacks", title: "SNACKS & SWEETS" }
-];
-    let pageNumber = pages.length + 1;
+    /* =========================
+       CATEGORY ORDER
+       ========================= */
 
-const searchBox = document.createElement("div");
-searchBox.className = "search-box";
+    const categories = [
 
-searchBox.innerHTML = `
-  <input
-    type="text"
-    id="categorySearch"
-    placeholder="Search products..."
-    oninput="searchCategory()"
-  >
-`;
+      {
+        folder:
+          SPECIAL_OFFER_FOLDER,
+        title:
+          "SPECIAL OFFER"
+      },
 
-catalogue.appendChild(searchBox);
-    for (const category of categories) {
+      {
+        folder: "rise",
+        title: "RICE"
+      },
 
-      const response = await fetch(
-        SUPABASE_URL + "/storage/v1/object/list/product%20-image",
-        {
-          method: "POST",
+      {
+        folder:
+          "cooking essentials",
+        title:
+          "COOKING ESSENTIALS"
+      },
 
-          headers: {
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: "Bearer " + SUPABASE_ANON_KEY,
-            "Content-Type": "application/json"
-          },
+      {
+        folder: "PICKLES",
+        title: "PICKLES"
+      },
 
-          body: JSON.stringify({
-            prefix: category.folder,
-            limit: 1000,
-            offset: 0,
-            sortBy: {
-              column: "name",
-              order: "asc"
-            }
-          })
-        }
+      {
+        folder: "spices",
+        title: "SPICES"
+      },
+
+      {
+        folder:
+          "beans&chickpease",
+        title:
+          "BEANS & CHICKPEAS"
+      },
+
+      {
+        folder: "drink",
+        title: "DRINKS"
+      },
+
+      {
+        folder: "TEA & COFFE",
+        title: "TEA & COFFEE"
+      },
+
+      {
+        folder: "snacks",
+        title:
+          "SNACKS & SWEETS"
+      }
+
+    ];
+
+
+    let pageNumber =
+      pages.length + 1;
+
+
+    /* =========================
+       SEARCH BOX
+       ========================= */
+
+    const searchBox =
+      document.createElement(
+        "div"
       );
 
+    searchBox.className =
+      "search-box";
+
+
+    searchBox.innerHTML = `
+      <input
+        type="text"
+        id="categorySearch"
+        placeholder="Search products..."
+        oninput="searchCategory()"
+      >
+    `;
+
+
+    catalogue.appendChild(
+      searchBox
+    );
+
+
+    /* =========================
+       LOAD EACH CATEGORY
+       ========================= */
+
+    for (
+      const category
+      of categories
+    ) {
+
+      const response =
+        await fetch(
+
+          SUPABASE_URL +
+          "/storage/v1/object/list/product%20-image",
+
+          {
+            method: "POST",
+
+            headers: {
+
+              apikey:
+                SUPABASE_ANON_KEY,
+
+              Authorization:
+                "Bearer " +
+                SUPABASE_ANON_KEY,
+
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+
+                prefix:
+                  category.folder,
+
+                limit: 1000,
+
+                offset: 0,
+
+                sortBy: {
+                  column: "name",
+                  order: "asc"
+                }
+
+              })
+          }
+        );
+
+
       if (!response.ok) {
+
         throw new Error(
-          "Could not load category: " + category.folder
+          "Could not load category: " +
+          category.folder
         );
       }
 
-      const files = await response.json();
+
+      const files =
+        await response.json();
 
 
-      // GET IMAGE FILES
-     const imageFiles = files.filter(file =>
-  /\.(png|jpg|jpeg|webp)$/i.test(file.name) &&
-  file.name !== "special-offer-banner.jpg"
-);
+      /* =========================
+         ONLY REAL PRODUCT IMAGES
+         ========================= */
 
-      // REMOVE PRODUCTS SWITCHED OFF IN ADMIN
-      const images = imageFiles.filter(file => {
+      const imageFiles =
+        files.filter(file => {
 
-        const imageUrl = getImageUrl(
-          category.folder,
-          file.name
+          /*
+            Must actually look like
+            an image filename.
+          */
+
+          const isImage =
+            /\.(png|jpg|jpeg|webp)$/i
+              .test(file.name);
+
+
+          if (!isImage) {
+            return false;
+          }
+
+
+          /*
+            NEVER treat the banner
+            folder/file as a product.
+          */
+
+          if (
+            category.folder ===
+              SPECIAL_OFFER_FOLDER &&
+            file.name.toLowerCase() ===
+              "special-offer-banner.jpg"
+          ) {
+
+            return false;
+          }
+
+
+          return true;
+        });
+
+
+      /* =========================
+         ADMIN ON / OFF
+         ========================= */
+
+      const images =
+        imageFiles.filter(file => {
+
+          const imageUrl =
+            getImageUrl(
+              category.folder,
+              file.name
+            );
+
+
+          const product =
+            products.find(
+              item =>
+                item.image_url ===
+                imageUrl
+            );
+
+
+          if (
+            product &&
+            product.is_active === false
+          ) {
+
+            return false;
+          }
+
+
+          return true;
+        });
+
+
+      /* =========================
+         SPECIAL OFFER:
+         NO PRODUCTS
+         ========================= */
+
+      if (
+        category.folder ===
+          SPECIAL_OFFER_FOLDER &&
+        images.length === 0
+      ) {
+
+        const bannerOnly =
+          document.createElement(
+            "div"
+          );
+
+
+        bannerOnly.className =
+          "special-offer-only";
+
+
+        bannerOnly.dataset.category =
+          SPECIAL_OFFER_FOLDER;
+
+
+        bannerOnly.dataset.search =
+          "special offer offers deal deals promotion promotions";
+
+
+        const bannerImage =
+          document.createElement(
+            "img"
+          );
+
+
+        bannerImage.src =
+          SPECIAL_OFFER_BANNER_URL;
+
+
+        bannerImage.alt =
+          "Special Offer";
+
+
+        bannerOnly.appendChild(
+          bannerImage
         );
 
-        const product = products.find(
-          p => p.image_url === imageUrl
+
+        catalogue.appendChild(
+          bannerOnly
         );
 
-        // OFF = DON'T SHOW
-        if (product && product.is_active === false) {
-          return false;
-        }
 
-        // ON = SHOW
-        return true;
-      });
+        continue;
+      }
 
 
-    // DON'T CREATE EMPTY NORMAL CATEGORIES
-// SPECIAL OFFER can still show its banner with no products
-if (images.length === 0 && category.folder !== "special-offer") {
-  continue;
-}
-const groups = images.length === 0
-  ? []
-  : chunks(images, 6);
+      /* =========================
+         OTHER EMPTY CATEGORIES
+         ========================= */
 
+      if (images.length === 0) {
+        continue;
+      }
+
+
+      /* =========================
+         PRODUCTS PER PAGE
+
+         SPECIAL OFFER = 4
+         NORMAL = 6
+         ========================= */
+
+      const productsPerPage =
+        category.folder ===
+          SPECIAL_OFFER_FOLDER
+          ? 4
+          : 6;
+
+
+      const groups =
+        chunks(
+          images,
+          productsPerPage
+        );
+
+
+      /* =========================
+         CREATE EACH PAGE
+         ========================= */
 
       groups.forEach(group => {
 
-        const page = document.createElement("div");
-        page.className = "product-page";
-page.dataset.category = category.folder;
+        const page =
+          document.createElement(
+            "div"
+          );
 
-       let header;
 
-if (category.folder === "special-offer") {
+        page.className =
+          "product-page";
 
-  page.classList.add("special-offer-page");
 
-  header = document.createElement("div");
-  header.className = "special-offer-banner";
+        page.dataset.category =
+          category.folder;
 
-  const bannerImg = document.createElement("img");
-bannerImg.src = "https://gynnbpmghwwzimdzhxfw.supabase.co/storage/v1/object/public/product%20-image/Special-offer/special-offer-banner.jpg/Codex%20Image%2023%20Aug%202026,%2011_03_39.png";
 
-  bannerImg.alt = "Special Offer";
+        page.dataset.search =
+          (
+            category.title +
+            " " +
+            category.folder
+          ).toLowerCase();
 
-  header.appendChild(bannerImg);
 
-} else {
+        /* =========================
+           HEADER
+           ========================= */
 
-  header = document.createElement("div");
-  header.className = "header";
+        let header;
 
-  header.innerHTML =
-    "<strong>K&M FOOD SUPPLIERS LTD</strong>" +
-    "<h2>" + category.title + "</h2>";
-}
 
-        const grid = document.createElement("div");
-        grid.className = "grid";
+        if (
+          category.folder ===
+          SPECIAL_OFFER_FOLDER
+        ) {
+
+          page.classList.add(
+            "special-offer-page"
+          );
+
+
+          header =
+            createSpecialOfferBanner();
+
+        }
+
+        else {
+
+          header =
+            document.createElement(
+              "div"
+            );
+
+
+          header.className =
+            "header";
+
+
+          header.innerHTML =
+            "<strong>K&M FOOD SUPPLIERS LTD</strong>" +
+            "<h2>" +
+            category.title +
+            "</h2>";
+        }
+
+
+        /* =========================
+           PRODUCT GRID
+           ========================= */
+
+        const grid =
+          document.createElement(
+            "div"
+          );
+
+
+        grid.className =
+          "grid";
 
 
         group.forEach(file => {
 
-          const card = document.createElement("div");
-          card.className = "card";
+          const card =
+            document.createElement(
+              "div"
+            );
 
-          const img = document.createElement("img");
 
-          img.src = getImageUrl(
-            category.folder,
-            file.name
+          card.className =
+            "card";
+
+
+          const image =
+            document.createElement(
+              "img"
+            );
+
+
+          image.src =
+            getImageUrl(
+              category.folder,
+              file.name
+            );
+
+
+          image.alt =
+            file.name;
+
+
+          card.appendChild(
+            image
           );
 
-          img.alt = file.name;
 
-          card.appendChild(img);
-          grid.appendChild(card);
+          grid.appendChild(
+            card
+          );
 
         });
 
 
-        const footer = document.createElement("div");
-        footer.className = "footer";
+        /* =========================
+           FOOTER
+           ========================= */
+
+        const footer =
+          document.createElement(
+            "div"
+          );
+
+
+        footer.className =
+          "footer";
+
 
         footer.innerHTML =
           "<span>QUALITY FOOD, TRUSTED EVERYTIME</span>" +
-          "<span>PAGE " + pageNumber + "</span>";
+          "<span>PAGE " +
+          pageNumber +
+          "</span>";
 
 
-        page.appendChild(header);
-        page.appendChild(grid);
-        page.appendChild(footer);
+        /* =========================
+           BUILD PAGE
+           ========================= */
 
-        catalogue.appendChild(page);
+        page.appendChild(
+          header
+        );
+
+
+        page.appendChild(
+          grid
+        );
+
+
+        page.appendChild(
+          footer
+        );
+
+
+        catalogue.appendChild(
+          page
+        );
+
 
         pageNumber++;
 
       });
+
     }
 
-  } catch (error) {
+  }
+
+  catch (error) {
 
     console.error(error);
+
 
     catalogue.innerHTML =
       "<p style='padding:20px;color:red;'>Could not load catalogue.</p>";
   }
 }
 
+
+/* START */
+
 loadCatalogue();
-  function filterCategory(category) {
-  const pages = document.querySelectorAll(".product-page");
 
-  pages.forEach(page => {
-    const pageCategory = page.getAttribute("data-category");
 
-    if (category === "all" || pageCategory === category) {
+/* =========================
+   CATEGORY FILTER
+   ========================= */
+
+function filterCategory(category) {
+
+  const cataloguePages =
+    document.querySelectorAll(
+      ".product-page, .special-offer-only"
+    );
+
+
+  cataloguePages.forEach(page => {
+
+    const pageCategory =
+      page.dataset.category || "";
+
+
+    if (
+      category === "all" ||
+      pageCategory === category
+    ) {
+
       page.style.display = "";
-    } else {
+
+    }
+
+    else {
+
       page.style.display = "none";
     }
+
   });
+
 }
-  function searchCategory() {
-  const search = document
-    .getElementById("categorySearch")
-    .value
-    .trim()
-    .toLowerCase();
 
-  const pages = document.querySelectorAll(".product-page");
 
-  pages.forEach(page => {
-    const category = (page.dataset.category || "").toLowerCase();
+/* =========================
+   SEARCH
+   ========================= */
+
+function searchCategory() {
+
+  const input =
+    document.getElementById(
+      "categorySearch"
+    );
+
+
+  if (!input) {
+    return;
+  }
+
+
+  let search =
+    input.value
+      .trim()
+      .toLowerCase();
+
+
+  /*
+    Rice folder is currently
+    called "rise".
+    Treat both words as same.
+  */
+
+  if (search === "rice") {
+    search = "rise";
+  }
+
+
+  const cataloguePages =
+    document.querySelectorAll(
+      ".product-page, .special-offer-only"
+    );
+
+
+  cataloguePages.forEach(page => {
 
     if (search === "") {
+
       page.style.display = "";
+
       return;
     }
 
-    let match = false;
-if ((search.includes("rice") || search.includes("rise")) && category === "rise") match = true;
-    if (search.includes("drink") && category === "drink") match = true;
-   if (search.includes("cooking") && category === "cooking essentials") match = true;
-    if (search.includes("snack") && category === "snacks") match = true;
-    if (search.includes("spice") && category === "spices") match = true;
 
-    page.style.display = match ? "" : "none";
+    const category =
+      (
+        page.dataset.category ||
+        ""
+      ).toLowerCase();
+
+
+    const searchWords =
+      (
+        page.dataset.search ||
+        category
+      ).toLowerCase();
+
+
+    let match =
+      searchWords.includes(
+        search
+      );
+
+
+    /*
+      Extra Rice support
+    */
+
+    if (
+      (
+        search.includes("rice") ||
+        search.includes("rise")
+      ) &&
+      category === "rise"
+    ) {
+
+      match = true;
+    }
+
+
+    /*
+      Special Offer support
+    */
+
+    if (
+      (
+        search.includes("offer") ||
+        search.includes("special") ||
+        search.includes("deal")
+      ) &&
+      category ===
+        SPECIAL_OFFER_FOLDER
+    ) {
+
+      match = true;
+    }
+
+
+    page.style.display =
+      match ? "" : "none";
+
   });
+
 }
+
 </script>
 
 </body>
