@@ -378,10 +378,9 @@ if (category.folder === "special-offer") {
 
   const bannerImg = document.createElement("img");
 
-  bannerImg.src = getImageUrl(
-    "special-offer",
-    "special-offer-banner.jpg"
-  );
+bannerImg.src =
+  SUPABASE_URL +
+  "/storage/v1/object/public/product%20-image/Special-offer/special-offer-banner.jpg/Codex%20Image%2023%20Aug%202026%2C%2011_03_39.png";
 
   bannerImg.alt = "Special Offer";
 
