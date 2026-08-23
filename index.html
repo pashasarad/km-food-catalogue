@@ -357,11 +357,9 @@ catalogue.appendChild(searchBox);
 if (images.length === 0 && category.folder !== "special-offer") {
   continue;
 }
-
-const groups =
-  category.folder === "special-offer" && images.length === 0
-    ? [[]]
-    : chunks(images, 6);
+const groups = images.length === 0
+  ? []
+  : chunks(images, 6);
 
 
       groups.forEach(group => {
