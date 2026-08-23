@@ -220,16 +220,8 @@ const SPECIAL_OFFER_FOLDER =
       / special-offer-banner.jpg
         / Codex Image 23 Aug 2026, 12_07_13.png
 */
-
 const SPECIAL_OFFER_BANNER_URL =
   "https://gynnbpmghwwzimdzhxfw.supabase.co/storage/v1/object/public/product%20-image/Special-offer/special-offer-banner.jpg/Codex%20Image%2023%20Aug%202026,%2012_07_13.png";
-  SUPABASE_URL +
-  "/storage/v1/object/public/product%20-image/" +
-  "special-offer/" +
-  "special-offer-banner.jpg/" +
-  encodeURIComponent(
-    "Codex Image 23 Aug 2026, 12_07_13.png"
-  );
 
 
 async function getData(path) {
