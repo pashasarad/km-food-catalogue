@@ -596,12 +596,14 @@ async function loadCatalogue() {
         page.dataset.category =
           category.folder;
 
-        page.dataset.search =
-          (
-            category.title +
-            " " +
-            category.folder
-          ).toLowerCase();
+       page.dataset.search =
+(
+  category.title +
+  " " +
+  category.folder +
+  " " +
+  images.map(file => file.name).join(" ")
+).toLowerCase();
 
 
         /* CREATE HEADER */
