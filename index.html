@@ -30,7 +30,7 @@
       aspect-ratio: 210 / 297;
       background: white;
       margin-bottom: 25px;
-      box-shadow: 0 2px 12px rgba(0,0,0,.15);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     }
 
     .static-page {
@@ -44,7 +44,9 @@
       padding: 0;
     }
 
-    /* NORMAL CATEGORY HEADER */
+    /* ========================================
+       NORMAL CATEGORY HEADER
+       ======================================== */
 
     .header {
       width: 100%;
@@ -68,7 +70,9 @@
       text-transform: uppercase;
     }
 
-    /* SPECIAL OFFER TOP QUARTER */
+    /* ========================================
+       SPECIAL OFFER TOP QUARTER
+       ======================================== */
 
     .special-offer-banner {
       width: 100%;
@@ -89,18 +93,22 @@
       margin: 0;
       padding: 0;
     }
-.special-offer-page {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
 
-.special-offer-page .special-offer-banner {
-  width: 100% !important;
-  max-width: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-    /* NORMAL CATEGORY: 6 PRODUCTS */
+    .special-offer-page {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+    .special-offer-page .special-offer-banner {
+      width: 100% !important;
+      max-width: none !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+
+    /* ========================================
+       NORMAL CATEGORY: 6 PRODUCTS
+       ======================================== */
 
     .grid {
       width: 100%;
@@ -113,7 +121,9 @@
       padding: 4px 8px 44px;
     }
 
-    /* SPECIAL OFFER: 4 PRODUCTS */
+    /* ========================================
+       SPECIAL OFFER: 4 PRODUCTS
+       ======================================== */
 
     .special-offer-page .grid {
       height: calc(75% - 42px);
@@ -144,7 +154,9 @@
       object-fit: contain;
     }
 
-    /* FOOTER */
+    /* ========================================
+       FOOTER
+       ======================================== */
 
     .footer {
       position: absolute;
@@ -161,7 +173,9 @@
       font-size: 11px;
     }
 
-    /* SEARCH */
+    /* ========================================
+       SEARCH
+       ======================================== */
 
     .search-box {
       width: 100%;
@@ -180,7 +194,9 @@
       outline: none;
     }
 
-    /* OPTIONAL CATEGORY BUTTONS */
+    /* ========================================
+       OPTIONAL CATEGORY BUTTONS
+       ======================================== */
 
     .category-filter {
       max-width: 794px;
@@ -223,14 +239,10 @@ const SUPABASE_ANON_KEY =
 const SPECIAL_OFFER_FOLDER =
   "special-offer";
 
-/*
-  Your actual banner file:
-  product-image
-    / special-offer
-      / special-offer-banner.jpg
-        / Codex Image 23 Aug 2026, 12_07_13.png
-*/
 
+/* ========================================
+   GET DATA FROM SUPABASE
+   ======================================== */
 
 async function getData(path) {
 
@@ -256,6 +268,10 @@ async function getData(path) {
 }
 
 
+/* ========================================
+   SPLIT ARRAY INTO GROUPS
+   ======================================== */
+
 function chunks(array, size) {
 
   const output = [];
@@ -274,6 +290,10 @@ function chunks(array, size) {
 }
 
 
+/* ========================================
+   CREATE PRODUCT IMAGE URL
+   ======================================== */
+
 function getImageUrl(folder, filename) {
 
   return (
@@ -285,10 +305,18 @@ function getImageUrl(folder, filename) {
   );
 }
 
-const SPECIAL_OFFER_BANNER_URL = getImageUrl(
-  "special-offer",
-  "Codex Image 23 Aug 2026, 12_07_13.png"
-);
+
+/* ========================================
+   SPECIAL OFFER BANNER
+   ======================================== */
+
+const SPECIAL_OFFER_BANNER_URL =
+  getImageUrl(
+    "special-offer",
+    "Codex Image 23 Aug 2026, 12_07_13.png"
+  );
+
+
 function createSpecialOfferBanner() {
 
   const banner =
@@ -312,6 +340,10 @@ function createSpecialOfferBanner() {
 }
 
 
+/* ========================================
+   LOAD CATALOGUE
+   ======================================== */
+
 async function loadCatalogue() {
 
   const catalogue =
@@ -323,7 +355,9 @@ async function loadCatalogue() {
 
   try {
 
-    /* LOAD STATIC CATALOGUE PAGES */
+    /* ========================================
+       LOAD STATIC CATALOGUE PAGES
+       ======================================== */
 
     const pages = await getData(
       "/rest/v1/catalog_page?select=*&order=display_order.asc"
@@ -344,52 +378,66 @@ async function loadCatalogue() {
     });
 
 
-    /* LOAD PRODUCT ON/OFF STATUS */
+    /* ========================================
+       LOAD PRODUCT ON / OFF STATUS
+       ======================================== */
 
     const products = await getData(
       "/rest/v1/product?select=image_url,is_active"
     );
 
 
-    /* CATEGORY ORDER */
+    /* ========================================
+       CATEGORY ORDER
+       ======================================== */
 
     const categories = [
+
       {
         folder: SPECIAL_OFFER_FOLDER,
         title: "SPECIAL OFFER"
       },
+
       {
         folder: "rise",
         title: "RICE"
       },
+
       {
         folder: "cooking essentials",
         title: "COOKING ESSENTIALS"
       },
+
       {
         folder: "PICKLES",
         title: "PICKLES"
       },
+
       {
         folder: "spices",
         title: "SPICES"
       },
+
       {
         folder: "beans&chickpease",
         title: "BEANS & CHICKPEAS"
       },
+
       {
         folder: "drink",
         title: "DRINKS"
       },
+
       {
         folder: "TEA & COFFE",
         title: "TEA & COFFEE"
       },
+
       {
         folder: "snacks",
         title: "SNACKS & SWEETS"
       }
+
     ];
 
 
@@ -397,7 +445,9 @@ async function loadCatalogue() {
       pages.length + 1;
 
 
-    /* SEARCH BOX */
+    /* ========================================
+       SEARCH BOX
+       ======================================== */
 
     const searchBox =
       document.createElement("div");
@@ -419,7 +469,9 @@ async function loadCatalogue() {
     );
 
 
-    /* LOAD EACH CATEGORY */
+    /* ========================================
+       LOAD EACH CATEGORY
+       ======================================== */
 
     for (const category of categories) {
 
@@ -430,6 +482,7 @@ async function loadCatalogue() {
           method: "POST",
 
           headers: {
+
             apikey:
               SUPABASE_ANON_KEY,
 
@@ -442,6 +495,7 @@ async function loadCatalogue() {
           },
 
           body: JSON.stringify({
+
             prefix:
               category.folder,
 
@@ -453,6 +507,7 @@ async function loadCatalogue() {
               column: "name",
               order: "asc"
             }
+
           })
         }
       );
@@ -464,6 +519,7 @@ async function loadCatalogue() {
           "Could not load category: " +
           category.folder
         );
+
       }
 
 
@@ -471,7 +527,9 @@ async function loadCatalogue() {
         await response.json();
 
 
-      /* GET REAL PRODUCT IMAGE FILES */
+      /* ========================================
+         GET REAL PRODUCT IMAGE FILES
+         ======================================== */
 
       const imageFiles =
         files.filter(file => {
@@ -484,26 +542,34 @@ async function loadCatalogue() {
             return false;
           }
 
-          /*
-            IMPORTANT:
-            The banner folder is called
-            special-offer-banner.jpg
 
-            Never treat this as a product.
+          /*
+             IMPORTANT:
+             Do not use the special-offer
+             banner as a product image.
           */
 
-      if (
-  category.folder === SPECIAL_OFFER_FOLDER &&
-  getImageUrl(category.folder, file.name) === SPECIAL_OFFER_BANNER_URL
-) {
-  return false;
-}
+          if (
+            category.folder ===
+              SPECIAL_OFFER_FOLDER &&
+            getImageUrl(
+              category.folder,
+              file.name
+            ) ===
+              SPECIAL_OFFER_BANNER_URL
+          ) {
+            return false;
+          }
+
 
           return true;
+
         });
 
 
-      /* REMOVE PRODUCTS SWITCHED OFF */
+      /* ========================================
+         REMOVE PRODUCTS SWITCHED OFF
+         ======================================== */
 
       const images =
         imageFiles.filter(file => {
@@ -529,15 +595,16 @@ async function loadCatalogue() {
           }
 
           return true;
+
         });
 
 
       /*
-        NORMAL EMPTY CATEGORIES:
-        DON'T SHOW THEM.
+         NORMAL EMPTY CATEGORIES:
+         DO NOT DISPLAY.
 
-        SPECIAL OFFER IS DIFFERENT:
-        IT MUST ALWAYS HAVE ITS OWN A4 PAGE.
+         SPECIAL OFFER:
+         ALWAYS KEEP ONE A4 PAGE.
       */
 
       if (
@@ -550,11 +617,11 @@ async function loadCatalogue() {
 
 
       /*
-        SPECIAL OFFER:
-        4 PRODUCTS PER PAGE.
+         SPECIAL OFFER:
+         4 PRODUCTS PER PAGE.
 
-        NORMAL:
-        6 PRODUCTS PER PAGE.
+         NORMAL CATEGORY:
+         6 PRODUCTS PER PAGE.
       */
 
       const productsPerPage =
@@ -565,11 +632,11 @@ async function loadCatalogue() {
 
 
       /*
-        SPECIAL OFFER WITH ZERO PRODUCTS:
-        CREATE ONE EMPTY GROUP.
+         SPECIAL OFFER WITH
+         ZERO PRODUCTS:
 
-        This creates one full A4 page
-        with the banner on the top 25%.
+         Create one empty page
+         so the banner still shows.
       */
 
       const groups =
@@ -582,6 +649,10 @@ async function loadCatalogue() {
               productsPerPage
             );
 
+
+      /* ========================================
+         CREATE EACH PRODUCT PAGE
+         ======================================== */
 
       groups.forEach(group => {
 
@@ -596,16 +667,19 @@ async function loadCatalogue() {
         page.dataset.category =
           category.folder;
 
-       page.dataset.search =
-(
-  category.title 
-  " " +
-  category.folder +
- 
-).toLowerCase();
+
+        /* FIXED SEARCH DATA */
+
+        page.dataset.search = (
+          category.title +
+          " " +
+          category.folder
+        ).toLowerCase();
 
 
-        /* CREATE HEADER */
+        /* ========================================
+           CREATE PAGE HEADER
+           ======================================== */
 
         let header;
 
@@ -632,14 +706,17 @@ async function loadCatalogue() {
             "header";
 
           header.innerHTML =
-            "<strong>K&M FOOD SUPPLIERS LTD</strong>" +
+            "<strong>K&amp;M FOOD SUPPLIERS LTD</strong>" +
             "<h2>" +
             category.title +
             "</h2>";
+
         }
 
 
-        /* PRODUCT GRID */
+        /* ========================================
+           PRODUCT GRID
+           ======================================== */
 
         const grid =
           document.createElement(
@@ -659,8 +736,15 @@ async function loadCatalogue() {
 
           card.className =
             "card";
-card.classList.add("product-card");
-card.dataset.name = file.name.toLowerCase();
+
+          card.classList.add(
+            "product-card"
+          );
+
+          card.dataset.name =
+            file.name.toLowerCase();
+
+
           const image =
             document.createElement(
               "img"
@@ -675,13 +759,17 @@ card.dataset.name = file.name.toLowerCase();
           image.alt =
             file.name;
 
+
           card.appendChild(image);
 
           grid.appendChild(card);
+
         });
 
 
-        /* FOOTER */
+        /* ========================================
+           FOOTER
+           ======================================== */
 
         const footer =
           document.createElement(
@@ -698,17 +786,24 @@ card.dataset.name = file.name.toLowerCase();
           "</span>";
 
 
-        /* BUILD PAGE */
+        /* ========================================
+           BUILD PAGE
+           ======================================== */
 
         page.appendChild(header);
+
         page.appendChild(grid);
+
         page.appendChild(footer);
 
         catalogue.appendChild(page);
 
         pageNumber++;
+
       });
+
     }
+
 
   } catch (error) {
 
@@ -716,12 +811,20 @@ card.dataset.name = file.name.toLowerCase();
 
     catalogue.innerHTML =
       "<p style='padding:20px;color:red;'>Could not load catalogue.</p>";
+
   }
+
 }
 
 
+/* START CATALOGUE */
+
 loadCatalogue();
 
+
+/* ========================================
+   CATEGORY FILTER
+   ======================================== */
 
 function filterCategory(category) {
 
@@ -739,70 +842,137 @@ function filterCategory(category) {
       category === "all" ||
       pageCategory === category
     ) {
+
       page.style.display = "";
+
     } else {
+
       page.style.display = "none";
+
     }
+
   });
+
 }
+
+
+/* ========================================
+   PRODUCT / CATEGORY SEARCH
+   ======================================== */
+
 function searchCategory() {
-  const input = document.getElementById("categorySearch");
 
-  if (!input) return;
+  const input =
+    document.getElementById(
+      "categorySearch"
+    );
 
-  const search = input.value.trim().toLowerCase();
+  if (!input) {
+    return;
+  }
+
+
+  const search =
+    input.value
+      .trim()
+      .toLowerCase();
+
 
   const cataloguePages =
-    document.querySelectorAll(".product-page");
+    document.querySelectorAll(
+      ".product-page"
+    );
+
 
   cataloguePages.forEach(page => {
+
     const category =
-      (page.dataset.category || "").toLowerCase();
+      (
+        page.dataset.category || ""
+      ).toLowerCase();
+
 
     const searchWords =
-      (page.dataset.search || category).toLowerCase();
+      (
+        page.dataset.search ||
+        category
+      ).toLowerCase();
+
 
     const cards =
-      page.querySelectorAll(".product-card");
+      page.querySelectorAll(
+        ".product-card"
+      );
+
+
+    /* EMPTY SEARCH */
 
     if (search === "") {
+
       page.style.display = "";
 
       cards.forEach(card => {
+
         card.style.display = "";
+
       });
 
       return;
+
     }
+
+
+    /* CATEGORY NAME MATCH */
 
     const categoryMatch =
       searchWords.includes(search);
 
+
     let productFound = false;
 
+
+    /* PRODUCT NAME MATCH */
+
     cards.forEach(card => {
+
       const productName =
-        (card.dataset.name || "").toLowerCase();
+        (
+          card.dataset.name || ""
+        ).toLowerCase();
+
 
       const productMatch =
         productName.includes(search);
 
+
       if (productMatch) {
+
         productFound = true;
+
       }
 
+
       card.style.display =
-        categoryMatch || productMatch
+        categoryMatch ||
+        productMatch
           ? ""
           : "none";
+
     });
 
+
+    /* SHOW / HIDE FULL PAGE */
+
     page.style.display =
-      categoryMatch || productFound
+      categoryMatch ||
+      productFound
         ? ""
         : "none";
+
   });
+
 }
+
 </script>
 
 </body>
