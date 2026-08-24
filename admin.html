@@ -125,8 +125,7 @@ const categories = [
   { folder: "Special offer", title: "SPECIAL OFFER" },
   { folder: "special-offer", title: "SPECIAL OFFER" }
 ];
-async function getFo
-  lderFiles(folder) {
+async function getFolderFiles(folder) {
   const response = await fetch(
     SUPABASE_URL + "/storage/v1/object/list/product%20-image",
     {
