@@ -660,7 +660,8 @@ async function loadCatalogue() {
 
           card.className =
             "card";
-
+card.classList.add("product-card");
+card.dataset.name = file.name.toLowerCase();
           const image =
             document.createElement(
               "img"
@@ -745,163 +746,64 @@ function filterCategory(category) {
     }
   });
 }
-
-
 function searchCategory() {
+  const input = document.getElementById("categorySearch");
 
-  const input =
-    document.getElementById(
-      "categorySearch"
-    );
+  if (!input) return;
 
-  if (!input) {
-    return;
-  }
-
-  const search =
-    input.value
-      .trim()
-      .toLowerCase();
+  const search = input.value.trim().toLowerCase();
 
   const cataloguePages =
-    document.querySelectorAll(
-      ".product-page"
-    );
-
+    document.querySelectorAll(".product-page");
 
   cataloguePages.forEach(page => {
+    const category =
+      (page.dataset.category || "").toLowerCase();
+
+    const searchWords =
+      (page.dataset.search || category).toLowerCase();
+
+    const cards =
+      page.querySelectorAll(".product-card");
 
     if (search === "") {
-
       page.style.display = "";
+
+      cards.forEach(card => {
+        card.style.display = "";
+      });
+
       return;
     }
 
-    const category =
-      (
-        page.dataset.category ||
-        ""
-      ).toLowerCase();
-
-    const searchWords =
-      (
-        page.dataset.search ||
-        category
-      ).toLowerCase();
-
-    let match =
+    const categoryMatch =
       searchWords.includes(search);
 
+    let productFound = false;
 
-    /* RICE / RISE */
+    cards.forEach(card => {
+      const productName =
+        (card.dataset.name || "").toLowerCase();
 
-    if (
-      (
-        search.includes("rice") ||
-        search.includes("rise")
-      ) &&
-      category === "rise"
-    ) {
-      match = true;
-    }
+      const productMatch =
+        productName.includes(search);
 
+      if (productMatch) {
+        productFound = true;
+      }
 
-    /* SPECIAL OFFER */
-
-    if (
-      (
-        search.includes("offer") ||
-        search.includes("special") ||
-        search.includes("deal")
-      ) &&
-      category ===
-        SPECIAL_OFFER_FOLDER
-    ) {
-      match = true;
-    }
-
-
-    /* DRINK */
-
-    if (
-      search.includes("drink") &&
-      category === "drink"
-    ) {
-      match = true;
-    }
-
-
-    /* COOKING */
-
-    if (
-      search.includes("cooking") &&
-      category ===
-        "cooking essentials"
-    ) {
-      match = true;
-    }
-
-
-    /* SPICES */
-
-    if (
-      search.includes("spice") &&
-      category === "spices"
-    ) {
-      match = true;
-    }
-
-
-    /* SNACKS */
-
-    if (
-      search.includes("snack") &&
-      category === "snacks"
-    ) {
-      match = true;
-    }
-
-
-    /* PICKLES */
-
-    if (
-      search.includes("pickle") &&
-      category === "pickles"
-    ) {
-      match = true;
-    }
-
-
-    /* BEANS */
-
-    if (
-      (
-        search.includes("bean") ||
-        search.includes("chickpea")
-      ) &&
-      category ===
-        "beans&chickpease"
-    ) {
-      match = true;
-    }
-
-
-    /* TEA / COFFEE */
-
-    if (
-      (
-        search.includes("tea") ||
-        search.includes("coffee")
-      ) &&
-      category === "tea & coffe"
-    ) {
-      match = true;
-    }
-
+      card.style.display =
+        categoryMatch || productMatch
+          ? ""
+          : "none";
+    });
 
     page.style.display =
-      match ? "" : "none";
+      categoryMatch || productFound
+        ? ""
+        : "none";
   });
+}
 }
 
 </script>
