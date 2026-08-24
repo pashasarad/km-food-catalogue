@@ -598,11 +598,10 @@ async function loadCatalogue() {
 
        page.dataset.search =
 (
-  category.title +
+  category.title 
   " " +
   category.folder +
-  " " +
-  images.map(file => file.name).join(" ")
+ 
 ).toLowerCase();
 
 
