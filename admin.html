@@ -113,15 +113,20 @@
 <script>
 const SUPABASE_URL = "https://gynnbpmghwwzimdzhxfw.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
-
 const categories = [
   { folder: "rise", title: "RICE" },
   { folder: "drink", title: "DRINKS" },
   { folder: "snacks", title: "SNACKS & SWEETS" },
-  { folder: "spices", title: "SPICES" }
+  { folder: "spices", title: "SPICES" },
+  { folder: "beans&chickpease", title: "BEANS & CHICKPEAS" },
+  { folder: "cooking essentials", title: "COOKING ESSENTIALS" },
+  { folder: "PICKLES", title: "PICKLES" },
+  { folder: "TEA & COFFE", title: "TEA & COFFEE" },
+  { folder: "Special offer", title: "SPECIAL OFFER" },
+  { folder: "special-offer", title: "SPECIAL OFFER" }
 ];
-
-async function getFolderFiles(folder) {
+async function getFo
+  lderFiles(folder) {
   const response = await fetch(
     SUPABASE_URL + "/storage/v1/object/list/product%20-image",
     {
