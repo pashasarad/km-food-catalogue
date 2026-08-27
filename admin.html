@@ -37,7 +37,7 @@
     }
 
     main {
-      max-width: 1100px;
+      max-width: 1500px;
       margin: auto;
       padding: 20px;
     }
@@ -119,41 +119,72 @@
       white-space: nowrap;
     }
 
+    /* CATEGORY SEARCH */
+
+    .category-search-wrap {
+      margin-bottom: 30px;
+    }
+
+    #categorySearch {
+      width: 100%;
+      padding: 16px 18px;
+      font-size: 18px;
+      border: 2px solid #d4a62a;
+      border-radius: 8px;
+      background: white;
+      outline: none;
+    }
+
+    #categorySearch:focus {
+      border-color: #003e2b;
+      box-shadow: 0 0 0 3px rgba(0,62,43,.12);
+    }
+
     .category {
-      margin-bottom: 35px;
+      margin-bottom: 45px;
     }
 
     .category h2 {
       color: #003e2b;
       border-bottom: 2px solid #d4a62a;
       padding-bottom: 8px;
+      font-size: 26px;
     }
 
-    /* BIGGER PRODUCT CARDS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
+    .count {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 15px;
+    }
 
-.product {
-  background: white;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.1);
-}
+    /* BIG PRODUCT CARDS */
 
-/* BIGGER PRODUCT PICTURES */
-.product img {
-  width: 100%;
-  height: 350px;
-  object-fit: contain;
-  display: block;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 25px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,.12);
+    }
+
+    /* BIG PRODUCT PICTURES */
+
+    .product img {
+      width: 100%;
+      height: 520px;
+      object-fit: contain;
+      display: block;
+    }
 
     .filename {
-      margin-top: 10px;
-      font-size: 12px;
+      margin-top: 12px;
+      font-size: 15px;
       word-break: break-word;
       color: #555;
     }
@@ -161,21 +192,16 @@
     .toggle-area {
       display: flex;
       align-items: center;
-      gap: 7px;
-      margin-bottom: 10px;
-      font-size: 15px;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 17px;
       font-weight: bold;
     }
 
     .toggle-area input {
-      width: 20px;
-      height: 20px;
-    }
-
-    .count {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 10px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
     }
 
     .loading {
@@ -189,6 +215,26 @@
       padding: 15px;
       border-radius: 6px;
     }
+
+    /* PHONE */
+
+    @media (max-width: 600px) {
+      main {
+        padding: 10px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product img {
+        height: 480px;
+      }
+
+      .category h2 {
+        font-size: 22px;
+      }
+    }
   </style>
 </head>
 
@@ -198,6 +244,7 @@
   <h1>K&M CATALOGUE ADMIN</h1>
   <p>Product Manager</p>
 </header>
+
 
 <div id="loginArea" class="login-container">
 
@@ -244,10 +291,27 @@
 
   </div>
 
+
+  <!-- CATEGORY SEARCH -->
+
+  <div class="category-search-wrap">
+
+    <input
+      type="text"
+      id="categorySearch"
+      placeholder="Search category..."
+      autocomplete="off"
+    >
+
+  </div>
+
+
   <div id="admin">
+
     <div class="loading">
       Loading products...
     </div>
+
   </div>
 
 </main>
@@ -255,10 +319,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
 
 const SUPABASE_URL =
 "https://gynnbpmghwwzimdzhxfw.supabase.co";
+
 
 const SUPABASE_ANON_KEY =
 "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
@@ -277,6 +343,10 @@ window.supabase.createClient(
   }
 );
 
+
+/* ============================
+   CATEGORIES
+============================ */
 
 const categories = [
 
@@ -402,9 +472,11 @@ async function getSessionOrThrow() {
   const { data, error } =
     await supabaseClient.auth.getSession();
 
+
   if (error) {
     throw error;
   }
+
 
   if (
     !data.session ||
@@ -416,6 +488,7 @@ async function getSessionOrThrow() {
     );
 
   }
+
 
   return data.session;
 
@@ -434,15 +507,18 @@ async function loginAdmin() {
       .value
       .trim();
 
+
   const password =
     document
       .getElementById("password")
       .value;
 
+
   const message =
     document.getElementById(
       "loginMessage"
     );
+
 
   const button =
     document.getElementById(
@@ -464,6 +540,7 @@ async function loginAdmin() {
 
 
   button.disabled = true;
+
   button.textContent =
     "LOGGING IN...";
 
@@ -479,6 +556,7 @@ async function loginAdmin() {
 
 
   button.disabled = false;
+
   button.textContent = "LOGIN";
 
 
@@ -501,6 +579,7 @@ async function loginAdmin() {
 
   adminLoaded = false;
 
+
   await showAdmin(
     data.session
   );
@@ -516,12 +595,15 @@ async function logoutAdmin() {
 
   await supabaseClient.auth.signOut();
 
+
   adminLoaded = false;
+
 
   document.getElementById(
     "admin"
   ).innerHTML =
     '<div class="loading">Loading products...</div>';
+
 
   showLogin();
 
@@ -538,9 +620,11 @@ function showLogin() {
     "adminArea"
   ).style.display = "none";
 
+
   document.getElementById(
     "loginArea"
   ).style.display = "block";
+
 
   document.getElementById(
     "signedInUser"
@@ -558,6 +642,7 @@ async function showAdmin(session) {
   document.getElementById(
     "loginArea"
   ).style.display = "none";
+
 
   document.getElementById(
     "adminArea"
@@ -627,6 +712,7 @@ async function getFolderFiles(folder) {
   const session =
     await getSessionOrThrow();
 
+
   const token =
     session.access_token;
 
@@ -682,6 +768,7 @@ async function getFolderFiles(folder) {
     const detail =
       await response.text();
 
+
     throw new Error(
       "Could not load folder " +
       folder +
@@ -696,7 +783,7 @@ async function getFolderFiles(folder) {
     await response.json();
 
 
-  /* GET ON / OFF STATUS */
+  /* GET PRODUCT ON/OFF STATUS */
 
   const productResponse =
     await fetch(
@@ -725,6 +812,7 @@ async function getFolderFiles(folder) {
 
     const detail =
       await productResponse.text();
+
 
     throw new Error(
       "Could not load product status: " +
@@ -777,7 +865,7 @@ async function getFolderFiles(folder) {
 
 
 /* ============================
-   SAVE ON / OFF
+   SAVE PRODUCT ON / OFF
 ============================ */
 
 async function saveProductState(
@@ -789,6 +877,7 @@ async function saveProductState(
   const session =
     await getSessionOrThrow();
 
+
   const token =
     session.access_token;
 
@@ -796,10 +885,10 @@ async function saveProductState(
   let response;
 
 
-  /*
+  /* =========================
      PRODUCT ALREADY EXISTS
-     UPDATE IT
-  */
+     UPDATE DATABASE
+  ========================= */
 
   if (file.productExists) {
 
@@ -850,10 +939,10 @@ async function saveProductState(
   }
 
 
-  /*
+  /* =========================
      PRODUCT DOES NOT EXIST
      CREATE DATABASE RECORD
-  */
+  ========================= */
 
   else {
 
@@ -908,6 +997,7 @@ async function saveProductState(
 
     const detail =
       await response.text();
+
 
     throw new Error(
 
@@ -974,6 +1064,7 @@ async function loadAdmin() {
           "section"
         );
 
+
       section.className =
         "category";
 
@@ -982,6 +1073,7 @@ async function loadAdmin() {
         document.createElement(
           "h2"
         );
+
 
       heading.textContent =
         category.title;
@@ -992,8 +1084,10 @@ async function loadAdmin() {
           "div"
         );
 
+
       count.className =
         "count";
+
 
       count.textContent =
         images.length +
@@ -1004,6 +1098,7 @@ async function loadAdmin() {
         document.createElement(
           "div"
         );
+
 
       grid.className =
         "grid";
@@ -1017,16 +1112,20 @@ async function loadAdmin() {
             "div"
           );
 
+
         card.className =
           "product";
 
 
-        /* ON/OFF AREA */
+        /* =====================
+           ON/OFF AREA
+        ===================== */
 
         const toggleArea =
           document.createElement(
             "div"
           );
+
 
         toggleArea.className =
           "toggle-area";
@@ -1037,8 +1136,10 @@ async function loadAdmin() {
             "input"
           );
 
+
         toggle.type =
           "checkbox";
+
 
         toggle.checked =
           file.is_active !== false;
@@ -1049,35 +1150,44 @@ async function loadAdmin() {
             "span"
           );
 
+
         label.textContent =
           toggle.checked
             ? "ON"
             : "OFF";
 
 
-        /* PRODUCT IMAGE */
+        /* =====================
+           PRODUCT IMAGE
+        ===================== */
 
         const img =
           document.createElement(
             "img"
           );
 
+
         img.src =
           file.image_url;
+
 
         img.alt =
           file.name;
 
 
-        /* FILE NAME */
+        /* =====================
+           FILE NAME
+        ===================== */
 
         const filename =
           document.createElement(
             "div"
           );
 
+
         filename.className =
           "filename";
+
 
         filename.textContent =
           file.name;
@@ -1087,18 +1197,20 @@ async function loadAdmin() {
           toggle
         );
 
+
         toggleArea.appendChild(
           label
         );
 
 
-        /* ===================
-           TOGGLE CHANGE
-        =================== */
+        /* =====================
+           ON/OFF CHANGE
+        ===================== */
 
         toggle.addEventListener(
           "change",
           async () => {
+
 
             const wantedState =
               toggle.checked;
@@ -1116,6 +1228,7 @@ async function loadAdmin() {
 
             try {
 
+
               await saveProductState(
 
                 file,
@@ -1126,9 +1239,12 @@ async function loadAdmin() {
 
               );
 
+
             }
 
+
             catch (error) {
+
 
               console.error(
                 "Update failed:",
@@ -1158,12 +1274,16 @@ async function loadAdmin() {
 
               );
 
+
             }
+
 
             finally {
 
+
               toggle.disabled =
                 false;
+
 
             }
 
@@ -1176,13 +1296,16 @@ async function loadAdmin() {
           toggleArea
         );
 
+
         card.appendChild(
           img
         );
 
+
         card.appendChild(
           filename
         );
+
 
         grid.appendChild(
           card
@@ -1195,13 +1318,16 @@ async function loadAdmin() {
         heading
       );
 
+
       section.appendChild(
         count
       );
 
+
       section.appendChild(
         grid
       );
+
 
       admin.appendChild(
         section
@@ -1211,7 +1337,9 @@ async function loadAdmin() {
 
   }
 
+
   catch (error) {
+
 
     console.error(error);
 
@@ -1237,7 +1365,7 @@ async function loadAdmin() {
 
 
 /* ============================
-   BUTTONS
+   LOGIN BUTTON
 ============================ */
 
 document
@@ -1250,6 +1378,10 @@ document
   );
 
 
+/* ============================
+   LOGOUT BUTTON
+============================ */
+
 document
   .getElementById(
     "logoutButton"
@@ -1260,7 +1392,9 @@ document
   );
 
 
-/* PRESS ENTER TO LOGIN */
+/* ============================
+   PRESS ENTER TO LOGIN
+============================ */
 
 document
   .getElementById(
@@ -1270,12 +1404,15 @@ document
     "keydown",
     event => {
 
+
       if (
         event.key ===
         "Enter"
       ) {
 
+
         loginAdmin();
+
 
       }
 
@@ -1298,7 +1435,9 @@ supabaseClient.auth
         "SIGNED_OUT"
       ) {
 
+
         showLogin();
+
 
       }
 
@@ -1308,6 +1447,7 @@ supabaseClient.auth
         "TOKEN_REFRESHED" &&
         session
       ) {
+
 
         document.getElementById(
           "signedInUser"
@@ -1321,6 +1461,7 @@ supabaseClient.auth
 
           : "Signed in";
 
+
       }
 
     }
@@ -1329,7 +1470,72 @@ supabaseClient.auth
 
 
 /* ============================
-   START
+   CATEGORY SEARCH
+============================ */
+
+document
+  .getElementById(
+    "categorySearch"
+  )
+  .addEventListener(
+    "input",
+    function () {
+
+
+      const search =
+        this.value
+          .toLowerCase()
+          .trim();
+
+
+      const sections =
+        document.querySelectorAll(
+          ".category"
+        );
+
+
+      sections.forEach(
+        section => {
+
+
+          const heading =
+            section.querySelector(
+              "h2"
+            );
+
+
+          const categoryName =
+            heading
+
+              ? heading
+                  .textContent
+                  .toLowerCase()
+
+              : "";
+
+
+          section.style.display =
+
+            categoryName.includes(
+              search
+            )
+
+              ? ""
+
+              : "none";
+
+
+        }
+
+      );
+
+    }
+
+  );
+
+
+/* ============================
+   START ADMIN
 ============================ */
 
 checkLogin();
