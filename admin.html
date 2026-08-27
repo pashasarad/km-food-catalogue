@@ -1,5 +1,10 @@
 ALTER TABLE public.product ENABLE ROW LEVEL SECURITY;
 
+-- TABLE PERMISSIONS
+GRANT SELECT ON TABLE public.product TO anon;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.product TO authenticated;
+
+-- REMOVE OLD POLICIES
 DROP POLICY IF EXISTS "Public can read products"
 ON public.product;
 
@@ -18,8 +23,14 @@ ON public.product;
 DROP POLICY IF EXISTS "public_read_product"
 ON public.product;
 
+DROP POLICY IF EXISTS "authenticated_insert_product"
+ON public.product;
 
-/* Everyone can READ product ON/OFF status */
+DROP POLICY IF EXISTS "authenticated_update_product"
+ON public.product;
+
+
+-- PUBLIC CAN READ
 CREATE POLICY "public_read_product"
 ON public.product
 FOR SELECT
@@ -27,10 +38,18 @@ TO anon, authenticated
 USING (true);
 
 
-/* Logged-in admin can INSERT / UPDATE / DELETE */
-CREATE POLICY "admin_manage_product"
+-- LOGGED-IN USER CAN INSERT
+CREATE POLICY "authenticated_insert_product"
 ON public.product
-FOR ALL
+FOR INSERT
+TO authenticated
+WITH CHECK (true);
+
+
+-- LOGGED-IN USER CAN UPDATE
+CREATE POLICY "authenticated_update_product"
+ON public.product
+FOR UPDATE
 TO authenticated
 USING (true)
 WITH CHECK (true);
