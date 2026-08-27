@@ -272,11 +272,11 @@
      NORMALIZE TEXT FOR SEARCH
 
      Example:
-     Karoon-Basmati_Rice-5KG.png
+     Karoon-Basmati_-5KG.png
 
      becomes:
 
-     karoon basmati rice 5kg
+     karoon basmati  5kg
      ======================================== */
 
   function normalizeSearchText(text) {
@@ -509,7 +509,7 @@
             "rise",
 
           title:
-            "RICE"
+            ""
         },
 
         {
@@ -576,8 +576,12 @@
             "SNACKS & SWEETS"
         } ,
         {
-  folder: "CANDY & TREATS",
-  title: "CANDY & TREATS"
+  folder: "Chewing GUM",
+  title: "CHEWING GUM"
+},
+        { folder: "Candy Sweet & Candy Toys",
+title:
+    "CANDY SWEETS & CANDY TOYS"
 },
 {
   folder: "chips",
@@ -595,6 +599,14 @@
         {
   folder: "TESSUE AND WIPES",
   title: "TISSUE & WIPES"
+},
+         {folder: "TRADITIONAL",
+title:
+    "TRADITIONAL"
+}, 
+        folder: "GENARAL PRODUCTS",
+title:
+    "GENERAL PRODUCTS"
 },
 
       ];
@@ -1006,11 +1018,11 @@
 
               Example:
 
-              "Karoon-Basmati-Rice-5KG.png"
+              "Karoon-Basmati--5KG.png"
 
               becomes:
 
-              "karoon basmati rice 5kg"
+              "karoon basmati  5kg"
             */
 
             const searchableName =
@@ -1215,11 +1227,11 @@
 
       Example:
 
-      "Karoon Rice"
+      "Karoon "
 
       becomes:
 
-      "karoon rice"
+      "karoon "
     */
 
     const search =
@@ -1231,11 +1243,11 @@
     /*
       Turn search into separate words.
 
-      "karoon rice"
+      "karoon "
 
       becomes:
 
-      ["karoon", "rice"]
+      ["karoon", ""]
     */
 
     const searchTerms =
@@ -1376,15 +1388,15 @@
 
           Example filename:
 
-          Karoon Basmati Rice 5KG.png
+          Karoon Basmati  5KG.png
 
           Search:
-          karoon rice
+          karoon 
 
           MATCH = YES
 
           Search:
-          rice karoon
+           karoon
 
           MATCH = YES
         */
