@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,8 +42,6 @@
       padding: 20px;
     }
 
-    /* LOGIN */
-
     .login-container {
       max-width: 420px;
       margin: 70px auto;
@@ -79,8 +77,9 @@
       cursor: pointer;
     }
 
-    .login-container button:hover {
-      background: #00553a;
+    .login-container button:disabled {
+      opacity: .65;
+      cursor: wait;
     }
 
     #loginMessage {
@@ -88,12 +87,25 @@
       color: #b00020;
       margin-top: 15px;
       font-size: 14px;
+      min-height: 18px;
+    }
+
+    #adminArea {
+      display: none;
     }
 
     .admin-top {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 20px;
+    }
+
+    .signed-in {
+      font-size: 13px;
+      color: #555;
+      word-break: break-all;
     }
 
     .logout-btn {
@@ -104,6 +116,7 @@
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
+      white-space: nowrap;
     }
 
     .category {
@@ -144,9 +157,17 @@
     }
 
     .toggle-area {
+      display: flex;
+      align-items: center;
+      gap: 7px;
       margin-bottom: 10px;
-      font-size: 13px;
+      font-size: 15px;
       font-weight: bold;
+    }
+
+    .toggle-area input {
+      width: 20px;
+      height: 20px;
     }
 
     .count {
@@ -166,10 +187,6 @@
       padding: 15px;
       border-radius: 6px;
     }
-
-    #adminArea {
-      display: none;
-    }
   </style>
 </head>
 
@@ -179,9 +196,6 @@
   <h1>K&M CATALOGUE ADMIN</h1>
   <p>Product Manager</p>
 </header>
-
-
-<!-- LOGIN SCREEN -->
 
 <div id="loginArea" class="login-container">
 
@@ -201,7 +215,7 @@
     autocomplete="current-password"
   >
 
-  <button id="loginButton" onclick="loginAdmin()">
+  <button id="loginButton" type="button">
     LOGIN
   </button>
 
@@ -210,41 +224,79 @@
 </div>
 
 
-<!-- ADMIN AREA -->
-
 <main id="adminArea">
 
   <div class="admin-top">
-    <button class="logout-btn" onclick="logoutAdmin()">
+
+    <div
+      id="signedInUser"
+      class="signed-in">
+    </div>
+
+    <button
+      id="logoutButton"
+      class="logout-btn"
+      type="button">
       LOGOUT
     </button>
+
   </div>
 
   <div id="admin">
-    <div class="loading">Loading products...</div>
+    <div class="loading">
+      Loading products...
+    </div>
   </div>
 
 </main>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
 const SUPABASE_URL =
-  "https://gynnbpmghwwzimdzhxfw.supabase.co";
+"https://gynnbpmghwwzimdzhxfw.supabase.co";
 
 const SUPABASE_ANON_KEY =
-  "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
+"sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
+
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
+    }
+  }
+);
 
 
 const categories = [
 
-  { folder: "rise", title: "RICE" },
+  {
+    folder: "rise",
+    title: "RICE"
+  },
 
-  { folder: "drink", title: "DRINKS" },
+  {
+    folder: "drink",
+    title: "DRINKS"
+  },
 
-  { folder: "snacks", title: "SNACKS & SWEETS" },
+  {
+    folder: "snacks",
+    title: "SNACKS & SWEETS"
+  },
 
-  { folder: "spices", title: "SPICES" },
+  {
+    folder: "spices",
+    title: "SPICES"
+  },
 
   {
     folder: "beans&chickpease",
@@ -319,201 +371,164 @@ const categories = [
 ];
 
 
-function getAccessToken() {
-  return localStorage.getItem("km_admin_token");
+let adminLoaded = false;
+
+
+/* ============================
+   IMAGE URL
+============================ */
+
+function getImageUrl(folder, filename) {
+
+  return (
+    SUPABASE_URL +
+    "/storage/v1/object/public/product%20-image/" +
+    encodeURIComponent(folder) +
+    "/" +
+    encodeURIComponent(filename)
+  );
+
 }
 
 
-/* ===========================
+/* ============================
+   GET LOGIN SESSION
+============================ */
+
+async function getSessionOrThrow() {
+
+  const { data, error } =
+    await supabaseClient.auth.getSession();
+
+  if (error) {
+    throw error;
+  }
+
+  if (
+    !data.session ||
+    !data.session.access_token
+  ) {
+
+    throw new Error(
+      "Your login session has expired. Please log in again."
+    );
+
+  }
+
+  return data.session;
+
+}
+
+
+/* ============================
    LOGIN
-=========================== */
+============================ */
 
 async function loginAdmin() {
 
   const email =
-    document.getElementById("email").value.trim();
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
   const password =
-    document.getElementById("password").value;
+    document
+      .getElementById("password")
+      .value;
 
   const message =
-    document.getElementById("loginMessage");
+    document.getElementById(
+      "loginMessage"
+    );
 
   const button =
-    document.getElementById("loginButton");
+    document.getElementById(
+      "loginButton"
+    );
+
 
   message.textContent = "";
 
+
   if (!email || !password) {
+
     message.textContent =
       "Please enter your email and password.";
+
     return;
+
   }
+
 
   button.disabled = true;
-  button.textContent = "LOGGING IN...";
+  button.textContent =
+    "LOGGING IN...";
 
 
-  try {
+  const { data, error } =
+    await supabaseClient.auth
+      .signInWithPassword({
 
-    const response = await fetch(
-      SUPABASE_URL +
-      "/auth/v1/token?grant_type=password",
-      {
-        method: "POST",
+        email: email,
+        password: password
 
-        headers: {
-          apikey: SUPABASE_ANON_KEY,
-          "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
-      }
-    );
-
-
-    const data = await response.json();
-
-
-    if (!response.ok || !data.access_token) {
-
-      message.textContent =
-        "Wrong email or password.";
-
-      button.disabled = false;
-      button.textContent = "LOGIN";
-
-      return;
-    }
-
-
-    localStorage.setItem(
-      "km_admin_token",
-      data.access_token
-    );
-
-
-    if (data.refresh_token) {
-
-      localStorage.setItem(
-        "km_admin_refresh",
-        data.refresh_token
-      );
-
-    }
-
-
-    showAdmin();
-
-  }
-
-  catch (error) {
-
-    console.error(error);
-
-    message.textContent =
-      "Could not connect to the server.";
-
-  }
+      });
 
 
   button.disabled = false;
   button.textContent = "LOGIN";
 
-}
 
+  if (error || !data.session) {
 
-/* ===========================
-   CHECK LOGIN
-=========================== */
+    console.error(error);
 
-async function checkLogin() {
-
-  const token = getAccessToken();
-
-
-  if (!token) {
-
-    showLogin();
+    message.textContent =
+      "Wrong email or password.";
 
     return;
 
   }
 
 
-  try {
-
-    const response = await fetch(
-      SUPABASE_URL + "/auth/v1/user",
-      {
-        headers: {
-
-          apikey:
-            SUPABASE_ANON_KEY,
-
-          Authorization:
-            "Bearer " + token
-
-        }
-      }
-    );
+  document
+    .getElementById("password")
+    .value = "";
 
 
-    if (!response.ok) {
+  adminLoaded = false;
 
-      localStorage.removeItem(
-        "km_admin_token"
-      );
-
-      localStorage.removeItem(
-        "km_admin_refresh"
-      );
-
-      showLogin();
-
-      return;
-
-    }
-
-
-    showAdmin();
-
-  }
-
-  catch (error) {
-
-    showLogin();
-
-  }
+  await showAdmin(
+    data.session
+  );
 
 }
 
 
-/* ===========================
-   SHOW ADMIN
-=========================== */
+/* ============================
+   LOGOUT
+============================ */
 
-function showAdmin() {
+async function logoutAdmin() {
+
+  await supabaseClient.auth.signOut();
+
+  adminLoaded = false;
 
   document.getElementById(
-    "loginArea"
-  ).style.display = "none";
+    "admin"
+  ).innerHTML =
+    '<div class="loading">Loading products...</div>';
 
-  document.getElementById(
-    "adminArea"
-  ).style.display = "block";
-
-  loadAdmin();
+  showLogin();
 
 }
 
 
-/* ===========================
+/* ============================
    SHOW LOGIN
-=========================== */
+============================ */
 
 function showLogin() {
 
@@ -525,157 +540,151 @@ function showLogin() {
     "loginArea"
   ).style.display = "block";
 
+  document.getElementById(
+    "signedInUser"
+  ).textContent = "";
+
 }
 
 
-/* ===========================
-   LOGOUT
-=========================== */
+/* ============================
+   SHOW ADMIN
+============================ */
 
-async function logoutAdmin() {
+async function showAdmin(session) {
 
-  const token =
-    getAccessToken();
+  document.getElementById(
+    "loginArea"
+  ).style.display = "none";
+
+  document.getElementById(
+    "adminArea"
+  ).style.display = "block";
 
 
-  if (token) {
+  document.getElementById(
+    "signedInUser"
+  ).textContent =
 
-    try {
+    session.user &&
+    session.user.email
 
-      await fetch(
-        SUPABASE_URL +
-        "/auth/v1/logout",
-        {
+    ? "Signed in: " +
+      session.user.email
 
-          method: "POST",
+    : "Signed in";
 
-          headers: {
 
-            apikey:
-              SUPABASE_ANON_KEY,
+  if (!adminLoaded) {
 
-            Authorization:
-              "Bearer " + token
+    adminLoaded = true;
 
-          }
+    await loadAdmin();
 
-        }
-      );
+  }
 
-    }
+}
 
-    catch (error) {
 
-      console.error(error);
+/* ============================
+   CHECK EXISTING LOGIN
+============================ */
 
-    }
+async function checkLogin() {
+
+  const { data, error } =
+    await supabaseClient.auth
+      .getSession();
+
+
+  if (
+    error ||
+    !data.session
+  ) {
+
+    showLogin();
+
+    return;
 
   }
 
 
-  localStorage.removeItem(
-    "km_admin_token"
-  );
-
-  localStorage.removeItem(
-    "km_admin_refresh"
-  );
-
-
-  document.getElementById(
-    "password"
-  ).value = "";
-
-
-  showLogin();
-
-}
-
-
-/* ===========================
-   IMAGE URL
-=========================== */
-
-function getImageUrl(folder, filename) {
-
-  return (
-
-    SUPABASE_URL +
-
-    "/storage/v1/object/public/product%20-image/" +
-
-    encodeURIComponent(folder) +
-
-    "/" +
-
-    encodeURIComponent(filename)
-
+  await showAdmin(
+    data.session
   );
 
 }
 
 
-/* ===========================
-   LOAD FOLDER FILES
-=========================== */
+/* ============================
+   GET FOLDER PRODUCTS
+============================ */
 
 async function getFolderFiles(folder) {
 
+  const session =
+    await getSessionOrThrow();
+
   const token =
-    getAccessToken();
+    session.access_token;
 
 
-  const response = await fetch(
+  const response =
+    await fetch(
 
-    SUPABASE_URL +
-    "/storage/v1/object/list/product%20-image",
+      SUPABASE_URL +
+      "/storage/v1/object/list/product%20-image",
 
-    {
+      {
 
-      method: "POST",
+        method: "POST",
 
-      headers: {
+        headers: {
 
-        apikey:
-          SUPABASE_ANON_KEY,
+          apikey:
+            SUPABASE_ANON_KEY,
 
-        Authorization:
-          "Bearer " + token,
+          Authorization:
+            "Bearer " + token,
 
-        "Content-Type":
-          "application/json"
+          "Content-Type":
+            "application/json"
 
-      },
+        },
 
+        body: JSON.stringify({
 
-      body: JSON.stringify({
+          prefix: folder,
 
-        prefix: folder,
+          limit: 1000,
 
-        limit: 1000,
+          offset: 0,
 
-        offset: 0,
+          sortBy: {
 
-        sortBy: {
+            column: "name",
 
-          column: "name",
+            order: "asc"
 
-          order: "asc"
+          }
 
-        }
+        })
 
-      })
+      }
 
-    }
-
-  );
+    );
 
 
   if (!response.ok) {
 
+    const detail =
+      await response.text();
+
     throw new Error(
-      "Could not load folder: " +
-      folder
+      "Could not load folder " +
+      folder +
+      ": " +
+      detail
     );
 
   }
@@ -685,11 +694,13 @@ async function getFolderFiles(folder) {
     await response.json();
 
 
+  /* GET ON / OFF STATUS */
+
   const productResponse =
     await fetch(
 
       SUPABASE_URL +
-      "/rest/v1/product?select=image_url,is_active",
+      "/rest/v1/product?select=image_url,is_active,category",
 
       {
 
@@ -710,8 +721,12 @@ async function getFolderFiles(folder) {
 
   if (!productResponse.ok) {
 
+    const detail =
+      await productResponse.text();
+
     throw new Error(
-      "Could not load product status"
+      "Could not load product status: " +
+      detail
     );
 
   }
@@ -733,14 +748,19 @@ async function getFolderFiles(folder) {
     const product =
       products.find(
         p =>
-          p.image_url ===
-          imageUrl
+          p.image_url === imageUrl
       );
 
 
     return {
 
       ...file,
+
+      image_url:
+        imageUrl,
+
+      productExists:
+        Boolean(product),
 
       is_active:
         product
@@ -754,9 +774,160 @@ async function getFolderFiles(folder) {
 }
 
 
-/* ===========================
+/* ============================
+   SAVE ON / OFF
+============================ */
+
+async function saveProductState(
+  file,
+  categoryFolder,
+  isActive
+) {
+
+  const session =
+    await getSessionOrThrow();
+
+  const token =
+    session.access_token;
+
+
+  let response;
+
+
+  /*
+     PRODUCT ALREADY EXISTS
+     UPDATE IT
+  */
+
+  if (file.productExists) {
+
+    response =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/product?image_url=eq." +
+        encodeURIComponent(
+          file.image_url
+        ),
+
+        {
+
+          method: "PATCH",
+
+          headers: {
+
+            apikey:
+              SUPABASE_ANON_KEY,
+
+            Authorization:
+              "Bearer " + token,
+
+            "Content-Type":
+              "application/json",
+
+            Prefer:
+              "return=minimal"
+
+          },
+
+          body:
+            JSON.stringify({
+
+              category:
+                categoryFolder,
+
+              is_active:
+                isActive
+
+            })
+
+        }
+
+      );
+
+  }
+
+
+  /*
+     PRODUCT DOES NOT EXIST
+     CREATE DATABASE RECORD
+  */
+
+  else {
+
+    response =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/product",
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            apikey:
+              SUPABASE_ANON_KEY,
+
+            Authorization:
+              "Bearer " + token,
+
+            "Content-Type":
+              "application/json",
+
+            Prefer:
+              "return=minimal"
+
+          },
+
+          body:
+            JSON.stringify({
+
+              image_url:
+                file.image_url,
+
+              category:
+                categoryFolder,
+
+              is_active:
+                isActive
+
+            })
+
+        }
+
+      );
+
+  }
+
+
+  if (!response.ok) {
+
+    const detail =
+      await response.text();
+
+    throw new Error(
+
+      detail ||
+      "Supabase rejected the update."
+
+    );
+
+  }
+
+
+  file.productExists = true;
+
+  file.is_active =
+    isActive;
+
+}
+
+
+/* ============================
    LOAD ADMIN PRODUCTS
-=========================== */
+============================ */
 
 async function loadAdmin() {
 
@@ -788,10 +959,11 @@ async function loadAdmin() {
 
 
       const images =
-        files.filter(
-          file =>
-            /\.(png|jpg|jpeg|webp)$/i
-              .test(file.name)
+        files.filter(file =>
+
+          /\.(png|jpg|jpeg|webp)$/i
+            .test(file.name)
+
         );
 
 
@@ -799,7 +971,6 @@ async function loadAdmin() {
         document.createElement(
           "section"
         );
-
 
       section.className =
         "category";
@@ -810,7 +981,6 @@ async function loadAdmin() {
           "h2"
         );
 
-
       heading.textContent =
         category.title;
 
@@ -820,10 +990,8 @@ async function loadAdmin() {
           "div"
         );
 
-
       count.className =
         "count";
-
 
       count.textContent =
         images.length +
@@ -834,7 +1002,6 @@ async function loadAdmin() {
         document.createElement(
           "div"
         );
-
 
       grid.className =
         "grid";
@@ -848,47 +1015,16 @@ async function loadAdmin() {
             "div"
           );
 
-
         card.className =
           "product";
 
 
-        const img =
-          document.createElement(
-            "img"
-          );
-
-
-        img.src =
-          getImageUrl(
-            category.folder,
-            file.name
-          );
-
-
-        img.alt =
-          file.name;
-
-
-        const filename =
-          document.createElement(
-            "div"
-          );
-
-
-        filename.className =
-          "filename";
-
-
-        filename.textContent =
-          file.name;
-
+        /* ON/OFF AREA */
 
         const toggleArea =
           document.createElement(
             "div"
           );
-
 
         toggleArea.className =
           "toggle-area";
@@ -899,10 +1035,8 @@ async function loadAdmin() {
             "input"
           );
 
-
         toggle.type =
           "checkbox";
-
 
         toggle.checked =
           file.is_active !== false;
@@ -913,105 +1047,126 @@ async function loadAdmin() {
             "span"
           );
 
-
         label.textContent =
           toggle.checked
-            ? " ON"
-            : " OFF";
+            ? "ON"
+            : "OFF";
+
+
+        /* PRODUCT IMAGE */
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+        img.src =
+          file.image_url;
+
+        img.alt =
+          file.name;
+
+
+        /* FILE NAME */
+
+        const filename =
+          document.createElement(
+            "div"
+          );
+
+        filename.className =
+          "filename";
+
+        filename.textContent =
+          file.name;
 
 
         toggleArea.appendChild(
           toggle
         );
 
-
         toggleArea.appendChild(
           label
         );
 
 
+        /* ===================
+           TOGGLE CHANGE
+        =================== */
+
         toggle.addEventListener(
           "change",
           async () => {
 
+            const wantedState =
+              toggle.checked;
+
+
+            toggle.disabled =
+              true;
+
 
             label.textContent =
-              toggle.checked
-                ? " ON"
-                : " OFF";
+              wantedState
+                ? "ON"
+                : "OFF";
 
 
-            const token =
-              getAccessToken();
+            try {
 
+              await saveProductState(
 
-            const response =
-              await fetch(
+                file,
 
-                SUPABASE_URL +
-                "/rest/v1/product?on_conflict=image_url",
+                category.folder,
 
-                {
-
-                  method:
-                    "POST",
-
-                  headers: {
-
-                    apikey:
-                      SUPABASE_ANON_KEY,
-
-                    Authorization:
-                      "Bearer " +
-                      token,
-
-                    "Content-Type":
-                      "application/json",
-
-                    Prefer:
-                      "resolution=merge-duplicates"
-
-                  },
-
-
-                  body:
-                    JSON.stringify({
-
-                      image_url:
-                        img.src,
-
-                      category:
-                        category.folder,
-
-                      is_active:
-                        toggle.checked
-
-                    })
-
-                }
+                wantedState
 
               );
 
+            }
 
-            if (!response.ok) {
+            catch (error) {
 
-              alert(
-                "Could not update product"
+              console.error(
+                "Update failed:",
+                error
               );
 
+
+              /* CHANGE BACK */
 
               toggle.checked =
-                !toggle.checked;
+                !wantedState;
 
 
               label.textContent =
                 toggle.checked
-                  ? " ON"
-                  : " OFF";
+                  ? "ON"
+                  : "OFF";
+
+
+              alert(
+
+                "Could not update product.\n\n" +
+
+                "Supabase says:\n" +
+
+                error.message
+
+              );
+
+            }
+
+            finally {
+
+              toggle.disabled =
+                false;
 
             }
 
           }
+
         );
 
 
@@ -1019,16 +1174,13 @@ async function loadAdmin() {
           toggleArea
         );
 
-
         card.appendChild(
           img
         );
 
-
         card.appendChild(
           filename
         );
-
 
         grid.appendChild(
           card
@@ -1041,16 +1193,13 @@ async function loadAdmin() {
         heading
       );
 
-
       section.appendChild(
         count
       );
 
-
       section.appendChild(
         grid
       );
-
 
       admin.appendChild(
         section
@@ -1062,40 +1211,124 @@ async function loadAdmin() {
 
   catch (error) {
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
     admin.innerHTML =
-      '<div class="error">Could not load the products. Please check your login or Supabase permissions.</div>';
+
+      '<div class="error">' +
+
+      'Could not load the products.' +
+
+      '<br><br>' +
+
+      String(
+        error.message ||
+        error
+      ) +
+
+      '</div>';
 
   }
 
 }
 
 
+/* ============================
+   BUTTONS
+============================ */
+
+document
+  .getElementById(
+    "loginButton"
+  )
+  .addEventListener(
+    "click",
+    loginAdmin
+  );
+
+
+document
+  .getElementById(
+    "logoutButton"
+  )
+  .addEventListener(
+    "click",
+    logoutAdmin
+  );
+
+
 /* PRESS ENTER TO LOGIN */
 
-document.getElementById(
-  "password"
-).addEventListener(
-  "keydown",
-  function(event) {
+document
+  .getElementById(
+    "password"
+  )
+  .addEventListener(
+    "keydown",
+    event => {
 
-    if (
-      event.key === "Enter"
-    ) {
+      if (
+        event.key ===
+        "Enter"
+      ) {
 
-      loginAdmin();
+        loginAdmin();
+
+      }
+
+    }
+  );
+
+
+/* ============================
+   AUTH CHANGES
+============================ */
+
+supabaseClient.auth
+  .onAuthStateChange(
+
+    (event, session) => {
+
+
+      if (
+        event ===
+        "SIGNED_OUT"
+      ) {
+
+        showLogin();
+
+      }
+
+
+      if (
+        event ===
+        "TOKEN_REFRESHED" &&
+        session
+      ) {
+
+        document.getElementById(
+          "signedInUser"
+        ).textContent =
+
+          session.user &&
+          session.user.email
+
+          ? "Signed in: " +
+            session.user.email
+
+          : "Signed in";
+
+      }
 
     }
 
-  }
-);
+  );
 
 
-/* START */
+/* ============================
+   START
+============================ */
 
 checkLogin();
 
