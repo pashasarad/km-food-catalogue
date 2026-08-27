@@ -42,6 +42,70 @@
       padding: 20px;
     }
 
+    /* LOGIN */
+
+    .login-container {
+      max-width: 420px;
+      margin: 70px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.15);
+    }
+
+    .login-container h2 {
+      margin-top: 0;
+      color: #003e2b;
+      text-align: center;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 14px;
+      background: #003e2b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-container button:hover {
+      background: #00553a;
+    }
+
+    #loginMessage {
+      text-align: center;
+      color: #b00020;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .admin-top {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .logout-btn {
+      background: #b00020;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
     .category {
       margin-bottom: 35px;
     }
@@ -79,6 +143,12 @@
       color: #555;
     }
 
+    .toggle-area {
+      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
     .count {
       font-size: 13px;
       color: #666;
@@ -96,6 +166,10 @@
       padding: 15px;
       border-radius: 6px;
     }
+
+    #adminArea {
+      display: none;
+    }
   </style>
 </head>
 
@@ -106,180 +180,925 @@
   <p>Product Manager</p>
 </header>
 
-<main id="admin">
-  <div class="loading">Loading products...</div>
+
+<!-- LOGIN SCREEN -->
+
+<div id="loginArea" class="login-container">
+
+  <h2>Admin Login</h2>
+
+  <input
+    type="email"
+    id="email"
+    placeholder="Admin Email"
+    autocomplete="email"
+  >
+
+  <input
+    type="password"
+    id="password"
+    placeholder="Password"
+    autocomplete="current-password"
+  >
+
+  <button id="loginButton" onclick="loginAdmin()">
+    LOGIN
+  </button>
+
+  <div id="loginMessage"></div>
+
+</div>
+
+
+<!-- ADMIN AREA -->
+
+<main id="adminArea">
+
+  <div class="admin-top">
+    <button class="logout-btn" onclick="logoutAdmin()">
+      LOGOUT
+    </button>
+  </div>
+
+  <div id="admin">
+    <div class="loading">Loading products...</div>
+  </div>
+
 </main>
 
+
 <script>
-const SUPABASE_URL = "https://gynnbpmghwwzimdzhxfw.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
+
+const SUPABASE_URL =
+  "https://gynnbpmghwwzimdzhxfw.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
+
+
 const categories = [
+
   { folder: "rise", title: "RICE" },
+
   { folder: "drink", title: "DRINKS" },
+
   { folder: "snacks", title: "SNACKS & SWEETS" },
+
   { folder: "spices", title: "SPICES" },
-  { folder: "beans&chickpease", title: "BEANS & CHICKPEAS" },
-  { folder: "cooking essentials", title: "COOKING ESSENTIALS" },
-  { folder: "PICKLES", title: "PICKLES" },
-  { folder: "TEA & COFFE", title: "TEA & COFFEE" },
 
-  { folder: "Chewing Gum", title: "CHEWING GUM" },
-  { folder: "Candy Sweets & Candy Toys", title: "CANDY SWEETS & CANDY TOYS" },
-  { folder: "chips", title: "CHIPS" },
-  { folder: "NUTS", title: "NUTS" },
-  { folder: "TOILETRIES", title: "TOILETRIES" },
-  { folder: "TESSUE AND WIPES", title: "TISSUE & WIPES" },
-  { folder: "TRADITIONAL", title: "TRADITIONAL" },
-  { folder: "GENERAL PRODUCTS", title: "GENERAL PRODUCTS" },
+  {
+    folder: "beans&chickpease",
+    title: "BEANS & CHICKPEAS"
+  },
 
-  { folder: "Special offer", title: "SPECIAL OFFER" },
-  { folder: "special-offer", title: "SPECIAL OFFER" }
-];
-async function getFolderFiles(folder) {
-  const response = await fetch(
-    SUPABASE_URL + "/storage/v1/object/list/product%20-image",
-    {
-      method: "POST",
-      headers: {
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: "Bearer " + SUPABASE_ANON_KEY,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        prefix: folder,
-        limit: 1000,
-        offset: 0,
-        sortBy: {
-          column: "name",
-          order: "asc"
-        }
-      })
-    }
-  );
+  {
+    folder: "cooking essentials",
+    title: "COOKING ESSENTIALS"
+  },
 
-  if (!response.ok) {
-    throw new Error("Could not load folder: " + folder);
+  {
+    folder: "PICKLES",
+    title: "PICKLES"
+  },
+
+  {
+    folder: "TEA & COFFE",
+    title: "TEA & COFFEE"
+  },
+
+  {
+    folder: "Chewing Gum",
+    title: "CHEWING GUM"
+  },
+
+  {
+    folder: "Candy Sweets & Candy Toys",
+    title: "CANDY SWEETS & CANDY TOYS"
+  },
+
+  {
+    folder: "chips",
+    title: "CHIPS"
+  },
+
+  {
+    folder: "NUTS",
+    title: "NUTS"
+  },
+
+  {
+    folder: "TOILETRIES",
+    title: "TOILETRIES"
+  },
+
+  {
+    folder: "TESSUE AND WIPES",
+    title: "TISSUE & WIPES"
+  },
+
+  {
+    folder: "TRADITIONAL",
+    title: "TRADITIONAL"
+  },
+
+  {
+    folder: "GENERAL PRODUCTS",
+    title: "GENERAL PRODUCTS"
+  },
+
+  {
+    folder: "Special offer",
+    title: "SPECIAL OFFER"
+  },
+
+  {
+    folder: "special-offer",
+    title: "SPECIAL OFFER"
   }
 
-  const files = await response.json();
+];
 
-const productResponse = await fetch(
-  SUPABASE_URL + "/rest/v1/product?select=image_url,is_active",
-  {
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: "Bearer " + SUPABASE_ANON_KEY
+
+function getAccessToken() {
+  return localStorage.getItem("km_admin_token");
+}
+
+
+/* ===========================
+   LOGIN
+=========================== */
+
+async function loginAdmin() {
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const message =
+    document.getElementById("loginMessage");
+
+  const button =
+    document.getElementById("loginButton");
+
+  message.textContent = "";
+
+  if (!email || !password) {
+    message.textContent =
+      "Please enter your email and password.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "LOGGING IN...";
+
+
+  try {
+
+    const response = await fetch(
+      SUPABASE_URL +
+      "/auth/v1/token?grant_type=password",
+      {
+        method: "POST",
+
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      }
+    );
+
+
+    const data = await response.json();
+
+
+    if (!response.ok || !data.access_token) {
+
+      message.textContent =
+        "Wrong email or password.";
+
+      button.disabled = false;
+      button.textContent = "LOGIN";
+
+      return;
     }
+
+
+    localStorage.setItem(
+      "km_admin_token",
+      data.access_token
+    );
+
+
+    if (data.refresh_token) {
+
+      localStorage.setItem(
+        "km_admin_refresh",
+        data.refresh_token
+      );
+
+    }
+
+
+    showAdmin();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    message.textContent =
+      "Could not connect to the server.";
+
+  }
+
+
+  button.disabled = false;
+  button.textContent = "LOGIN";
+
+}
+
+
+/* ===========================
+   CHECK LOGIN
+=========================== */
+
+async function checkLogin() {
+
+  const token = getAccessToken();
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+
+  }
+
+
+  try {
+
+    const response = await fetch(
+      SUPABASE_URL + "/auth/v1/user",
+      {
+        headers: {
+
+          apikey:
+            SUPABASE_ANON_KEY,
+
+          Authorization:
+            "Bearer " + token
+
+        }
+      }
+    );
+
+
+    if (!response.ok) {
+
+      localStorage.removeItem(
+        "km_admin_token"
+      );
+
+      localStorage.removeItem(
+        "km_admin_refresh"
+      );
+
+      showLogin();
+
+      return;
+
+    }
+
+
+    showAdmin();
+
+  }
+
+  catch (error) {
+
+    showLogin();
+
+  }
+
+}
+
+
+/* ===========================
+   SHOW ADMIN
+=========================== */
+
+function showAdmin() {
+
+  document.getElementById(
+    "loginArea"
+  ).style.display = "none";
+
+  document.getElementById(
+    "adminArea"
+  ).style.display = "block";
+
+  loadAdmin();
+
+}
+
+
+/* ===========================
+   SHOW LOGIN
+=========================== */
+
+function showLogin() {
+
+  document.getElementById(
+    "adminArea"
+  ).style.display = "none";
+
+  document.getElementById(
+    "loginArea"
+  ).style.display = "block";
+
+}
+
+
+/* ===========================
+   LOGOUT
+=========================== */
+
+async function logoutAdmin() {
+
+  const token =
+    getAccessToken();
+
+
+  if (token) {
+
+    try {
+
+      await fetch(
+        SUPABASE_URL +
+        "/auth/v1/logout",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            apikey:
+              SUPABASE_ANON_KEY,
+
+            Authorization:
+              "Bearer " + token
+
+          }
+
+        }
+      );
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+
+  localStorage.removeItem(
+    "km_admin_token"
+  );
+
+  localStorage.removeItem(
+    "km_admin_refresh"
+  );
+
+
+  document.getElementById(
+    "password"
+  ).value = "";
+
+
+  showLogin();
+
+}
+
+
+/* ===========================
+   IMAGE URL
+=========================== */
+
+function getImageUrl(folder, filename) {
+
+  return (
+
+    SUPABASE_URL +
+
+    "/storage/v1/object/public/product%20-image/" +
+
+    encodeURIComponent(folder) +
+
+    "/" +
+
+    encodeURIComponent(filename)
+
+  );
+
+}
+
+
+/* ===========================
+   LOAD FOLDER FILES
+=========================== */
+
+async function getFolderFiles(folder) {
+
+  const token =
+    getAccessToken();
+
+
+  const response = await fetch(
+
+    SUPABASE_URL +
+    "/storage/v1/object/list/product%20-image",
+
+    {
+
+      method: "POST",
+
+      headers: {
+
+        apikey:
+          SUPABASE_ANON_KEY,
+
+        Authorization:
+          "Bearer " + token,
+
+        "Content-Type":
+          "application/json"
+
+      },
+
+
+      body: JSON.stringify({
+
+        prefix: folder,
+
+        limit: 1000,
+
+        offset: 0,
+
+        sortBy: {
+
+          column: "name",
+
+          order: "asc"
+
+        }
+
+      })
+
+    }
+
+  );
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "Could not load folder: " +
+      folder
+    );
+
+  }
+
+
+  const files =
+    await response.json();
+
+
+  const productResponse =
+    await fetch(
+
+      SUPABASE_URL +
+      "/rest/v1/product?select=image_url,is_active",
+
+      {
+
+        headers: {
+
+          apikey:
+            SUPABASE_ANON_KEY,
+
+          Authorization:
+            "Bearer " + token
+
+        }
+
+      }
+
+    );
+
+
+  if (!productResponse.ok) {
+
+    throw new Error(
+      "Could not load product status"
+    );
+
+  }
+
+
+  const products =
+    await productResponse.json();
+
+
+  return files.map(file => {
+
+    const imageUrl =
+      getImageUrl(
+        folder,
+        file.name
+      );
+
+
+    const product =
+      products.find(
+        p =>
+          p.image_url ===
+          imageUrl
+      );
+
+
+    return {
+
+      ...file,
+
+      is_active:
+        product
+          ? product.is_active
+          : true
+
+    };
+
+  });
+
+}
+
+
+/* ===========================
+   LOAD ADMIN PRODUCTS
+=========================== */
+
+async function loadAdmin() {
+
+  const admin =
+    document.getElementById(
+      "admin"
+    );
+
+
+  admin.innerHTML =
+    '<div class="loading">Loading products...</div>';
+
+
+  try {
+
+    admin.innerHTML = "";
+
+
+    for (
+      const category
+      of categories
+    ) {
+
+
+      const files =
+        await getFolderFiles(
+          category.folder
+        );
+
+
+      const images =
+        files.filter(
+          file =>
+            /\.(png|jpg|jpeg|webp)$/i
+              .test(file.name)
+        );
+
+
+      const section =
+        document.createElement(
+          "section"
+        );
+
+
+      section.className =
+        "category";
+
+
+      const heading =
+        document.createElement(
+          "h2"
+        );
+
+
+      heading.textContent =
+        category.title;
+
+
+      const count =
+        document.createElement(
+          "div"
+        );
+
+
+      count.className =
+        "count";
+
+
+      count.textContent =
+        images.length +
+        " product(s)";
+
+
+      const grid =
+        document.createElement(
+          "div"
+        );
+
+
+      grid.className =
+        "grid";
+
+
+      images.forEach(file => {
+
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "product";
+
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+
+        img.src =
+          getImageUrl(
+            category.folder,
+            file.name
+          );
+
+
+        img.alt =
+          file.name;
+
+
+        const filename =
+          document.createElement(
+            "div"
+          );
+
+
+        filename.className =
+          "filename";
+
+
+        filename.textContent =
+          file.name;
+
+
+        const toggleArea =
+          document.createElement(
+            "div"
+          );
+
+
+        toggleArea.className =
+          "toggle-area";
+
+
+        const toggle =
+          document.createElement(
+            "input"
+          );
+
+
+        toggle.type =
+          "checkbox";
+
+
+        toggle.checked =
+          file.is_active !== false;
+
+
+        const label =
+          document.createElement(
+            "span"
+          );
+
+
+        label.textContent =
+          toggle.checked
+            ? " ON"
+            : " OFF";
+
+
+        toggleArea.appendChild(
+          toggle
+        );
+
+
+        toggleArea.appendChild(
+          label
+        );
+
+
+        toggle.addEventListener(
+          "change",
+          async () => {
+
+
+            label.textContent =
+              toggle.checked
+                ? " ON"
+                : " OFF";
+
+
+            const token =
+              getAccessToken();
+
+
+            const response =
+              await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/product?on_conflict=image_url",
+
+                {
+
+                  method:
+                    "POST",
+
+                  headers: {
+
+                    apikey:
+                      SUPABASE_ANON_KEY,
+
+                    Authorization:
+                      "Bearer " +
+                      token,
+
+                    "Content-Type":
+                      "application/json",
+
+                    Prefer:
+                      "resolution=merge-duplicates"
+
+                  },
+
+
+                  body:
+                    JSON.stringify({
+
+                      image_url:
+                        img.src,
+
+                      category:
+                        category.folder,
+
+                      is_active:
+                        toggle.checked
+
+                    })
+
+                }
+
+              );
+
+
+            if (!response.ok) {
+
+              alert(
+                "Could not update product"
+              );
+
+
+              toggle.checked =
+                !toggle.checked;
+
+
+              label.textContent =
+                toggle.checked
+                  ? " ON"
+                  : " OFF";
+
+            }
+
+          }
+        );
+
+
+        card.appendChild(
+          toggleArea
+        );
+
+
+        card.appendChild(
+          img
+        );
+
+
+        card.appendChild(
+          filename
+        );
+
+
+        grid.appendChild(
+          card
+        );
+
+      });
+
+
+      section.appendChild(
+        heading
+      );
+
+
+      section.appendChild(
+        count
+      );
+
+
+      section.appendChild(
+        grid
+      );
+
+
+      admin.appendChild(
+        section
+      );
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    admin.innerHTML =
+      '<div class="error">Could not load the products. Please check your login or Supabase permissions.</div>';
+
+  }
+
+}
+
+
+/* PRESS ENTER TO LOGIN */
+
+document.getElementById(
+  "password"
+).addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Enter"
+    ) {
+
+      loginAdmin();
+
+    }
+
   }
 );
 
-const products = await productResponse.json();
 
-return files.map(file => {
-  const imageUrl = getImageUrl(folder, file.name);
-  const product = products.find(p => p.image_url === imageUrl);
+/* START */
 
-  return {
-    ...file,
-    is_active: product ? product.is_active : true
-  };
-});
-}
+checkLogin();
 
-function getImageUrl(folder, filename) {
-  return (
-    SUPABASE_URL +
-    "/storage/v1/object/public/product%20-image/" +
-    encodeURIComponent(folder) +
-    "/" +
-    encodeURIComponent(filename)
-  );
-}
-
-async function loadAdmin() {
-  const admin = document.getElementById("admin");
-  admin.innerHTML = "";
-
-  try {
-    for (const category of categories) {
-      const files = await getFolderFiles(category.folder);
-
-      const images = files.filter(file =>
-        /\.(png|jpg|jpeg|webp)$/i.test(file.name)
-      );
-
-      const section = document.createElement("section");
-      section.className = "category";
-
-      const heading = document.createElement("h2");
-      heading.textContent = category.title;
-
-      const count = document.createElement("div");
-      count.className = "count";
-      count.textContent = images.length + " product(s)";
-
-      const grid = document.createElement("div");
-      grid.className = "grid";
-
-      images.forEach(file => {
-        const card = document.createElement("div");
-        card.className = "product";
-
-        const img = document.createElement("img");
-        img.src = getImageUrl(category.folder, file.name);
-        img.alt = file.name;
-
-        const filename = document.createElement("div");
-        filename.className = "filename";
-        filename.textContent = file.name;
-const toggle = document.createElement("input");
-toggle.type = "checkbox";
-toggle.checked = file.is_active !== false;
-card.appendChild(toggle);
-        toggle.addEventListener("change", async () => {
-  const response = await fetch(
-    SUPABASE_URL + "/rest/v1/product?on_conflict=image_url",
-    {
-      method: "POST",
-      headers: {
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: "Bearer " + SUPABASE_ANON_KEY,
-        "Content-Type": "application/json",
-        Prefer: "resolution=merge-duplicates"
-      },
-      body: JSON.stringify({
-        image_url: img.src,
-        category: category.folder,
-        is_active: toggle.checked
-      })
-    }
-  );
-
-  if (!response.ok) {
-    alert("Could not update product");
-    toggle.checked = !toggle.checked;
-  }
-});
-        card.appendChild(img);
-        card.appendChild(filename);
-        grid.appendChild(card);
-      });
-
-      section.appendChild(heading);
-      section.appendChild(count);
-      section.appendChild(grid);
-
-      admin.appendChild(section);
-    }
-  } catch (error) {
-    console.error(error);
-
-    admin.innerHTML =
-      '<div class="error">Could not load the products.</div>';
-  }
-}
-
-loadAdmin();
 </script>
 
 </body>
