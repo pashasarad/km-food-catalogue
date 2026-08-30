@@ -199,11 +199,29 @@
     .search-box input:focus {
       border-color: #d4a62a;
     }
+/* SMALL MOVING SEARCH */
 
+.floating-search {
+    position: fixed;
+    right: 15px;
+    bottom: 20px;
+    z-index: 9999;
+}
+
+.floating-search input {
+    width: 150px;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 2px solid #003e2b;
+    border-radius: 25px;
+    background: white;
+    outline: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
     /* ========================================
        OPTIONAL CATEGORY BUTTONS
        ======================================== */
-
+4
     .category-filter {
       max-width: 794px;
       margin: 15px auto;
@@ -661,7 +679,26 @@ title:
         searchBox
       );
 
+// ===== SMALL MOVING SEARCH =====
 
+const floatingSearch = document.createElement("div");
+floatingSearch.className = "floating-search";
+
+const floatingSearchInput = document.createElement("input");
+floatingSearchInput.type = "search";
+floatingSearchInput.placeholder = "🔍 Search...";
+floatingSearchInput.autocomplete = "off";
+
+floatingSearchInput.addEventListener("input", function () {
+    searchInput.value = floatingSearchInput.value;
+
+    searchInput.dispatchEvent(
+        new Event("input", { bubbles: true })
+    );
+});
+
+floatingSearch.appendChild(floatingSearchInput);
+document.body.appendChild(floatingSearch);
       /* ========================================
          NO RESULTS MESSAGE
          ======================================== */
