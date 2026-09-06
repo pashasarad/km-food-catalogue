@@ -199,29 +199,31 @@
     .search-box input:focus {
       border-color: #d4a62a;
     }
-/* SMALL MOVING SEARCH */
 
-.floating-search {
-    position: fixed;
-    right: 15px;
-    bottom: 20px;
-    z-index: 9999;
-}
+    /* SMALL MOVING SEARCH */
 
-.floating-search input {
-    width: 150px;
-    padding: 10px 14px;
-    font-size: 14px;
-    border: 2px solid #003e2b;
-    border-radius: 25px;
-    background: white;
-    outline: none;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
-}
+    .floating-search {
+      position: fixed;
+      right: 15px;
+      bottom: 20px;
+      z-index: 9999;
+    }
+
+    .floating-search input {
+      width: 150px;
+      padding: 10px 14px;
+      font-size: 14px;
+      border: 2px solid #003e2b;
+      border-radius: 25px;
+      background: white;
+      outline: none;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    }
+
     /* ========================================
        OPTIONAL CATEGORY BUTTONS
        ======================================== */
-4
+
     .category-filter {
       max-width: 794px;
       margin: 15px auto;
@@ -288,13 +290,6 @@
 
   /* ========================================
      NORMALIZE TEXT FOR SEARCH
-
-     Example:
-     Karoon-Basmati_-5KG.png
-
-     becomes:
-
-     karoon basmati  5kg
      ======================================== */
 
   function normalizeSearchText(text) {
@@ -308,28 +303,16 @@
     try {
       value = decodeURIComponent(value);
     } catch (error) {
-      // Keep original value if decoding is not needed.
+      // Keep original value.
     }
 
     return value
-
-      /* remove file extension */
       .replace(/\.(png|jpg|jpeg|webp)$/i, "")
-
-      /* convert underscores and hyphens into spaces */
       .replace(/[_-]+/g, " ")
-
-      /* make & searchable like a space */
       .replace(/&/g, " ")
-
-      /* remove brackets and punctuation */
       .replace(/[()[\]{}.,/\\|:;'"!?+*=<>@#$%^`~]/g, " ")
-
-      /* clean multiple spaces */
       .replace(/\s+/g, " ")
-
       .trim()
-
       .toLowerCase();
   }
 
@@ -344,13 +327,16 @@
       SUPABASE_URL + path,
       {
         headers: {
-          apikey:
-            SUPABASE_ANON_KEY,
-
+          apikey: SUPABASE_ANON_KEY,
           Authorization:
-            "Bearer " +
-            SUPABASE_ANON_KEY
-        }
+            "Bearer " + SUPABASE_ANON_KEY
+        },
+
+        /*
+          IMPORTANT:
+          Do not use old cached REST responses.
+        */
+        cache: "no-store"
       }
     );
 
@@ -403,16 +389,63 @@
 
   /* ========================================
      CREATE PRODUCT IMAGE URL
+
+     IMPORTANT FIX:
+     Every image can receive a unique version.
+     This prevents the browser/CDN from
+     showing an older picture.
      ======================================== */
 
-  function getImageUrl(folder, filename) {
+  function getImageUrl(
+    folder,
+    filename,
+    version = ""
+  ) {
 
-    return (
+    const baseUrl =
       SUPABASE_URL +
       "/storage/v1/object/public/product%20-image/" +
       encodeURIComponent(folder) +
       "/" +
-      encodeURIComponent(filename)
+      encodeURIComponent(filename);
+
+    if (!version) {
+      return baseUrl;
+    }
+
+    return (
+      baseUrl +
+      "?v=" +
+      encodeURIComponent(version)
+    );
+  }
+
+
+  /* ========================================
+     GET VERSION OF SUPABASE FILE
+     ======================================== */
+
+  function getFileVersion(file) {
+
+    if (!file) {
+      return Date.now();
+    }
+
+    /*
+      Supabase normally returns updated_at.
+
+      We also check other possible metadata
+      fields as a fallback.
+    */
+
+    return (
+      file.updated_at ||
+      file.updatedAt ||
+      file.last_modified ||
+      file.lastModified ||
+      file.created_at ||
+      file.createdAt ||
+      Date.now()
     );
   }
 
@@ -441,7 +474,9 @@
       document.createElement("img");
 
     image.src =
-      SPECIAL_OFFER_BANNER_URL;
+      SPECIAL_OFFER_BANNER_URL +
+      "?v=" +
+      Date.now();
 
     image.alt =
       "Special Offer";
@@ -486,8 +521,20 @@
             "img"
           );
 
+        /*
+          Cache-bust static pages too.
+        */
+
+        const separator =
+          pageData.image_url.includes("?")
+            ? "&"
+            : "?";
+
         image.src =
-          pageData.image_url;
+          pageData.image_url +
+          separator +
+          "v=" +
+          Date.now();
 
         image.className =
           "static-page";
@@ -515,118 +562,99 @@
       const categories = [
 
         {
-          folder:
-            SPECIAL_OFFER_FOLDER,
-
-          title:
-            "SPECIAL OFFER"
+          folder: SPECIAL_OFFER_FOLDER,
+          title: "SPECIAL OFFER"
         },
 
         {
-          folder:
-            "rise",
-
-          title:
-            
-          "RICE"
+          folder: "rise",
+          title: "RICE"
         },
 
         {
-          folder:
-            "cooking essentials",
-
-          title:
-            "COOKING ESSENTIALS"
-        },
-        {
-  folder: "SAUCES",
-  title: "SAUCES"
-},
-
-        {
-          folder:
-            "PICKLES",
-
-          title:
-            "PICKLES"
+          folder: "cooking essentials",
+          title: "COOKING ESSENTIALS"
         },
 
         {
-          folder:
-            "spices",
-
-          title:
-            "SPICES"
+          folder: "SAUCES",
+          title: "SAUCES"
         },
 
         {
-          folder:
-            "beans&chickpease",
-
-          title:
-            "BEANS & CHICKPEAS"
-        },
-        {
-  folder: "PULSES",
-  title: "PULSES"
-},
-
-        {
-          folder:
-            "drink",
-
-          title:
-            "DRINKS"
+          folder: "PICKLES",
+          title: "PICKLES"
         },
 
         {
-          folder:
-            "TEA & COFFE",
-
-          title:
-            "TEA & COFFEE"
+          folder: "spices",
+          title: "SPICES"
         },
 
         {
-          folder:
-            "snacks",
+          folder: "beans&chickpease",
+          title: "BEANS & CHICKPEAS"
+        },
 
-          title:
-            "SNACKS & SWEETS"
-        } ,
         {
-  folder: "Chewing Gum",
-  title: "CHEWING GUM"
-},
-        { folder: "Candy Sweets & Candy Toys",
-title:
-    "CANDY SWEETS & CANDY TOYS"
-},
-{
-  folder: "chips",
-  title: "CHIPS"
-},
+          folder: "PULSES",
+          title: "PULSES"
+        },
 
-{
-  folder: "NUTS",
-  title: "NUTS"
-},
         {
-  folder: "TOILETRIES",
-  title: "TOILETRIES"
-},
+          folder: "drink",
+          title: "DRINKS"
+        },
+
         {
-  folder: "TESSUE AND WIPES",
-  title: "TISSUE & WIPES"
-},
-         {folder: "TRADITIONAL",
-title:
-    "TRADITIONAL"
-}, 
-        { folder: "GENERAL PRODUCTS",
-title:
-    "GENERAL PRODUCTS"
-},
+          folder: "TEA & COFFE",
+          title: "TEA & COFFEE"
+        },
+
+        {
+          folder: "snacks",
+          title: "SNACKS & SWEETS"
+        },
+
+        {
+          folder: "Chewing Gum",
+          title: "CHEWING GUM"
+        },
+
+        {
+          folder: "Candy Sweets & Candy Toys",
+          title: "CANDY SWEETS & CANDY TOYS"
+        },
+
+        {
+          folder: "chips",
+          title: "CHIPS"
+        },
+
+        {
+          folder: "NUTS",
+          title: "NUTS"
+        },
+
+        {
+          folder: "TOILETRIES",
+          title: "TOILETRIES"
+        },
+
+        {
+          folder: "TESSUE AND WIPES",
+          title: "TISSUE & WIPES"
+        },
+
+        {
+          folder: "TRADITIONAL",
+          title: "TRADITIONAL"
+        },
+
+        {
+          folder: "GENERAL PRODUCTS",
+          title: "GENERAL PRODUCTS"
+        }
 
       ];
 
@@ -680,26 +708,57 @@ title:
         searchBox
       );
 
-// ===== SMALL MOVING SEARCH =====
 
-const floatingSearch = document.createElement("div");
-floatingSearch.className = "floating-search";
+      /* ========================================
+         SMALL MOVING SEARCH
+         ======================================== */
 
-const floatingSearchInput = document.createElement("input");
-floatingSearchInput.type = "search";
-floatingSearchInput.placeholder = "🔍 Search...";
-floatingSearchInput.autocomplete = "off";
+      const floatingSearch =
+        document.createElement("div");
 
-floatingSearchInput.addEventListener("input", function () {
-    searchInput.value = floatingSearchInput.value;
+      floatingSearch.className =
+        "floating-search";
 
-    searchInput.dispatchEvent(
-        new Event("input", { bubbles: true })
-    );
-});
 
-floatingSearch.appendChild(floatingSearchInput);
-document.body.appendChild(floatingSearch);
+      const floatingSearchInput =
+        document.createElement("input");
+
+      floatingSearchInput.type =
+        "search";
+
+      floatingSearchInput.placeholder =
+        "🔍 Search...";
+
+      floatingSearchInput.autocomplete =
+        "off";
+
+
+      floatingSearchInput.addEventListener(
+        "input",
+        function () {
+
+          searchInput.value =
+            floatingSearchInput.value;
+
+          searchInput.dispatchEvent(
+            new Event(
+              "input",
+              { bubbles: true }
+            )
+          );
+        }
+      );
+
+
+      floatingSearch.appendChild(
+        floatingSearchInput
+      );
+
+      document.body.appendChild(
+        floatingSearch
+      );
+
+
       /* ========================================
          NO RESULTS MESSAGE
          ======================================== */
@@ -738,8 +797,7 @@ document.body.appendChild(floatingSearch);
             "/storage/v1/object/list/product%20-image",
 
             {
-              method:
-                "POST",
+              method: "POST",
 
               headers: {
 
@@ -754,24 +812,21 @@ document.body.appendChild(floatingSearch);
                   "application/json"
               },
 
+              cache: "no-store",
+
               body:
                 JSON.stringify({
 
                   prefix:
                     category.folder,
 
-                  limit:
-                    1000,
+                  limit: 1000,
 
-                  offset:
-                    0,
+                  offset: 0,
 
                   sortBy: {
-                    column:
-                      "name",
-
-                    order:
-                      "asc"
+                    column: "name",
+                    order: "asc"
                   }
 
                 })
@@ -862,6 +917,14 @@ document.body.appendChild(floatingSearch);
 
         const images =
           imageFiles.filter(file => {
+
+            /*
+              IMPORTANT:
+
+              Database image_url should be
+              compared WITHOUT ?v= because
+              database stores the original URL.
+            */
 
             const imageUrl =
               getImageUrl(
@@ -1049,20 +1112,6 @@ document.body.appendChild(floatingSearch);
               "card product-card";
 
 
-            /*
-              IMPORTANT SEARCH FIX:
-
-              Store the cleaned filename.
-
-              Example:
-
-              "Karoon-Basmati--5KG.png"
-
-              becomes:
-
-              "karoon basmati  5kg"
-            */
-
             const searchableName =
               normalizeSearchText(
                 file.name
@@ -1077,16 +1126,49 @@ document.body.appendChild(floatingSearch);
               file.name;
 
 
+            /* ====================================
+               PRODUCT IMAGE
+
+               MAIN IMAGE FIX IS HERE
+               ==================================== */
+
             const image =
               document.createElement(
                 "img"
               );
 
 
+            /*
+              Get the real Supabase file
+              modification/version value.
+            */
+
+            const imageVersion =
+              getFileVersion(file);
+
+
+            /*
+              Build the URL using THIS file's
+              exact folder + exact filename +
+              exact version.
+
+              Example:
+
+              drink/RANI PINEAPPLE.png
+                 ?v=2026-09-06...
+
+              If Pineapple is replaced,
+              updated_at changes.
+
+              Therefore browser must request
+              the NEW Pineapple picture.
+            */
+
             image.src =
               getImageUrl(
                 category.folder,
-                file.name
+                file.name,
+                imageVersion
               );
 
 
@@ -1094,8 +1176,69 @@ document.body.appendChild(floatingSearch);
               file.name;
 
 
+            image.dataset.filename =
+              file.name;
+
+
+            /*
+              Important:
+              Do not allow lazy-loading to
+              accidentally retain an old image
+              element while debugging.
+            */
+
             image.loading =
-              "lazy";
+              "eager";
+
+
+            image.decoding =
+              "async";
+
+
+            image.onerror =
+              function () {
+
+                console.error(
+                  "PRODUCT IMAGE FAILED:",
+                  {
+                    folder:
+                      category.folder,
+
+                    filename:
+                      file.name,
+
+                    version:
+                      imageVersion,
+
+                    url:
+                      image.src
+                  }
+                );
+              };
+
+
+            /*
+              This will show EXACTLY which
+              filename and URL the catalogue
+              is loading in browser console.
+            */
+
+            console.log(
+              "PRODUCT IMAGE:",
+              {
+                folder:
+                  category.folder,
+
+                filename:
+                  file.name,
+
+                version:
+                  imageVersion,
+
+                url:
+                  image.src
+              }
+            );
 
 
             card.appendChild(
@@ -1260,33 +1403,11 @@ document.body.appendChild(floatingSearch);
     }
 
 
-    /*
-      Clean customer's search.
-
-      Example:
-
-      "Karoon "
-
-      becomes:
-
-      "karoon "
-    */
-
     const search =
       normalizeSearchText(
         input.value
       );
 
-
-    /*
-      Turn search into separate words.
-
-      "karoon "
-
-      becomes:
-
-      ["karoon", ""]
-    */
 
     const searchTerms =
       search
@@ -1390,13 +1511,6 @@ document.body.appendChild(floatingSearch);
         );
 
 
-      /*
-        CATEGORY MATCH:
-
-        ALL search words must exist
-        in category name.
-      */
-
       const categoryMatch =
         searchTerms.every(
           term =>
@@ -1418,27 +1532,6 @@ document.body.appendChild(floatingSearch);
           );
 
 
-        /*
-          PRODUCT MATCH:
-
-          Every word typed by customer
-          can be anywhere in filename.
-
-          Example filename:
-
-          Karoon Basmati  5KG.png
-
-          Search:
-          karoon 
-
-          MATCH = YES
-
-          Search:
-           karoon
-
-          MATCH = YES
-        */
-
         const productMatch =
           searchTerms.every(
             term =>
@@ -1447,14 +1540,6 @@ document.body.appendChild(floatingSearch);
               )
           );
 
-
-        /*
-          If customer searches only
-          category name, show all items.
-
-          Otherwise only show
-          matching products.
-        */
 
         if (
           categoryMatch ||
@@ -1476,11 +1561,6 @@ document.body.appendChild(floatingSearch);
         }
       });
 
-
-      /*
-        Show page only when it
-        contains matching products.
-      */
 
       if (
         productsFoundOnPage > 0
