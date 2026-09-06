@@ -303,7 +303,7 @@
     try {
       value = decodeURIComponent(value);
     } catch (error) {
-      // Keep original value.
+      // Keep original value if decoding is not needed.
     }
 
     return value
@@ -327,16 +327,13 @@
       SUPABASE_URL + path,
       {
         headers: {
-          apikey: SUPABASE_ANON_KEY,
-          Authorization:
-            "Bearer " + SUPABASE_ANON_KEY
-        },
+          apikey:
+            SUPABASE_ANON_KEY,
 
-        /*
-          IMPORTANT:
-          Do not use old cached REST responses.
-        */
-        cache: "no-store"
+          Authorization:
+            "Bearer " +
+            SUPABASE_ANON_KEY
+        }
       }
     );
 
@@ -389,63 +386,17 @@
 
   /* ========================================
      CREATE PRODUCT IMAGE URL
-
-     IMPORTANT FIX:
-     Every image can receive a unique version.
-     This prevents the browser/CDN from
-     showing an older picture.
+     FAST VERSION
      ======================================== */
 
-  function getImageUrl(
-    folder,
-    filename,
-    version = ""
-  ) {
+  function getImageUrl(folder, filename) {
 
-    const baseUrl =
+    return (
       SUPABASE_URL +
       "/storage/v1/object/public/product%20-image/" +
       encodeURIComponent(folder) +
       "/" +
-      encodeURIComponent(filename);
-
-    if (!version) {
-      return baseUrl;
-    }
-
-    return (
-      baseUrl +
-      "?v=" +
-      encodeURIComponent(version)
-    );
-  }
-
-
-  /* ========================================
-     GET VERSION OF SUPABASE FILE
-     ======================================== */
-
-  function getFileVersion(file) {
-
-    if (!file) {
-      return Date.now();
-    }
-
-    /*
-      Supabase normally returns updated_at.
-
-      We also check other possible metadata
-      fields as a fallback.
-    */
-
-    return (
-      file.updated_at ||
-      file.updatedAt ||
-      file.last_modified ||
-      file.lastModified ||
-      file.created_at ||
-      file.createdAt ||
-      Date.now()
+      encodeURIComponent(filename)
     );
   }
 
@@ -474,9 +425,7 @@
       document.createElement("img");
 
     image.src =
-      SPECIAL_OFFER_BANNER_URL +
-      "?v=" +
-      Date.now();
+      SPECIAL_OFFER_BANNER_URL;
 
     image.alt =
       "Special Offer";
@@ -521,20 +470,8 @@
             "img"
           );
 
-        /*
-          Cache-bust static pages too.
-        */
-
-        const separator =
-          pageData.image_url.includes("?")
-            ? "&"
-            : "?";
-
         image.src =
-          pageData.image_url +
-          separator +
-          "v=" +
-          Date.now();
+          pageData.image_url;
 
         image.className =
           "static-page";
@@ -562,18 +499,27 @@
       const categories = [
 
         {
-          folder: SPECIAL_OFFER_FOLDER,
-          title: "SPECIAL OFFER"
+          folder:
+            SPECIAL_OFFER_FOLDER,
+
+          title:
+            "SPECIAL OFFER"
         },
 
         {
-          folder: "rise",
-          title: "RICE"
+          folder:
+            "rise",
+
+          title:
+            "RICE"
         },
 
         {
-          folder: "cooking essentials",
-          title: "COOKING ESSENTIALS"
+          folder:
+            "cooking essentials",
+
+          title:
+            "COOKING ESSENTIALS"
         },
 
         {
@@ -582,18 +528,27 @@
         },
 
         {
-          folder: "PICKLES",
-          title: "PICKLES"
+          folder:
+            "PICKLES",
+
+          title:
+            "PICKLES"
         },
 
         {
-          folder: "spices",
-          title: "SPICES"
+          folder:
+            "spices",
+
+          title:
+            "SPICES"
         },
 
         {
-          folder: "beans&chickpease",
-          title: "BEANS & CHICKPEAS"
+          folder:
+            "beans&chickpease",
+
+          title:
+            "BEANS & CHICKPEAS"
         },
 
         {
@@ -602,18 +557,27 @@
         },
 
         {
-          folder: "drink",
-          title: "DRINKS"
+          folder:
+            "drink",
+
+          title:
+            "DRINKS"
         },
 
         {
-          folder: "TEA & COFFE",
-          title: "TEA & COFFEE"
+          folder:
+            "TEA & COFFE",
+
+          title:
+            "TEA & COFFEE"
         },
 
         {
-          folder: "snacks",
-          title: "SNACKS & SWEETS"
+          folder:
+            "snacks",
+
+          title:
+            "SNACKS & SWEETS"
         },
 
         {
@@ -797,7 +761,8 @@
             "/storage/v1/object/list/product%20-image",
 
             {
-              method: "POST",
+              method:
+                "POST",
 
               headers: {
 
@@ -812,21 +777,24 @@
                   "application/json"
               },
 
-              cache: "no-store",
-
               body:
                 JSON.stringify({
 
                   prefix:
                     category.folder,
 
-                  limit: 1000,
+                  limit:
+                    1000,
 
-                  offset: 0,
+                  offset:
+                    0,
 
                   sortBy: {
-                    column: "name",
-                    order: "asc"
+                    column:
+                      "name",
+
+                    order:
+                      "asc"
                   }
 
                 })
@@ -917,14 +885,6 @@
 
         const images =
           imageFiles.filter(file => {
-
-            /*
-              IMPORTANT:
-
-              Database image_url should be
-              compared WITHOUT ?v= because
-              database stores the original URL.
-            */
 
             const imageUrl =
               getImageUrl(
@@ -1127,9 +1087,7 @@
 
 
             /* ====================================
-               PRODUCT IMAGE
-
-               MAIN IMAGE FIX IS HERE
+               FAST PRODUCT IMAGE
                ==================================== */
 
             const image =
@@ -1138,37 +1096,10 @@
               );
 
 
-            /*
-              Get the real Supabase file
-              modification/version value.
-            */
-
-            const imageVersion =
-              getFileVersion(file);
-
-
-            /*
-              Build the URL using THIS file's
-              exact folder + exact filename +
-              exact version.
-
-              Example:
-
-              drink/RANI PINEAPPLE.png
-                 ?v=2026-09-06...
-
-              If Pineapple is replaced,
-              updated_at changes.
-
-              Therefore browser must request
-              the NEW Pineapple picture.
-            */
-
             image.src =
               getImageUrl(
                 category.folder,
-                file.name,
-                imageVersion
+                file.name
               );
 
 
@@ -1176,69 +1107,13 @@
               file.name;
 
 
-            image.dataset.filename =
-              file.name;
-
-
             /*
-              Important:
-              Do not allow lazy-loading to
-              accidentally retain an old image
-              element while debugging.
+              FAST:
+              Only load images when needed.
             */
 
             image.loading =
-              "eager";
-
-
-            image.decoding =
-              "async";
-
-
-            image.onerror =
-              function () {
-
-                console.error(
-                  "PRODUCT IMAGE FAILED:",
-                  {
-                    folder:
-                      category.folder,
-
-                    filename:
-                      file.name,
-
-                    version:
-                      imageVersion,
-
-                    url:
-                      image.src
-                  }
-                );
-              };
-
-
-            /*
-              This will show EXACTLY which
-              filename and URL the catalogue
-              is loading in browser console.
-            */
-
-            console.log(
-              "PRODUCT IMAGE:",
-              {
-                folder:
-                  category.folder,
-
-                filename:
-                  file.name,
-
-                version:
-                  imageVersion,
-
-                url:
-                  image.src
-              }
-            );
+              "lazy";
 
 
             card.appendChild(
