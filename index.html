@@ -1,269 +1,271 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>K&M Food Catalogue</title>
+<title>K&M Food Catalogue</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      background: #eee;
-      font-family: Arial, sans-serif;
-    }
+body {
+  margin: 0;
+  background: #eee;
+  font-family: Arial, sans-serif;
+}
 
-    #catalogue {
-      width: 100%;
-      max-width: 794px;
-      margin: auto;
-      padding: 20px 0;
-    }
+#catalogue {
+  width: 100%;
+  max-width: 794px;
+  margin: auto;
+  padding: 20px 0;
+}
 
-    .static-page,
-    .product-page {
-      width: 100%;
-      max-width: 794px;
-      aspect-ratio: 210 / 297;
-      background: white;
-      margin-bottom: 25px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-    }
+.static-page,
+.product-page {
+  width: 100%;
+  max-width: 794px;
+  aspect-ratio: 210 / 297;
+  background: white;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
 
-    .static-page {
-      object-fit: cover;
-      display: block;
-    }
+.static-page {
+  object-fit: cover;
+  display: block;
+}
 
-    .product-page {
-      position: relative;
-      overflow: hidden;
-      padding: 0;
-    }
+.product-page {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
 
-    /* ========================================
-       NORMAL CATEGORY HEADER
-       ======================================== */
+/* =========================
+   NORMAL HEADER
+   ========================= */
 
-    .header {
-      width: 100%;
-      height: 90px;
-      background: #003e2b;
-      color: white;
-      border-bottom: 5px solid #d4a62a;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 25px;
-    }
+.header {
+  width: 100%;
+  height: 90px;
+  background: #003e2b;
+  color: white;
+  border-bottom: 5px solid #d4a62a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+}
 
-    .header strong {
-      font-size: 18px;
-    }
+.header strong {
+  font-size: 18px;
+}
 
-    .header h2 {
-      margin: 0;
-      color: #e2b63d;
-      text-transform: uppercase;
-    }
+.header h2 {
+  margin: 0;
+  color: #e2b63d;
+  text-transform: uppercase;
+}
 
-    /* ========================================
-       SPECIAL OFFER TOP QUARTER
-       ======================================== */
+/* =========================
+   SPECIAL OFFER
+   ========================= */
 
-    .special-offer-banner {
-      width: 100%;
-      height: 25%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: white;
-      line-height: 0;
-    }
+.special-offer-banner {
+  width: 100%;
+  height: 25%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: white;
+  line-height: 0;
+}
 
-    .special-offer-banner img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: fill;
-      object-position: center;
-      margin: 0;
-      padding: 0;
-    }
+.special-offer-banner img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+  object-position: center;
+  margin: 0;
+  padding: 0;
+}
 
-    .special-offer-page {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
+.special-offer-page {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
-    .special-offer-page .special-offer-banner {
-      width: 100% !important;
-      max-width: none !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-    }
+.special-offer-page .special-offer-banner {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
 
-    /* ========================================
-       NORMAL CATEGORY: 6 PRODUCTS
-       ======================================== */
+/* =========================
+   NORMAL PAGE - 6 ITEMS
+   ========================= */
 
-    .grid {
-      width: 100%;
-      height: calc(100% - 90px);
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      column-gap: 8px;
-      row-gap: 0;
-      padding: 4px 8px 44px;
-    }
+.grid {
+  width: 100%;
+  height: calc(100% - 90px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  column-gap: 8px;
+  row-gap: 0;
+  padding: 4px 8px 44px;
+}
 
-    /* ========================================
-       SPECIAL OFFER: 4 PRODUCTS
-       ======================================== */
+/* =========================
+   SPECIAL OFFER - 4 ITEMS
+   ========================= */
 
-    .special-offer-page .grid {
-      height: calc(75% - 42px);
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      column-gap: 8px;
-      row-gap: 0;
-      padding: 4px 8px;
-    }
+.special-offer-page .grid {
+  height: calc(75% - 42px);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  column-gap: 8px;
+  row-gap: 0;
+  padding: 4px 8px;
+}
 
-    .card {
-      padding: 0;
-      margin: 0;
-      border: none;
-      background: transparent;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 0;
-      min-height: 0;
-    }
+.card {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+}
 
-    .card img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: contain;
-    }
+.card img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
 
-    /* ========================================
-       FOOTER
-       ======================================== */
+/* =========================
+   FOOTER
+   ========================= */
 
-    .footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 42px;
-      background: #003e2b;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      font-size: 11px;
-    }
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 42px;
+  background: #003e2b;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 11px;
+}
 
-    /* ========================================
-       SEARCH
-       ======================================== */
+/* =========================
+   MAIN SEARCH
+   ========================= */
 
-    .search-box {
-      width: 100%;
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
+.search-box {
+  width: 100%;
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
 
-    .search-box input {
-      width: 100%;
-      padding: 16px 20px;
-      font-size: 18px;
-      border: 2px solid #003e2b;
-      border-radius: 10px;
-      text-align: center;
-      outline: none;
-      background: white;
-    }
+.search-box input {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 18px;
+  border: 2px solid #003e2b;
+  border-radius: 10px;
+  text-align: center;
+  outline: none;
+  background: white;
+}
 
-    .search-box input:focus {
-      border-color: #d4a62a;
-    }
+.search-box input:focus {
+  border-color: #d4a62a;
+}
 
-    /* SMALL MOVING SEARCH */
+/* =========================
+   FLOATING SEARCH
+   ========================= */
 
-    .floating-search {
-      position: fixed;
-      right: 15px;
-      bottom: 20px;
-      z-index: 9999;
-    }
+.floating-search {
+  position: fixed;
+  right: 15px;
+  bottom: 20px;
+  z-index: 9999;
+}
 
-    .floating-search input {
-      width: 150px;
-      padding: 10px 14px;
-      font-size: 14px;
-      border: 2px solid #003e2b;
-      border-radius: 25px;
-      background: white;
-      outline: none;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.18);
-    }
+.floating-search input {
+  width: 150px;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 2px solid #003e2b;
+  border-radius: 25px;
+  background: white;
+  outline: none;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
 
-    /* ========================================
-       OPTIONAL CATEGORY BUTTONS
-       ======================================== */
+/* =========================
+   CATEGORY BUTTONS
+   ========================= */
 
-    .category-filter {
-      max-width: 794px;
-      margin: 15px auto;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+.category-filter {
+  max-width: 794px;
+  margin: 15px auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-    .category-filter button {
-      padding: 10px 16px;
-      border: none;
-      border-radius: 6px;
-      background: #003e2b;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.category-filter button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #003e2b;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .category-filter button:hover {
-      background: #d4a62a;
-      color: #003e2b;
-    }
+.category-filter button:hover {
+  background: #d4a62a;
+  color: #003e2b;
+}
 
-    /* ========================================
-       NO SEARCH RESULT
-       ======================================== */
+/* =========================
+   NO RESULTS
+   ========================= */
 
-    .no-results {
-      display: none;
-      max-width: 700px;
-      margin: 10px auto 30px;
-      padding: 20px;
-      text-align: center;
-      background: white;
-      color: #003e2b;
-      font-weight: bold;
-      border-radius: 8px;
-    }
-  </style>
+.no-results {
+  display: none;
+  max-width: 700px;
+  margin: 10px auto 30px;
+  padding: 20px;
+  text-align: center;
+  background: white;
+  color: #003e2b;
+  font-weight: bold;
+  border-radius: 8px;
+}
+</style>
 </head>
 
 <body>
@@ -274,1203 +276,1328 @@
 
 <script>
 
-  /* ========================================
-     SUPABASE SETTINGS
-     ======================================== */
+/* =========================
+   SUPABASE
+   ========================= */
 
-  const SUPABASE_URL =
-    "https://gynnbpmghwwzimdzhxfw.supabase.co";
+const SUPABASE_URL =
+  "https://gynnbpmghwwzimdzhxfw.supabase.co";
 
-  const SUPABASE_ANON_KEY =
-    "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
+const SUPABASE_ANON_KEY =
+  "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
 
-  const SPECIAL_OFFER_FOLDER =
-    "special-offer";
+const SPECIAL_OFFER_FOLDER =
+  "special-offer";
 
 
-  /* ========================================
-     NORMALIZE TEXT FOR SEARCH
-     ======================================== */
+/* =========================
+   NORMALIZE SEARCH TEXT
+   ========================= */
 
-  function normalizeSearchText(text) {
+function normalizeSearchText(text) {
 
-    if (!text) {
-      return "";
-    }
-
-    let value = String(text);
-
-    try {
-      value = decodeURIComponent(value);
-    } catch (error) {
-      // Keep original value if decoding is not needed.
-    }
-
-    return value
-      .replace(/\.(png|jpg|jpeg|webp)$/i, "")
-      .replace(/[_-]+/g, " ")
-      .replace(/&/g, " ")
-      .replace(/[()[\]{}.,/\\|:;'"!?+*=<>@#$%^`~]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim()
-      .toLowerCase();
+  if (!text) {
+    return "";
   }
 
+  let value = String(text);
 
-  /* ========================================
-     GET DATA FROM SUPABASE
-     ======================================== */
+  try {
+    value = decodeURIComponent(value);
+  } catch (error) {}
 
-  async function getData(path) {
+  return value
+    .replace(/\.(png|jpg|jpeg|webp)$/i, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/&/g, " ")
+    .replace(/[()[\]{}.,/\\|:;'"!?+*=<>@#$%^`~]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
 
-    const response = await fetch(
+
+/* =========================
+   GET SUPABASE DATA
+   ========================= */
+
+async function getData(path) {
+
+  const response =
+    await fetch(
       SUPABASE_URL + path,
       {
         headers: {
-          apikey:
-            SUPABASE_ANON_KEY,
-
+          apikey: SUPABASE_ANON_KEY,
           Authorization:
-            "Bearer " +
-            SUPABASE_ANON_KEY
+            "Bearer " + SUPABASE_ANON_KEY
         }
       }
     );
 
-    if (!response.ok) {
+  if (!response.ok) {
 
-      const errorText =
-        await response.text();
+    const errorText =
+      await response.text();
 
-      console.error(
-        "Supabase request failed:",
-        response.status,
-        errorText
-      );
+    console.error(
+      "Supabase request failed:",
+      response.status,
+      errorText
+    );
 
-      throw new Error(
-        "Request failed: " +
-        response.status
-      );
-    }
-
-    return await response.json();
-  }
-
-
-  /* ========================================
-     SPLIT ARRAY INTO GROUPS
-     ======================================== */
-
-  function chunks(array, size) {
-
-    const output = [];
-
-    for (
-      let i = 0;
-      i < array.length;
-      i += size
-    ) {
-
-      output.push(
-        array.slice(
-          i,
-          i + size
-        )
-      );
-    }
-
-    return output;
-  }
-
-
-  /* ========================================
-     CREATE PRODUCT IMAGE URL
-     FAST VERSION
-     ======================================== */
-
-  function getImageUrl(folder, filename) {
-
-    return (
-      SUPABASE_URL +
-      "/storage/v1/object/public/product%20-image/" +
-      encodeURIComponent(folder) +
-      "/" +
-      encodeURIComponent(filename)
+    throw new Error(
+      "Request failed: " +
+      response.status
     );
   }
 
+  return await response.json();
+}
 
-  /* ========================================
-     SPECIAL OFFER BANNER
-     ======================================== */
 
-  const SPECIAL_OFFER_BANNER_URL =
-    getImageUrl(
-      "special-offer",
-      "Codex Image 23 Aug 2026, 12_07_13.png"
+/* =========================
+   CHUNKS
+   ========================= */
+
+function chunks(array, size) {
+
+  const output = [];
+
+  for (
+    let i = 0;
+    i < array.length;
+    i += size
+  ) {
+
+    output.push(
+      array.slice(i, i + size)
     );
+  }
+
+  return output;
+}
 
 
-  function createSpecialOfferBanner() {
+/* =========================
+   FAST IMAGE URL
+   ========================= */
 
-    const banner =
+function getImageUrl(folder, filename) {
+
+  return (
+    SUPABASE_URL +
+    "/storage/v1/object/public/product%20-image/" +
+    encodeURIComponent(folder) +
+    "/" +
+    encodeURIComponent(filename)
+  );
+}
+
+
+/* =========================
+   SPECIAL OFFER BANNER
+   ========================= */
+
+const SPECIAL_OFFER_BANNER_URL =
+  getImageUrl(
+    "special-offer",
+    "Codex Image 23 Aug 2026, 12_07_13.png"
+  );
+
+
+function createSpecialOfferBanner() {
+
+  const banner =
+    document.createElement("div");
+
+  banner.className =
+    "special-offer-banner";
+
+  const image =
+    document.createElement("img");
+
+  image.src =
+    SPECIAL_OFFER_BANNER_URL;
+
+  image.alt =
+    "Special Offer";
+
+  banner.appendChild(image);
+
+  return banner;
+}
+
+
+/* =========================
+   LOAD CATALOGUE
+   ========================= */
+
+async function loadCatalogue() {
+
+  const catalogue =
+    document.getElementById("catalogue");
+
+  catalogue.innerHTML = "";
+
+  try {
+
+    /* =========================
+       STATIC PAGES
+       ========================= */
+
+    const pages =
+      await getData(
+        "/rest/v1/catalog_page?select=*&order=display_order.asc"
+      );
+
+    pages.forEach(pageData => {
+
+      const image =
+        document.createElement("img");
+
+      image.src =
+        pageData.image_url;
+
+      image.className =
+        "static-page";
+
+      image.loading =
+        "lazy";
+
+      catalogue.appendChild(image);
+    });
+
+
+    /* =========================
+       ACTIVE / INACTIVE PRODUCTS
+       ========================= */
+
+    const products =
+      await getData(
+        "/rest/v1/product?select=image_url,is_active"
+      );
+
+
+    /* =========================
+       CATEGORIES
+       ========================= */
+
+    const categories = [
+
+      {
+        folder: SPECIAL_OFFER_FOLDER,
+        title: "SPECIAL OFFER"
+      },
+
+      {
+        folder: "rise",
+        title: "RICE"
+      },
+
+      {
+        folder: "cooking essentials",
+        title: "COOKING ESSENTIALS"
+      },
+
+      {
+        folder: "SAUCES",
+        title: "SAUCES"
+      },
+
+      {
+        folder: "PICKLES",
+        title: "PICKLES"
+      },
+
+      {
+        folder: "spices",
+        title: "SPICES"
+      },
+
+      {
+        folder: "beans&chickpease",
+        title: "BEANS & CHICKPEAS"
+      },
+
+      {
+        folder: "PULSES",
+        title: "PULSES"
+      },
+
+      {
+        folder: "drink",
+        title: "DRINKS"
+      },
+
+      {
+        folder: "TEA & COFFE",
+        title: "TEA & COFFEE"
+      },
+
+      {
+        folder: "snacks",
+        title: "SNACKS & SWEETS"
+      },
+
+      {
+        folder: "Chewing Gum",
+        title: "CHEWING GUM"
+      },
+
+      {
+        folder: "Candy Sweets & Candy Toys",
+        title: "CANDY SWEETS & CANDY TOYS"
+      },
+
+      {
+        folder: "chips",
+        title: "CHIPS"
+      },
+
+      {
+        folder: "NUTS",
+        title: "NUTS"
+      },
+
+      {
+        folder: "TOILETRIES",
+        title: "TOILETRIES"
+      },
+
+      {
+        folder: "TESSUE AND WIPES",
+        title: "TISSUE & WIPES"
+      },
+
+      {
+        folder: "TRADITIONAL",
+        title: "TRADITIONAL"
+      },
+
+      {
+        folder: "GENERAL PRODUCTS",
+        title: "GENERAL PRODUCTS"
+      }
+
+    ];
+
+
+    let pageNumber =
+      pages.length + 1;
+
+
+    /* =========================
+       MAIN SEARCH BOX
+       ========================= */
+
+    const searchBox =
       document.createElement("div");
 
-    banner.className =
-      "special-offer-banner";
+    searchBox.className =
+      "search-box";
+
+    const searchInput =
+      document.createElement("input");
+
+    searchInput.type =
+      "search";
+
+    searchInput.id =
+      "categorySearch";
+
+    searchInput.placeholder =
+      "Search products...";
+
+    searchInput.autocomplete =
+      "off";
+
+    searchInput.addEventListener(
+      "input",
+      searchCategory
+    );
+
+    searchBox.appendChild(
+      searchInput
+    );
+
+    catalogue.appendChild(
+      searchBox
+    );
 
 
-    const image =
-      document.createElement("img");
+    /* =========================
+       FLOATING SEARCH
+       ========================= */
 
-    image.src =
-      SPECIAL_OFFER_BANNER_URL;
-
-    image.alt =
-      "Special Offer";
-
-
-    banner.appendChild(image);
-
-    return banner;
-  }
-
-
-  /* ========================================
-     LOAD CATALOGUE
-     ======================================== */
-
-  async function loadCatalogue() {
-
-    const catalogue =
-      document.getElementById(
-        "catalogue"
+    const oldFloating =
+      document.querySelector(
+        ".floating-search"
       );
 
-    catalogue.innerHTML = "";
+    if (oldFloating) {
+      oldFloating.remove();
+    }
 
 
-    try {
+    const floatingSearch =
+      document.createElement("div");
 
-      /* ========================================
-         LOAD STATIC CATALOGUE PAGES
-         ======================================== */
+    floatingSearch.className =
+      "floating-search";
 
-      const pages =
-        await getData(
-          "/rest/v1/catalog_page?select=*&order=display_order.asc"
+
+    const floatingSearchInput =
+      document.createElement("input");
+
+    floatingSearchInput.type =
+      "search";
+
+    floatingSearchInput.placeholder =
+      "🔍 Search...";
+
+    floatingSearchInput.autocomplete =
+      "off";
+
+
+    floatingSearchInput.addEventListener(
+      "input",
+      function () {
+
+        searchInput.value =
+          floatingSearchInput.value;
+
+        searchInput.dispatchEvent(
+          new Event(
+            "input",
+            { bubbles: true }
+          )
         );
+      }
+    );
 
 
-      pages.forEach(pageData => {
+    /* keep both search boxes matched */
 
-        const image =
-          document.createElement(
-            "img"
-          );
-
-        image.src =
-          pageData.image_url;
-
-        image.className =
-          "static-page";
-
-        catalogue.appendChild(
-          image
-        );
-      });
-
-
-      /* ========================================
-         LOAD PRODUCT ON / OFF STATUS
-         ======================================== */
-
-      const products =
-        await getData(
-          "/rest/v1/product?select=image_url,is_active"
-        );
-
-
-      /* ========================================
-         CATEGORY ORDER
-         ======================================== */
-
-      const categories = [
-
-        {
-          folder:
-            SPECIAL_OFFER_FOLDER,
-
-          title:
-            "SPECIAL OFFER"
-        },
-
-        {
-          folder:
-            "rise",
-
-          title:
-            "RICE"
-        },
-
-        {
-          folder:
-            "cooking essentials",
-
-          title:
-            "COOKING ESSENTIALS"
-        },
-
-        {
-          folder: "SAUCES",
-          title: "SAUCES"
-        },
-
-        {
-          folder:
-            "PICKLES",
-
-          title:
-            "PICKLES"
-        },
-
-        {
-          folder:
-            "spices",
-
-          title:
-            "SPICES"
-        },
-
-        {
-          folder:
-            "beans&chickpease",
-
-          title:
-            "BEANS & CHICKPEAS"
-        },
-
-        {
-          folder: "PULSES",
-          title: "PULSES"
-        },
-
-        {
-          folder:
-            "drink",
-
-          title:
-            "DRINKS"
-        },
-
-        {
-          folder:
-            "TEA & COFFE",
-
-          title:
-            "TEA & COFFEE"
-        },
-
-        {
-          folder:
-            "snacks",
-
-          title:
-            "SNACKS & SWEETS"
-        },
-
-        {
-          folder: "Chewing Gum",
-          title: "CHEWING GUM"
-        },
-
-        {
-          folder: "Candy Sweets & Candy Toys",
-          title: "CANDY SWEETS & CANDY TOYS"
-        },
-
-        {
-          folder: "chips",
-          title: "CHIPS"
-        },
-
-        {
-          folder: "NUTS",
-          title: "NUTS"
-        },
-
-        {
-          folder: "TOILETRIES",
-          title: "TOILETRIES"
-        },
-
-        {
-          folder: "TESSUE AND WIPES",
-          title: "TISSUE & WIPES"
-        },
-
-        {
-          folder: "TRADITIONAL",
-          title: "TRADITIONAL"
-        },
-
-        {
-          folder: "GENERAL PRODUCTS",
-          title: "GENERAL PRODUCTS"
-        }
-
-      ];
-
-
-      let pageNumber =
-        pages.length + 1;
-
-
-      /* ========================================
-         SEARCH BOX
-         ======================================== */
-
-      const searchBox =
-        document.createElement(
-          "div"
-        );
-
-      searchBox.className =
-        "search-box";
-
-
-      const searchInput =
-        document.createElement(
-          "input"
-        );
-
-      searchInput.type =
-        "search";
-
-      searchInput.id =
-        "categorySearch";
-
-      searchInput.placeholder =
-        "Search products...";
-
-      searchInput.autocomplete =
-        "off";
-
-      searchInput.addEventListener(
-        "input",
-        searchCategory
-      );
-
-
-      searchBox.appendChild(
-        searchInput
-      );
-
-
-      catalogue.appendChild(
-        searchBox
-      );
-
-
-      /* ========================================
-         SMALL MOVING SEARCH
-         ======================================== */
-
-      const floatingSearch =
-        document.createElement("div");
-
-      floatingSearch.className =
-        "floating-search";
-
-
-      const floatingSearchInput =
-        document.createElement("input");
-
-      floatingSearchInput.type =
-        "search";
-
-      floatingSearchInput.placeholder =
-        "🔍 Search...";
-
-      floatingSearchInput.autocomplete =
-        "off";
-
-
-      floatingSearchInput.addEventListener(
-        "input",
-        function () {
-
-          searchInput.value =
-            floatingSearchInput.value;
-
-          searchInput.dispatchEvent(
-            new Event(
-              "input",
-              { bubbles: true }
-            )
-          );
-        }
-      );
-
-
-      floatingSearch.appendChild(
-        floatingSearchInput
-      );
-
-      document.body.appendChild(
-        floatingSearch
-      );
-
-
-      /* ========================================
-         NO RESULTS MESSAGE
-         ======================================== */
-
-      const noResults =
-        document.createElement(
-          "div"
-        );
-
-      noResults.id =
-        "noSearchResults";
-
-      noResults.className =
-        "no-results";
-
-      noResults.textContent =
-        "No products found.";
-
-      catalogue.appendChild(
-        noResults
-      );
-
-
-      /* ========================================
-         LOAD EACH CATEGORY
-         ======================================== */
-
-      for (
-        const category of categories
-      ) {
-
-        const response =
-          await fetch(
-
-            SUPABASE_URL +
-            "/storage/v1/object/list/product%20-image",
-
-            {
-              method:
-                "POST",
-
-              headers: {
-
-                apikey:
-                  SUPABASE_ANON_KEY,
-
-                Authorization:
-                  "Bearer " +
-                  SUPABASE_ANON_KEY,
-
-                "Content-Type":
-                  "application/json"
-              },
-
-              body:
-                JSON.stringify({
-
-                  prefix:
-                    category.folder,
-
-                  limit:
-                    1000,
-
-                  offset:
-                    0,
-
-                  sortBy: {
-                    column:
-                      "name",
-
-                    order:
-                      "asc"
-                  }
-
-                })
-            }
-          );
-
-
-        if (!response.ok) {
-
-          const errorText =
-            await response.text();
-
-          console.error(
-            "Could not load category:",
-            category.folder,
-            response.status,
-            errorText
-          );
-
-          throw new Error(
-            "Could not load category: " +
-            category.folder
-          );
-        }
-
-
-        const files =
-          await response.json();
-
-
-        /* ========================================
-           GET REAL PRODUCT IMAGE FILES
-           ======================================== */
-
-        const imageFiles =
-          files.filter(file => {
-
-            if (
-              !file ||
-              !file.name
-            ) {
-              return false;
-            }
-
-
-            const isImage =
-              /\.(png|jpg|jpeg|webp)$/i
-                .test(
-                  file.name
-                );
-
-
-            if (!isImage) {
-              return false;
-            }
-
-
-            /* ==================================
-               DO NOT LOAD OFFER BANNER
-               AS A PRODUCT
-               ================================== */
-
-            const currentImageUrl =
-              getImageUrl(
-                category.folder,
-                file.name
-              );
-
-
-            if (
-              category.folder ===
-                SPECIAL_OFFER_FOLDER &&
-
-              currentImageUrl ===
-                SPECIAL_OFFER_BANNER_URL
-            ) {
-              return false;
-            }
-
-
-            return true;
-          });
-
-
-        /* ========================================
-           REMOVE PRODUCTS SWITCHED OFF
-           ======================================== */
-
-        const images =
-          imageFiles.filter(file => {
-
-            const imageUrl =
-              getImageUrl(
-                category.folder,
-                file.name
-              );
-
-
-            const product =
-              products.find(
-                item =>
-                  item.image_url ===
-                  imageUrl
-              );
-
-
-            if (
-              product &&
-              product.is_active === false
-            ) {
-              return false;
-            }
-
-
-            return true;
-          });
-
-
-        /* ========================================
-           EMPTY CATEGORY
-           ======================================== */
+    searchInput.addEventListener(
+      "input",
+      function () {
 
         if (
-          images.length === 0 &&
-          category.folder !==
-            SPECIAL_OFFER_FOLDER
+          floatingSearchInput.value !==
+          searchInput.value
         ) {
-          continue;
+
+          floatingSearchInput.value =
+            searchInput.value;
         }
+      }
+    );
 
 
-        /* ========================================
-           PRODUCTS PER PAGE
-           ======================================== */
+    floatingSearch.appendChild(
+      floatingSearchInput
+    );
 
-        const productsPerPage =
-          category.folder ===
-            SPECIAL_OFFER_FOLDER
-            ? 4
-            : 6;
+    document.body.appendChild(
+      floatingSearch
+    );
 
 
-        /* ========================================
-           CREATE GROUPS
-           ======================================== */
+    /* =========================
+       NO RESULTS
+       ========================= */
 
-        const groups =
+    const noResults =
+      document.createElement("div");
 
-          category.folder ===
-            SPECIAL_OFFER_FOLDER &&
+    noResults.id =
+      "noSearchResults";
 
-          images.length === 0
+    noResults.className =
+      "no-results";
 
-            ? [[]]
+    noResults.textContent =
+      "No products found.";
 
-            : chunks(
-                images,
-                productsPerPage
-              );
+    catalogue.appendChild(
+      noResults
+    );
 
 
-        /* ========================================
-           CREATE EACH PRODUCT PAGE
-           ======================================== */
+    /* =========================
+       LOAD CATEGORIES
+       ========================= */
 
-        groups.forEach(group => {
+    for (
+      const category of categories
+    ) {
 
-          const page =
-            document.createElement(
-              "div"
+      const response =
+        await fetch(
+
+          SUPABASE_URL +
+          "/storage/v1/object/list/product%20-image",
+
+          {
+            method: "POST",
+
+            headers: {
+
+              apikey:
+                SUPABASE_ANON_KEY,
+
+              Authorization:
+                "Bearer " +
+                SUPABASE_ANON_KEY,
+
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+
+                prefix:
+                  category.folder,
+
+                limit:
+                  1000,
+
+                offset:
+                  0,
+
+                sortBy: {
+                  column: "name",
+                  order: "asc"
+                }
+
+              })
+          }
+        );
+
+
+      if (!response.ok) {
+
+        const errorText =
+          await response.text();
+
+        console.error(
+          "Could not load category:",
+          category.folder,
+          response.status,
+          errorText
+        );
+
+        throw new Error(
+          "Could not load category: " +
+          category.folder
+        );
+      }
+
+
+      const files =
+        await response.json();
+
+
+      /* =========================
+         IMAGE FILES ONLY
+         ========================= */
+
+      const imageFiles =
+        files.filter(file => {
+
+          if (
+            !file ||
+            !file.name
+          ) {
+            return false;
+          }
+
+
+          const isImage =
+            /\.(png|jpg|jpeg|webp)$/i
+              .test(file.name);
+
+
+          if (!isImage) {
+            return false;
+          }
+
+
+          const currentImageUrl =
+            getImageUrl(
+              category.folder,
+              file.name
             );
-
-
-          page.className =
-            "product-page";
-
-
-          page.dataset.category =
-            normalizeSearchText(
-              category.folder
-            );
-
-
-          page.dataset.search =
-            normalizeSearchText(
-              category.title +
-              " " +
-              category.folder
-            );
-
-
-          /* ====================================
-             CREATE HEADER
-             ==================================== */
-
-          let header;
 
 
           if (
             category.folder ===
-            SPECIAL_OFFER_FOLDER
+              SPECIAL_OFFER_FOLDER &&
+
+            currentImageUrl ===
+              SPECIAL_OFFER_BANNER_URL
           ) {
-
-            page.classList.add(
-              "special-offer-page"
-            );
-
-
-            header =
-              createSpecialOfferBanner();
-
-          } else {
-
-            header =
-              document.createElement(
-                "div"
-              );
-
-
-            header.className =
-              "header";
-
-
-            const companyName =
-              document.createElement(
-                "strong"
-              );
-
-            companyName.textContent =
-              "K&M FOOD SUPPLIERS LTD";
-
-
-            const categoryTitle =
-              document.createElement(
-                "h2"
-              );
-
-            categoryTitle.textContent =
-              category.title;
-
-
-            header.appendChild(
-              companyName
-            );
-
-            header.appendChild(
-              categoryTitle
-            );
+            return false;
           }
 
 
-          /* ====================================
-             PRODUCT GRID
-             ==================================== */
-
-          const grid =
-            document.createElement(
-              "div"
-            );
-
-
-          grid.className =
-            "grid";
-
-
-          group.forEach(file => {
-
-            const card =
-              document.createElement(
-                "div"
-              );
-
-
-            card.className =
-              "card product-card";
-
-
-            const searchableName =
-              normalizeSearchText(
-                file.name
-              );
-
-
-            card.dataset.name =
-              searchableName;
-
-
-            card.dataset.originalName =
-              file.name;
-
-
-            /* ====================================
-               FAST PRODUCT IMAGE
-               ==================================== */
-
-            const image =
-              document.createElement(
-                "img"
-              );
-
-
-            image.src =
-              getImageUrl(
-                category.folder,
-                file.name
-              );
-
-
-            image.alt =
-              file.name;
-
-
-            /*
-              FAST:
-              Only load images when needed.
-            */
-
-            image.loading =
-              "lazy";
-
-
-            card.appendChild(
-              image
-            );
-
-
-            grid.appendChild(
-              card
-            );
-          });
-
-
-          /* ====================================
-             FOOTER
-             ==================================== */
-
-          const footer =
-            document.createElement(
-              "div"
-            );
-
-
-          footer.className =
-            "footer";
-
-
-          const footerText =
-            document.createElement(
-              "span"
-            );
-
-          footerText.textContent =
-            "QUALITY FOOD, TRUSTED EVERYTIME";
-
-
-          const pageText =
-            document.createElement(
-              "span"
-            );
-
-          pageText.textContent =
-            "PAGE " +
-            pageNumber;
-
-
-          footer.appendChild(
-            footerText
-          );
-
-          footer.appendChild(
-            pageText
-          );
-
-
-          /* ====================================
-             BUILD PAGE
-             ==================================== */
-
-          page.appendChild(
-            header
-          );
-
-          page.appendChild(
-            grid
-          );
-
-          page.appendChild(
-            footer
-          );
-
-
-          catalogue.appendChild(
-            page
-          );
-
-
-          pageNumber++;
+          return true;
         });
-      }
 
 
-      console.log(
-        "Catalogue loaded successfully."
-      );
+      /* =========================
+         REMOVE INACTIVE PRODUCTS
+         ========================= */
+
+      const images =
+        imageFiles.filter(file => {
+
+          const imageUrl =
+            getImageUrl(
+              category.folder,
+              file.name
+            );
 
 
-    } catch (error) {
-
-      console.error(
-        "Catalogue error:",
-        error
-      );
-
-
-      catalogue.innerHTML =
-        "<p style='padding:20px;color:red;text-align:center;'>" +
-        "Could not load catalogue." +
-        "</p>";
-    }
-  }
+          const product =
+            products.find(
+              item =>
+                item.image_url ===
+                imageUrl
+            );
 
 
-  /* ========================================
-     CATEGORY FILTER
-     ======================================== */
-
-  function filterCategory(category) {
-
-    const cataloguePages =
-      document.querySelectorAll(
-        ".product-page"
-      );
+          if (
+            product &&
+            product.is_active === false
+          ) {
+            return false;
+          }
 
 
-    const selectedCategory =
-      normalizeSearchText(
-        category
-      );
-
-
-    cataloguePages.forEach(page => {
-
-      const pageCategory =
-        normalizeSearchText(
-          page.dataset.category || ""
-        );
+          return true;
+        });
 
 
       if (
-        selectedCategory === "all" ||
-        pageCategory ===
-          selectedCategory
+        images.length === 0 &&
+        category.folder !==
+          SPECIAL_OFFER_FOLDER
       ) {
-
-        page.style.display =
-          "";
-
-      } else {
-
-        page.style.display =
-          "none";
+        continue;
       }
-    });
-  }
 
 
-  /* ========================================
-     PRODUCT / CATEGORY SEARCH
-     ======================================== */
-
-  function searchCategory() {
-
-    const input =
-      document.getElementById(
-        "categorySearch"
-      );
+      const productsPerPage =
+        category.folder ===
+          SPECIAL_OFFER_FOLDER
+          ? 4
+          : 6;
 
 
-    if (!input) {
-      return;
-    }
+      const groups =
+
+        category.folder ===
+          SPECIAL_OFFER_FOLDER &&
+
+        images.length === 0
+
+          ? [[]]
+
+          : chunks(
+              images,
+              productsPerPage
+            );
 
 
-    const search =
-      normalizeSearchText(
-        input.value
-      );
+      /* =========================
+         CREATE NORMAL PAGES
+         ========================= */
 
+      groups.forEach(group => {
 
-    const searchTerms =
-      search
-        .split(" ")
-        .filter(Boolean);
+        const page =
+          document.createElement("div");
 
+        page.className =
+          "product-page";
 
-    const cataloguePages =
-      document.querySelectorAll(
-        ".product-page"
-      );
+        page.dataset.category =
+          normalizeSearchText(
+            category.folder
+          );
 
-
-    const staticPages =
-      document.querySelectorAll(
-        ".static-page"
-      );
-
-
-    const noResults =
-      document.getElementById(
-        "noSearchResults"
-      );
-
-
-    /* ========================================
-       EMPTY SEARCH
-       ======================================== */
-
-    if (
-      searchTerms.length === 0
-    ) {
-
-      staticPages.forEach(page => {
-
-        page.style.display =
-          "";
-
-      });
-
-
-      cataloguePages.forEach(page => {
-
-        page.style.display =
-          "";
-
-
-        const cards =
-          page.querySelectorAll(
-            ".product-card"
+        page.dataset.search =
+          normalizeSearchText(
+            category.title +
+            " " +
+            category.folder
           );
 
 
-        cards.forEach(card => {
+        /* =========================
+           HEADER
+           ========================= */
 
-          card.style.display =
-            "";
+        let header;
 
+
+        if (
+          category.folder ===
+          SPECIAL_OFFER_FOLDER
+        ) {
+
+          page.classList.add(
+            "special-offer-page"
+          );
+
+          header =
+            createSpecialOfferBanner();
+
+        } else {
+
+          header =
+            document.createElement("div");
+
+          header.className =
+            "header";
+
+
+          const companyName =
+            document.createElement(
+              "strong"
+            );
+
+          companyName.textContent =
+            "K&M FOOD SUPPLIERS LTD";
+
+
+          const categoryTitle =
+            document.createElement("h2");
+
+          categoryTitle.textContent =
+            category.title;
+
+
+          header.appendChild(
+            companyName
+          );
+
+          header.appendChild(
+            categoryTitle
+          );
+        }
+
+
+        /* =========================
+           GRID
+           ========================= */
+
+        const grid =
+          document.createElement("div");
+
+        grid.className =
+          "grid";
+
+
+        group.forEach(file => {
+
+          const card =
+            document.createElement("div");
+
+          card.className =
+            "card product-card";
+
+
+          const searchableName =
+            normalizeSearchText(
+              file.name
+            );
+
+
+          card.dataset.name =
+            searchableName;
+
+          card.dataset.originalName =
+            file.name;
+
+
+          const image =
+            document.createElement("img");
+
+
+          image.src =
+            getImageUrl(
+              category.folder,
+              file.name
+            );
+
+
+          image.alt =
+            file.name;
+
+
+          /* FAST LOADING */
+
+          image.loading =
+            "lazy";
+
+
+          card.appendChild(
+            image
+          );
+
+          grid.appendChild(
+            card
+          );
         });
+
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        const footer =
+          document.createElement("div");
+
+        footer.className =
+          "footer";
+
+
+        const footerText =
+          document.createElement("span");
+
+        footerText.textContent =
+          "QUALITY FOOD, TRUSTED EVERYTIME";
+
+
+        const pageText =
+          document.createElement("span");
+
+        pageText.textContent =
+          "PAGE " + pageNumber;
+
+
+        footer.appendChild(
+          footerText
+        );
+
+        footer.appendChild(
+          pageText
+        );
+
+
+        page.appendChild(
+          header
+        );
+
+        page.appendChild(
+          grid
+        );
+
+        page.appendChild(
+          footer
+        );
+
+
+        catalogue.appendChild(
+          page
+        );
+
+
+        pageNumber++;
       });
-
-
-      if (noResults) {
-
-        noResults.style.display =
-          "none";
-      }
-
-
-      return;
     }
 
 
-    /*
-      When searching for an item,
-      hide static catalogue pages.
-    */
+    console.log(
+      "Catalogue loaded successfully."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Catalogue error:",
+      error
+    );
+
+
+    catalogue.innerHTML =
+      "<p style='padding:20px;color:red;text-align:center;'>" +
+      "Could not load catalogue." +
+      "</p>";
+  }
+}
+
+
+/* =========================
+   CATEGORY FILTER
+   ========================= */
+
+function filterCategory(category) {
+
+  const cataloguePages =
+    document.querySelectorAll(
+      ".product-page:not(.search-results-page)"
+    );
+
+
+  const selectedCategory =
+    normalizeSearchText(
+      category
+    );
+
+
+  cataloguePages.forEach(page => {
+
+    const pageCategory =
+      normalizeSearchText(
+        page.dataset.category || ""
+      );
+
+
+    if (
+      selectedCategory === "all" ||
+      pageCategory ===
+        selectedCategory
+    ) {
+
+      page.style.display = "";
+
+    } else {
+
+      page.style.display = "none";
+    }
+
+  });
+}
+
+
+/* =====================================================
+   NEW SEARCH
+   MATCHING PRODUCTS ARE PUT TOGETHER
+   6 PRODUCTS PER SEARCH PAGE
+   ===================================================== */
+
+function searchCategory() {
+
+  const input =
+    document.getElementById(
+      "categorySearch"
+    );
+
+
+  if (!input) {
+    return;
+  }
+
+
+  const search =
+    normalizeSearchText(
+      input.value
+    );
+
+
+  const searchTerms =
+    search
+      .split(" ")
+      .filter(Boolean);
+
+
+  const catalogue =
+    document.getElementById(
+      "catalogue"
+    );
+
+
+  const staticPages =
+    document.querySelectorAll(
+      ".static-page"
+    );
+
+
+  const originalPages =
+    document.querySelectorAll(
+      ".product-page:not(.search-results-page)"
+    );
+
+
+  const noResults =
+    document.getElementById(
+      "noSearchResults"
+    );
+
+
+  /* =========================
+     REMOVE PREVIOUS SEARCH PAGES
+     ========================= */
+
+  document
+    .querySelectorAll(
+      ".search-results-page"
+    )
+    .forEach(page => {
+      page.remove();
+    });
+
+
+  /* =========================
+     EMPTY SEARCH
+     SHOW NORMAL CATALOGUE
+     ========================= */
+
+  if (
+    searchTerms.length === 0
+  ) {
 
     staticPages.forEach(page => {
 
       page.style.display =
-        "none";
+        "";
     });
 
 
-    let totalProductsFound =
-      0;
+    originalPages.forEach(page => {
+
+      page.style.display =
+        "";
+    });
 
 
-    cataloguePages.forEach(page => {
+    if (noResults) {
 
-      const categoryText =
+      noResults.style.display =
+        "none";
+    }
+
+
+    return;
+  }
+
+
+  /* =========================
+     HIDE NORMAL PAGES
+     ========================= */
+
+  staticPages.forEach(page => {
+
+    page.style.display =
+      "none";
+  });
+
+
+  originalPages.forEach(page => {
+
+    page.style.display =
+      "none";
+  });
+
+
+  /* =========================
+     FIND ALL MATCHING PRODUCTS
+     ========================= */
+
+  const matchingCards = [];
+
+
+  originalPages.forEach(page => {
+
+    const categoryText =
+      normalizeSearchText(
+        (page.dataset.search || "") +
+        " " +
+        (page.dataset.category || "")
+      );
+
+
+    const cards =
+      page.querySelectorAll(
+        ".product-card"
+      );
+
+
+    cards.forEach(card => {
+
+      const productText =
         normalizeSearchText(
-          page.dataset.search || ""
+
+          (card.dataset.name || "") +
+          " " +
+          (card.dataset.originalName || "")
         );
 
 
-      const cards =
-        page.querySelectorAll(
-          ".product-card"
-        );
+      const fullSearchText =
+        productText +
+        " " +
+        categoryText;
 
 
-      const categoryMatch =
+      const matches =
         searchTerms.every(
           term =>
-            categoryText.includes(
+            fullSearchText.includes(
               term
             )
         );
 
 
-      let productsFoundOnPage =
-        0;
+      if (matches) {
 
-
-      cards.forEach(card => {
-
-        const productName =
-          normalizeSearchText(
-            card.dataset.name || ""
-          );
-
-
-        const productMatch =
-          searchTerms.every(
-            term =>
-              productName.includes(
-                term
-              )
-          );
-
-
-        if (
-          categoryMatch ||
-          productMatch
-        ) {
-
-          card.style.display =
-            "";
-
-
-          productsFoundOnPage++;
-
-          totalProductsFound++;
-
-        } else {
-
-          card.style.display =
-            "none";
-        }
-      });
-
-
-      if (
-        productsFoundOnPage > 0
-      ) {
-
-        page.style.display =
-          "";
-
-      } else {
-
-        page.style.display =
-          "none";
+        matchingCards.push(
+          card
+        );
       }
+
     });
 
+  });
 
-    /* ========================================
-       NO RESULTS MESSAGE
-       ======================================== */
+
+  /* =========================
+     NOTHING FOUND
+     ========================= */
+
+  if (
+    matchingCards.length === 0
+  ) {
 
     if (noResults) {
 
       noResults.style.display =
-        totalProductsFound === 0
-          ? "block"
-          : "none";
+        "block";
     }
+
+
+    return;
   }
 
 
-  /* ========================================
-     START CATALOGUE
-     ======================================== */
+  if (noResults) {
 
-  loadCatalogue();
+    noResults.style.display =
+      "none";
+  }
+
+
+  /* =========================
+     GROUP SEARCH RESULTS
+     6 PER PAGE
+     ========================= */
+
+  const resultGroups =
+    chunks(
+      matchingCards,
+      6
+    );
+
+
+  resultGroups.forEach(
+    (group, index) => {
+
+
+      const page =
+        document.createElement(
+          "div"
+        );
+
+
+      page.className =
+        "product-page search-results-page";
+
+
+      /* =========================
+         SEARCH HEADER
+         ========================= */
+
+      const header =
+        document.createElement(
+          "div"
+        );
+
+
+      header.className =
+        "header";
+
+
+      const companyName =
+        document.createElement(
+          "strong"
+        );
+
+
+      companyName.textContent =
+        "K&M FOOD SUPPLIERS LTD";
+
+
+      const categoryTitle =
+        document.createElement(
+          "h2"
+        );
+
+
+      categoryTitle.textContent =
+        "SEARCH RESULTS";
+
+
+      header.appendChild(
+        companyName
+      );
+
+
+      header.appendChild(
+        categoryTitle
+      );
+
+
+      /* =========================
+         SEARCH GRID
+         ========================= */
+
+      const grid =
+        document.createElement(
+          "div"
+        );
+
+
+      grid.className =
+        "grid";
+
+
+      group.forEach(
+        originalCard => {
+
+
+          /*
+            COPY CARD.
+
+            DO NOT MOVE ORIGINAL,
+            SO NORMAL CATALOGUE
+            STAYS SAFE.
+          */
+
+          const newCard =
+            originalCard.cloneNode(
+              true
+            );
+
+
+          const image =
+            newCard.querySelector(
+              "img"
+            );
+
+
+          if (image) {
+
+            /*
+              KEEP FAST LAZY LOADING
+            */
+
+            image.loading =
+              "lazy";
+          }
+
+
+          grid.appendChild(
+            newCard
+          );
+
+        }
+      );
+
+
+      /* =========================
+         SEARCH FOOTER
+         ========================= */
+
+      const footer =
+        document.createElement(
+          "div"
+        );
+
+
+      footer.className =
+        "footer";
+
+
+      const footerText =
+        document.createElement(
+          "span"
+        );
+
+
+      footerText.textContent =
+        "QUALITY FOOD, TRUSTED EVERYTIME";
+
+
+      const pageText =
+        document.createElement(
+          "span"
+        );
+
+
+      pageText.textContent =
+        "SEARCH " +
+        (index + 1);
+
+
+      footer.appendChild(
+        footerText
+      );
+
+
+      footer.appendChild(
+        pageText
+      );
+
+
+      /* =========================
+         BUILD SEARCH PAGE
+         ========================= */
+
+      page.appendChild(
+        header
+      );
+
+
+      page.appendChild(
+        grid
+      );
+
+
+      page.appendChild(
+        footer
+      );
+
+
+      if (noResults) {
+
+        catalogue.insertBefore(
+          page,
+          noResults
+        );
+
+      } else {
+
+        catalogue.appendChild(
+          page
+        );
+      }
+
+    }
+  );
+}
+
+
+/* =========================
+   START
+   ========================= */
+
+loadCatalogue();
 
 </script>
 
