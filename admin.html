@@ -119,14 +119,19 @@
       white-space: nowrap;
     }
 
-    /* CATEGORY SEARCH */
+    /* SEARCH + CATEGORY CHOICE */
 
     .category-search-wrap {
       margin-bottom: 30px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
     }
 
     #categorySearch {
-      width: 100%;
+      flex: 1;
+      min-width: 0;
       padding: 16px 18px;
       font-size: 18px;
       border: 2px solid #d4a62a;
@@ -136,6 +141,24 @@
     }
 
     #categorySearch:focus {
+      border-color: #003e2b;
+      box-shadow: 0 0 0 3px rgba(0,62,43,.12);
+    }
+
+    #categorySelect {
+      width: 260px;
+      padding: 16px 18px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #003e2b;
+      background: white;
+      border: 2px solid #d4a62a;
+      border-radius: 8px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    #categorySelect:focus {
       border-color: #003e2b;
       box-shadow: 0 0 0 3px rgba(0,62,43,.12);
     }
@@ -157,8 +180,6 @@
       margin-bottom: 15px;
     }
 
-    /* BIG PRODUCT CARDS */
-
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -172,8 +193,6 @@
       overflow: hidden;
       box-shadow: 0 3px 12px rgba(0,0,0,.12);
     }
-
-    /* BIG PRODUCT PICTURES */
 
     .product img {
       width: 100%;
@@ -216,11 +235,19 @@
       border-radius: 6px;
     }
 
-    /* PHONE */
-
     @media (max-width: 600px) {
+
       main {
         padding: 10px;
+      }
+
+      .category-search-wrap {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      #categorySelect {
+        width: 100%;
       }
 
       .grid {
@@ -292,7 +319,7 @@
   </div>
 
 
-  <!-- CATEGORY SEARCH -->
+  <!-- SEARCH + CATEGORY DROPDOWN -->
 
   <div class="category-search-wrap">
 
@@ -302,28 +329,83 @@
       placeholder="Search category..."
       autocomplete="off"
     >
-<select id="categorySelect" onchange="filterCategoryAdmin()">
-  <option value="all">ALL CATEGORIES</option>
-  <option value="PULSES">PULSES</option>
-  <option value="special-offer">SPECIAL OFFER</option>
-  <option value="rise">RICE</option>
-  <option value="cooking essentials">COOKING ESSENTIALS</option>
-  <option value="SAUCES">SAUCES</option>
-  <option value="PICKLES">PICKLES</option>
-  <option value="spices">SPICES</option>
-  <option value="beans&chickpease">BEANS & CHICKPEAS</option>
-  <option value="drink">DRINKS</option>
-  <option value="TEA & COFFE">TEA & COFFEE</option>
-  <option value="snacks">SNACKS</option>
-  <option value="Chewing Gum">CHEWING GUM</option>
-  <option value="Candy Sweets & Candy Toys">CANDY SWEETS & CANDY TOYS</option>
-  <option value="chips">CHIPS</option>
-  <option value="NUTS">NUTS</option>
-  <option value="TOILETRIES">TOILETRIES</option>
-  <option value="TESSUE AND WIPES">TESSUE AND WIPES</option>
-  <option value="TRADITIONAL">TRADITIONAL</option>
-  <option value="GENERAL PRODUCTS">GENERAL PRODUCTS</option>
-</select>
+
+    <select id="categorySelect">
+
+      <option value="all">ALL CATEGORIES</option>
+
+      <option value="rise">RICE</option>
+
+      <option value="SAUCES">SAUCES</option>
+
+      <option value="drink">DRINKS</option>
+
+      <option value="snacks">
+        SNACKS & SWEETS
+      </option>
+
+      <option value="spices">
+        SPICES
+      </option>
+
+      <option value="beans&chickpease">
+        BEANS & CHICKPEAS
+      </option>
+
+      <option value="cooking essentials">
+        COOKING ESSENTIALS
+      </option>
+
+      <option value="PICKLES">
+        PICKLES
+      </option>
+
+      <option value="TEA & COFFE">
+        TEA & COFFEE
+      </option>
+
+      <option value="Chewing Gum">
+        CHEWING GUM
+      </option>
+
+      <option value="Candy Sweets & Candy Toys">
+        CANDY SWEETS & CANDY TOYS
+      </option>
+
+      <option value="chips">
+        CHIPS
+      </option>
+
+      <option value="NUTS">
+        NUTS
+      </option>
+
+      <option value="TOILETRIES">
+        TOILETRIES
+      </option>
+
+      <option value="TESSUE AND WIPES">
+        TISSUE & WIPES
+      </option>
+
+      <option value="TRADITIONAL">
+        TRADITIONAL
+      </option>
+
+      <option value="GENERAL PRODUCTS">
+        GENERAL PRODUCTS
+      </option>
+
+      <option value="Special offer">
+        SPECIAL OFFER
+      </option>
+
+      <option value="special-offer">
+        SPECIAL OFFER
+      </option>
+
+    </select>
+
   </div>
 
 
@@ -375,10 +457,12 @@ const categories = [
     folder: "rise",
     title: "RICE"
   },
-{
-  folder: "SAUCES",
-  title: "SAUCES"
-},
+
+  {
+    folder: "SAUCES",
+    title: "SAUCES"
+  },
+
   {
     folder: "drink",
     title: "DRINKS"
@@ -496,11 +580,9 @@ async function getSessionOrThrow() {
   const { data, error } =
     await supabaseClient.auth.getSession();
 
-
   if (error) {
     throw error;
   }
-
 
   if (
     !data.session ||
@@ -510,12 +592,9 @@ async function getSessionOrThrow() {
     throw new Error(
       "Your login session has expired. Please log in again."
     );
-
   }
 
-
   return data.session;
-
 }
 
 
@@ -531,27 +610,22 @@ async function loginAdmin() {
       .value
       .trim();
 
-
   const password =
     document
       .getElementById("password")
       .value;
-
 
   const message =
     document.getElementById(
       "loginMessage"
     );
 
-
   const button =
     document.getElementById(
       "loginButton"
     );
 
-
   message.textContent = "";
-
 
   if (!email || !password) {
 
@@ -559,15 +633,12 @@ async function loginAdmin() {
       "Please enter your email and password.";
 
     return;
-
   }
-
 
   button.disabled = true;
 
   button.textContent =
     "LOGGING IN...";
-
 
   const { data, error } =
     await supabaseClient.auth
@@ -578,11 +649,9 @@ async function loginAdmin() {
 
       });
 
-
   button.disabled = false;
 
   button.textContent = "LOGIN";
-
 
   if (error || !data.session) {
 
@@ -592,22 +661,17 @@ async function loginAdmin() {
       "Wrong email or password.";
 
     return;
-
   }
-
 
   document
     .getElementById("password")
     .value = "";
 
-
   adminLoaded = false;
-
 
   await showAdmin(
     data.session
   );
-
 }
 
 
@@ -619,18 +683,14 @@ async function logoutAdmin() {
 
   await supabaseClient.auth.signOut();
 
-
   adminLoaded = false;
-
 
   document.getElementById(
     "admin"
   ).innerHTML =
     '<div class="loading">Loading products...</div>';
 
-
   showLogin();
-
 }
 
 
@@ -644,16 +704,13 @@ function showLogin() {
     "adminArea"
   ).style.display = "none";
 
-
   document.getElementById(
     "loginArea"
   ).style.display = "block";
 
-
   document.getElementById(
     "signedInUser"
   ).textContent = "";
-
 }
 
 
@@ -667,11 +724,9 @@ async function showAdmin(session) {
     "loginArea"
   ).style.display = "none";
 
-
   document.getElementById(
     "adminArea"
   ).style.display = "block";
-
 
   document.getElementById(
     "signedInUser"
@@ -685,15 +740,12 @@ async function showAdmin(session) {
 
     : "Signed in";
 
-
   if (!adminLoaded) {
 
     adminLoaded = true;
 
     await loadAdmin();
-
   }
-
 }
 
 
@@ -707,7 +759,6 @@ async function checkLogin() {
     await supabaseClient.auth
       .getSession();
 
-
   if (
     error ||
     !data.session
@@ -716,14 +767,11 @@ async function checkLogin() {
     showLogin();
 
     return;
-
   }
-
 
   await showAdmin(
     data.session
   );
-
 }
 
 
@@ -736,10 +784,8 @@ async function getFolderFiles(folder) {
   const session =
     await getSessionOrThrow();
 
-
   const token =
     session.access_token;
-
 
   const response =
     await fetch(
@@ -761,7 +807,6 @@ async function getFolderFiles(folder) {
 
           "Content-Type":
             "application/json"
-
         },
 
         body: JSON.stringify({
@@ -777,21 +822,15 @@ async function getFolderFiles(folder) {
             column: "name",
 
             order: "asc"
-
           }
-
         })
-
       }
-
     );
-
 
   if (!response.ok) {
 
     const detail =
       await response.text();
-
 
     throw new Error(
       "Could not load folder " +
@@ -799,9 +838,7 @@ async function getFolderFiles(folder) {
       ": " +
       detail
     );
-
   }
-
 
   const files =
     await response.json();
@@ -824,31 +861,23 @@ async function getFolderFiles(folder) {
 
           Authorization:
             "Bearer " + token
-
         }
-
       }
-
     );
-
 
   if (!productResponse.ok) {
 
     const detail =
       await productResponse.text();
 
-
     throw new Error(
       "Could not load product status: " +
       detail
     );
-
   }
-
 
   const products =
     await productResponse.json();
-
 
   return files.map(file => {
 
@@ -858,13 +887,11 @@ async function getFolderFiles(folder) {
         file.name
       );
 
-
     const product =
       products.find(
         p =>
           p.image_url === imageUrl
       );
-
 
     return {
 
@@ -880,11 +907,8 @@ async function getFolderFiles(folder) {
         product
           ? product.is_active
           : true
-
     };
-
   });
-
 }
 
 
@@ -901,18 +925,10 @@ async function saveProductState(
   const session =
     await getSessionOrThrow();
 
-
   const token =
     session.access_token;
 
-
   let response;
-
-
-  /* =========================
-     PRODUCT ALREADY EXISTS
-     UPDATE DATABASE
-  ========================= */
 
   if (file.productExists) {
 
@@ -942,7 +958,6 @@ async function saveProductState(
 
             Prefer:
               "return=minimal"
-
           },
 
           body:
@@ -953,20 +968,10 @@ async function saveProductState(
 
               is_active:
                 isActive
-
             })
-
         }
-
       );
-
   }
-
-
-  /* =========================
-     PRODUCT DOES NOT EXIST
-     CREATE DATABASE RECORD
-  ========================= */
 
   else {
 
@@ -993,7 +998,6 @@ async function saveProductState(
 
             Prefer:
               "return=minimal"
-
           },
 
           body:
@@ -1007,37 +1011,26 @@ async function saveProductState(
 
               is_active:
                 isActive
-
             })
-
         }
-
       );
-
   }
-
 
   if (!response.ok) {
 
     const detail =
       await response.text();
 
-
     throw new Error(
-
       detail ||
       "Supabase rejected the update."
-
     );
-
   }
-
 
   file.productExists = true;
 
   file.is_active =
     isActive;
-
 }
 
 
@@ -1052,52 +1045,48 @@ async function loadAdmin() {
       "admin"
     );
 
-
   admin.innerHTML =
     '<div class="loading">Loading products...</div>';
-
 
   try {
 
     admin.innerHTML = "";
-
 
     for (
       const category
       of categories
     ) {
 
-
       const files =
         await getFolderFiles(
           category.folder
         );
-
 
       const images =
         files.filter(file =>
 
           /\.(png|jpg|jpeg|webp)$/i
             .test(file.name)
-
         );
-
 
       const section =
         document.createElement(
           "section"
         );
 
-
       section.className =
         "category";
+
+      /* IMPORTANT FOR DROPDOWN */
+
+      section.dataset.category =
+        category.folder;
 
 
       const heading =
         document.createElement(
           "h2"
         );
-
 
       heading.textContent =
         category.title;
@@ -1108,10 +1097,8 @@ async function loadAdmin() {
           "div"
         );
 
-
       count.className =
         "count";
-
 
       count.textContent =
         images.length +
@@ -1123,33 +1110,25 @@ async function loadAdmin() {
           "div"
         );
 
-
       grid.className =
         "grid";
 
 
       images.forEach(file => {
 
-
         const card =
           document.createElement(
             "div"
           );
 
-
         card.className =
           "product";
 
-
-        /* =====================
-           ON/OFF AREA
-        ===================== */
 
         const toggleArea =
           document.createElement(
             "div"
           );
-
 
         toggleArea.className =
           "toggle-area";
@@ -1160,10 +1139,8 @@ async function loadAdmin() {
             "input"
           );
 
-
         toggle.type =
           "checkbox";
-
 
         toggle.checked =
           file.is_active !== false;
@@ -1174,44 +1151,31 @@ async function loadAdmin() {
             "span"
           );
 
-
         label.textContent =
           toggle.checked
             ? "ON"
             : "OFF";
 
 
-        /* =====================
-           PRODUCT IMAGE
-        ===================== */
-
         const img =
           document.createElement(
             "img"
           );
 
-
         img.src =
           file.image_url;
-
 
         img.alt =
           file.name;
 
-
-        /* =====================
-           FILE NAME
-        ===================== */
 
         const filename =
           document.createElement(
             "div"
           );
 
-
         filename.className =
           "filename";
-
 
         filename.textContent =
           file.name;
@@ -1221,37 +1185,27 @@ async function loadAdmin() {
           toggle
         );
 
-
         toggleArea.appendChild(
           label
         );
 
 
-        /* =====================
-           ON/OFF CHANGE
-        ===================== */
-
         toggle.addEventListener(
           "change",
           async () => {
 
-
             const wantedState =
               toggle.checked;
 
-
             toggle.disabled =
               true;
-
 
             label.textContent =
               wantedState
                 ? "ON"
                 : "OFF";
 
-
             try {
-
 
               await saveProductState(
 
@@ -1260,33 +1214,24 @@ async function loadAdmin() {
                 category.folder,
 
                 wantedState
-
               );
-
 
             }
 
-
             catch (error) {
-
 
               console.error(
                 "Update failed:",
                 error
               );
 
-
-              /* CHANGE BACK */
-
               toggle.checked =
                 !wantedState;
-
 
               label.textContent =
                 toggle.checked
                   ? "ON"
                   : "OFF";
-
 
               alert(
 
@@ -1295,24 +1240,15 @@ async function loadAdmin() {
                 "Supabase says:\n" +
 
                 error.message
-
               );
-
-
             }
-
 
             finally {
 
-
               toggle.disabled =
                 false;
-
-
             }
-
           }
-
         );
 
 
@@ -1320,21 +1256,17 @@ async function loadAdmin() {
           toggleArea
         );
 
-
         card.appendChild(
           img
         );
-
 
         card.appendChild(
           filename
         );
 
-
         grid.appendChild(
           card
         );
-
       });
 
 
@@ -1342,31 +1274,23 @@ async function loadAdmin() {
         heading
       );
 
-
       section.appendChild(
         count
       );
-
 
       section.appendChild(
         grid
       );
 
-
       admin.appendChild(
         section
       );
-
     }
-
   }
-
 
   catch (error) {
 
-
     console.error(error);
-
 
     admin.innerHTML =
 
@@ -1382,9 +1306,7 @@ async function loadAdmin() {
       ) +
 
       '</div>';
-
   }
-
 }
 
 
@@ -1428,18 +1350,13 @@ document
     "keydown",
     event => {
 
-
       if (
         event.key ===
         "Enter"
       ) {
 
-
         loginAdmin();
-
-
       }
-
     }
   );
 
@@ -1453,25 +1370,19 @@ supabaseClient.auth
 
     (event, session) => {
 
-
       if (
         event ===
         "SIGNED_OUT"
       ) {
 
-
         showLogin();
-
-
       }
-
 
       if (
         event ===
         "TOKEN_REFRESHED" &&
         session
       ) {
-
 
         document.getElementById(
           "signedInUser"
@@ -1484,77 +1395,170 @@ supabaseClient.auth
             session.user.email
 
           : "Signed in";
-
-
       }
-
     }
-
   );
 
 
 /* ============================
-   CATEGORY SEARCH
+   SEARCH + CATEGORY FILTER
 ============================ */
+
+function filterAdminCategories() {
+
+  const search =
+    document
+      .getElementById(
+        "categorySearch"
+      )
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  const selected =
+    document
+      .getElementById(
+        "categorySelect"
+      )
+      .value;
+
+
+  const sections =
+    document.querySelectorAll(
+      ".category"
+    );
+
+
+  sections.forEach(section => {
+
+    const heading =
+      section.querySelector(
+        "h2"
+      );
+
+
+    const categoryName =
+      heading
+
+        ? heading
+            .textContent
+            .toLowerCase()
+
+        : "";
+
+
+    const categoryFolder =
+      section.dataset.category || "";
+
+
+    const searchMatch =
+
+      search === "" ||
+
+      categoryName.includes(
+        search
+      ) ||
+
+      categoryFolder
+        .toLowerCase()
+        .includes(search);
+
+
+    const categoryMatch =
+
+      selected === "all" ||
+
+      categoryFolder ===
+        selected;
+
+
+    section.style.display =
+
+      searchMatch &&
+      categoryMatch
+
+        ? ""
+
+        : "none";
+
+  });
+}
+
+
+/* SEARCH BOX */
 
 document
   .getElementById(
     "categorySearch"
   )
   .addEventListener(
+
     "input",
+
+    filterAdminCategories
+
+  );
+
+
+/* CATEGORY DROPDOWN */
+
+document
+  .getElementById(
+    "categorySelect"
+  )
+  .addEventListener(
+
+    "change",
+
     function () {
 
+      /* CLEAR SEARCH WHEN CHANGING CATEGORY */
 
-      const search =
-        this.value
-          .toLowerCase()
-          .trim();
-
-
-      const sections =
-        document.querySelectorAll(
-          ".category"
-        );
+      document
+        .getElementById(
+          "categorySearch"
+        )
+        .value = "";
 
 
-      sections.forEach(
-        section => {
+      filterAdminCategories();
 
 
-          const heading =
-            section.querySelector(
-              "h2"
-            );
+      /* MOVE TO SELECTED SECTION */
 
+      if (
+        this.value !== "all"
+      ) {
 
-          const categoryName =
-            heading
-
-              ? heading
-                  .textContent
-                  .toLowerCase()
-
-              : "";
-
-
-          section.style.display =
-
-            categoryName.includes(
-              search
+        const visibleSection =
+          Array.from(
+            document.querySelectorAll(
+              ".category"
             )
+          )
+          .find(
+            section =>
+              section.style.display !==
+              "none"
+          );
 
-              ? ""
 
-              : "none";
+        if (visibleSection) {
 
+          visibleSection
+            .scrollIntoView({
 
+              behavior:
+                "smooth",
+
+              block:
+                "start"
+
+            });
         }
-
-      );
-
+      }
     }
-
   );
 
 
