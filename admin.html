@@ -1,294 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>K&M Catalogue Admin</title>
+<meta charset="UTF-8">
 
-  <style>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1"
+>
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      color: #222;
-    }
-
-    header {
-      background: #003e2b;
-      border-bottom: 5px solid #d4a62a;
-      color: white;
-      padding: 20px;
-    }
-
-    header h1 {
-      margin: 0;
-      color: #e2b63d;
-      font-size: 24px;
-    }
-
-    header p {
-      margin: 6px 0 0;
-      font-size: 13px;
-    }
-
-    main {
-      max-width: 1500px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .login-container {
-      max-width: 420px;
-      margin: 70px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 3px 15px rgba(0,0,0,.15);
-    }
-
-    .login-container h2 {
-      margin-top: 0;
-      color: #003e2b;
-      text-align: center;
-    }
-
-    .login-container input {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-
-    .login-container button {
-      width: 100%;
-      padding: 14px;
-      background: #003e2b;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .login-container button:disabled {
-      opacity: .65;
-      cursor: wait;
-    }
-
-    #loginMessage {
-      text-align: center;
-      color: #b00020;
-      margin-top: 15px;
-      font-size: 14px;
-      min-height: 18px;
-    }
-
-    #adminArea {
-      display: none;
-    }
-
-    .admin-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .signed-in {
-      font-size: 13px;
-      color: #555;
-      word-break: break-all;
-    }
-
-    .logout-btn {
-      background: #b00020;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      white-space: nowrap;
-    }
+<title>K&M Catalogue Admin</title>
 
 
-    /* =========================
-       SEARCH + DROPDOWN
-    ========================= */
+<style>
 
-    .category-search-wrap {
-      margin-bottom: 30px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      width: 100%;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    #categorySearch {
-      flex: 1;
-      min-width: 0;
-      padding: 16px 18px;
-      font-size: 18px;
-      border: 2px solid #d4a62a;
-      border-radius: 8px;
-      background: white;
-      outline: none;
-    }
-
-    #categorySearch:focus {
-      border-color: #003e2b;
-      box-shadow: 0 0 0 3px rgba(0,62,43,.12);
-    }
-
-    #categorySelect {
-      width: 300px;
-      padding: 16px 18px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #003e2b;
-      background: white;
-      border: 2px solid #d4a62a;
-      border-radius: 8px;
-      outline: none;
-      cursor: pointer;
-    }
-
-    #categorySelect:focus {
-      border-color: #003e2b;
-      box-shadow: 0 0 0 3px rgba(0,62,43,.12);
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  color: #222;
+}
 
 
-    /* =========================
-       CATEGORY
-    ========================= */
+/* HEADER */
 
-    .category {
-      margin-bottom: 45px;
-    }
+header {
+  background: #003e2b;
+  border-bottom: 5px solid #d4a62a;
+  color: white;
+  padding: 20px;
+}
 
-    .category h2 {
-      color: #003e2b;
-      border-bottom: 2px solid #d4a62a;
-      padding-bottom: 8px;
-      font-size: 26px;
-    }
+header h1 {
+  margin: 0;
+  color: #e2b63d;
+  font-size: 24px;
+}
 
-    .count {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 15px;
-    }
-
-
-    /* =========================
-       PRODUCTS
-    ========================= */
-
-    .grid {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fill, minmax(380px, 1fr));
-      gap: 25px;
-    }
-
-    .product {
-      background: white;
-      border-radius: 12px;
-      padding: 12px;
-      overflow: hidden;
-      box-shadow: 0 3px 12px rgba(0,0,0,.12);
-    }
-
-    .product img {
-      width: 100%;
-      height: 520px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .filename {
-      margin-top: 12px;
-      font-size: 15px;
-      word-break: break-word;
-      color: #555;
-    }
-
-    .toggle-area {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .toggle-area input {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-    }
-
-    .loading {
-      padding: 30px;
-      text-align: center;
-    }
-
-    .error {
-      background: #ffe5e5;
-      color: #a00000;
-      padding: 15px;
-      border-radius: 6px;
-    }
+header p {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
 
 
-    /* =========================
-       PHONE
-    ========================= */
+/* MAIN */
 
-    @media (max-width: 600px) {
+main {
+  max-width: 1500px;
+  margin: auto;
+  padding: 20px;
+}
 
-      main {
-        padding: 10px;
-      }
 
-      .category-search-wrap {
-        flex-direction: column;
-        align-items: stretch;
-      }
+/* LOGIN */
 
-      #categorySearch {
-        width: 100%;
-      }
+.login-container {
+  max-width: 420px;
+  margin: 70px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0,0,0,.15);
+}
 
-      #categorySelect {
-        width: 100%;
-      }
+.login-container h2 {
+  margin-top: 0;
+  color: #003e2b;
+  text-align: center;
+}
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
+.login-container input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
 
-      .product img {
-        height: 480px;
-      }
+.login-container button {
+  width: 100%;
+  padding: 14px;
+  background: #003e2b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-      .category h2 {
-        font-size: 22px;
-      }
+.login-container button:disabled {
+  opacity: .65;
+  cursor: wait;
+}
 
-    }
+#loginMessage {
+  text-align: center;
+  color: #b00020;
+  margin-top: 15px;
+  font-size: 14px;
+  min-height: 18px;
+}
 
-  </style>
+
+/* ADMIN */
+
+#adminArea {
+  display: none;
+}
+
+.admin-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.signed-in {
+  font-size: 13px;
+  color: #555;
+  word-break: break-all;
+}
+
+.logout-btn {
+  background: #b00020;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+/* SEARCH + CATEGORY */
+
+.category-search-wrap {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+#categorySearch {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 18px;
+  font-size: 18px;
+  border: 2px solid #d4a62a;
+  border-radius: 8px;
+  background: white;
+  outline: none;
+}
+
+#categorySearch:focus {
+  border-color: #003e2b;
+}
+
+#categorySelect {
+  width: 300px;
+  padding: 16px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #003e2b;
+  background: white;
+  border: 2px solid #d4a62a;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+
+/* LOADING */
+
+#loadingStatus {
+  display: none;
+  background: #fff8dc;
+  border: 1px solid #d4a62a;
+  border-radius: 7px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  color: #003e2b;
+  font-weight: bold;
+}
+
+
+/* CATEGORY */
+
+.category {
+  margin-bottom: 45px;
+}
+
+.category h2 {
+  color: #003e2b;
+  border-bottom: 2px solid #d4a62a;
+  padding-bottom: 8px;
+  font-size: 26px;
+}
+
+.count {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+
+/* PRODUCTS */
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(380px, 1fr));
+  gap: 25px;
+}
+
+.product {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+}
+
+.product img {
+  width: 100%;
+  height: 520px;
+  object-fit: contain;
+  display: block;
+}
+
+.filename {
+  margin-top: 12px;
+  font-size: 15px;
+  word-break: break-word;
+  color: #555;
+}
+
+.toggle-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.toggle-area input {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.error {
+  background: #ffe5e5;
+  color: #a00000;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+  main {
+    padding: 10px;
+  }
+
+  .category-search-wrap {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #categorySearch {
+    width: 100%;
+  }
+
+  #categorySelect {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product img {
+    height: 480px;
+  }
+
+}
+
+</style>
+
 </head>
 
 
@@ -305,9 +315,7 @@
 
 
 
-<!-- =========================
-     LOGIN
-========================= -->
+<!-- LOGIN -->
 
 <div
   id="loginArea"
@@ -347,21 +355,17 @@
 
 
 
-<!-- =========================
-     ADMIN
-========================= -->
+<!-- ADMIN -->
 
 <main id="adminArea">
 
 
   <div class="admin-top">
 
-
     <div
       id="signedInUser"
       class="signed-in"
-    >
-    </div>
+    ></div>
 
 
     <button
@@ -372,14 +376,11 @@
       LOGOUT
     </button>
 
-
   </div>
 
 
 
-  <!-- =========================
-       SEARCH + CATEGORY
-  ========================= -->
+  <!-- SEARCH + DROPDOWN -->
 
   <div class="category-search-wrap">
 
@@ -389,121 +390,102 @@
       id="categorySearch"
       placeholder="Search category..."
       autocomplete="off"
+      oninput="searchCategoryAdmin()"
     >
 
 
-    <select id="categorySelect">
+    <select
+      id="categorySelect"
+      onchange="selectCategoryAdmin()"
+    >
 
-
-      <option value="all">
+      <option value="ALL">
         ALL CATEGORIES
       </option>
-
 
       <option value="RICE">
         RICE
       </option>
 
-
       <option value="SAUCES">
         SAUCES
       </option>
-
 
       <option value="DRINKS">
         DRINKS
       </option>
 
-
       <option value="SNACKS & SWEETS">
         SNACKS & SWEETS
       </option>
-
 
       <option value="SPICES">
         SPICES
       </option>
 
-
       <option value="BEANS & CHICKPEAS">
         BEANS & CHICKPEAS
       </option>
-
 
       <option value="COOKING ESSENTIALS">
         COOKING ESSENTIALS
       </option>
 
-
       <option value="PICKLES">
         PICKLES
       </option>
-
 
       <option value="TEA & COFFEE">
         TEA & COFFEE
       </option>
 
-
       <option value="CHEWING GUM">
         CHEWING GUM
       </option>
-
 
       <option value="CANDY SWEETS & CANDY TOYS">
         CANDY SWEETS & CANDY TOYS
       </option>
 
-
       <option value="CHIPS">
         CHIPS
       </option>
-
 
       <option value="NUTS">
         NUTS
       </option>
 
-
       <option value="TOILETRIES">
         TOILETRIES
       </option>
-
 
       <option value="TISSUE & WIPES">
         TISSUE & WIPES
       </option>
 
-
       <option value="TRADITIONAL">
         TRADITIONAL
       </option>
-
 
       <option value="GENERAL PRODUCTS">
         GENERAL PRODUCTS
       </option>
 
-
       <option value="SPECIAL OFFER">
         SPECIAL OFFER
       </option>
 
-
     </select>
 
-
   </div>
 
 
-
-  <div id="admin">
-
-    <div class="loading">
-      Loading products...
-    </div>
-
+  <div id="loadingStatus">
+    Loading products...
   </div>
+
+
+  <div id="admin"></div>
 
 
 </main>
@@ -516,261 +498,202 @@
 <script>
 
 
-/* ============================
+/* =====================================
    SUPABASE
-============================ */
-
+===================================== */
 
 const SUPABASE_URL =
-"https://gynnbpmghwwzimdzhxfw.supabase.co";
+  "https://gynnbpmghwwzimdzhxfw.supabase.co";
 
 
 const SUPABASE_ANON_KEY =
-"sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
+  "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
 
 
 const supabaseClient =
-window.supabase.createClient(
-
-  SUPABASE_URL,
-
-  SUPABASE_ANON_KEY,
-
-  {
-
-    auth: {
-
-      persistSession: true,
-
-      autoRefreshToken: true,
-
-      detectSessionInUrl: true
-
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
     }
-
-  }
-
-);
+  );
 
 
 
-/* ============================
+/* =====================================
    CATEGORIES
-============================ */
-
+===================================== */
 
 const categories = [
-
 
   {
     folder: "rise",
     title: "RICE"
   },
 
-
   {
     folder: "SAUCES",
     title: "SAUCES"
   },
-
 
   {
     folder: "drink",
     title: "DRINKS"
   },
 
-
   {
     folder: "snacks",
     title: "SNACKS & SWEETS"
   },
-
 
   {
     folder: "spices",
     title: "SPICES"
   },
 
-
   {
     folder: "beans&chickpease",
     title: "BEANS & CHICKPEAS"
   },
-
 
   {
     folder: "cooking essentials",
     title: "COOKING ESSENTIALS"
   },
 
-
   {
     folder: "PICKLES",
     title: "PICKLES"
   },
-
 
   {
     folder: "TEA & COFFE",
     title: "TEA & COFFEE"
   },
 
-
   {
     folder: "Chewing Gum",
     title: "CHEWING GUM"
   },
-
 
   {
     folder: "Candy Sweets & Candy Toys",
     title: "CANDY SWEETS & CANDY TOYS"
   },
 
-
   {
     folder: "chips",
     title: "CHIPS"
   },
-
 
   {
     folder: "NUTS",
     title: "NUTS"
   },
 
-
   {
     folder: "TOILETRIES",
     title: "TOILETRIES"
   },
-
 
   {
     folder: "TESSUE AND WIPES",
     title: "TISSUE & WIPES"
   },
 
-
   {
     folder: "TRADITIONAL",
     title: "TRADITIONAL"
   },
-
 
   {
     folder: "GENERAL PRODUCTS",
     title: "GENERAL PRODUCTS"
   },
 
-
   {
     folder: "Special offer",
     title: "SPECIAL OFFER"
   },
-
 
   {
     folder: "special-offer",
     title: "SPECIAL OFFER"
   }
 
-
 ];
-
 
 
 let adminLoaded = false;
 
 
 
-/* ============================
-   IMAGE URL
-============================ */
-
+/* =====================================
+   PUBLIC IMAGE URL
+===================================== */
 
 function getImageUrl(
   folder,
   filename
 ) {
 
-
   return (
-
     SUPABASE_URL +
-
     "/storage/v1/object/public/product%20-image/" +
-
     encodeURIComponent(folder) +
-
     "/" +
-
     encodeURIComponent(filename)
-
   );
-
 
 }
 
 
 
-/* ============================
-   GET LOGIN SESSION
-============================ */
-
+/* =====================================
+   SESSION
+===================================== */
 
 async function getSessionOrThrow() {
 
-
   const { data, error } =
-
-    await supabaseClient.auth
-      .getSession();
+    await supabaseClient.auth.getSession();
 
 
   if (error) {
-
     throw error;
-
   }
 
 
   if (
-
     !data.session ||
-
     !data.session.access_token
-
   ) {
 
-
     throw new Error(
-
-      "Your login session has expired. Please log in again."
-
+      "Login session expired. Please log in again."
     );
-
 
   }
 
 
   return data.session;
 
-
 }
 
 
 
-/* ============================
+/* =====================================
    LOGIN
-============================ */
-
+===================================== */
 
 async function loginAdmin() {
 
-
   const email =
-
     document
       .getElementById("email")
       .value
@@ -778,20 +701,17 @@ async function loginAdmin() {
 
 
   const password =
-
     document
       .getElementById("password")
       .value;
 
 
   const message =
-
     document
       .getElementById("loginMessage");
 
 
   const button =
-
     document
       .getElementById("loginButton");
 
@@ -801,65 +721,47 @@ async function loginAdmin() {
 
   if (!email || !password) {
 
-
     message.textContent =
-
       "Please enter your email and password.";
 
-
     return;
-
 
   }
 
 
   button.disabled = true;
 
-
   button.textContent =
-
     "LOGGING IN...";
 
 
   const { data, error } =
-
     await supabaseClient.auth
       .signInWithPassword({
 
-
         email: email,
-
         password: password
-
 
       });
 
 
   button.disabled = false;
 
-
-  button.textContent = "LOGIN";
+  button.textContent =
+    "LOGIN";
 
 
   if (
-
     error ||
-
     !data.session
-
   ) {
-
 
     console.error(error);
 
-
     message.textContent =
-
       "Wrong email or password.";
 
-
     return;
-
 
   }
 
@@ -873,52 +775,38 @@ async function loginAdmin() {
 
 
   await showAdmin(
-
     data.session
-
   );
-
 
 }
 
 
 
-/* ============================
+/* =====================================
    LOGOUT
-============================ */
-
+===================================== */
 
 async function logoutAdmin() {
 
-
-  await supabaseClient.auth
-    .signOut();
-
+  await supabaseClient.auth.signOut();
 
   adminLoaded = false;
 
-
   document
     .getElementById("admin")
-    .innerHTML =
-
-    '<div class="loading">Loading products...</div>';
-
+    .innerHTML = "";
 
   showLogin();
-
 
 }
 
 
 
-/* ============================
+/* =====================================
    SHOW LOGIN
-============================ */
-
+===================================== */
 
 function showLogin() {
-
 
   document
     .getElementById("adminArea")
@@ -934,18 +822,15 @@ function showLogin() {
     .getElementById("signedInUser")
     .textContent = "";
 
-
 }
 
 
 
-/* ============================
+/* =====================================
    SHOW ADMIN
-============================ */
-
+===================================== */
 
 async function showAdmin(session) {
-
 
   document
     .getElementById("loginArea")
@@ -960,965 +845,745 @@ async function showAdmin(session) {
   document
     .getElementById("signedInUser")
     .textContent =
-
-
-    session.user &&
-
-    session.user.email
-
-
-    ? "Signed in: " +
-
+      session.user &&
       session.user.email
 
+        ? "Signed in: " +
+          session.user.email
 
-    : "Signed in";
+        : "Signed in";
 
 
   if (!adminLoaded) {
 
-
     adminLoaded = true;
-
 
     await loadAdmin();
 
-
   }
-
 
 }
 
 
 
-/* ============================
+/* =====================================
    CHECK LOGIN
-============================ */
-
+===================================== */
 
 async function checkLogin() {
 
-
   const { data, error } =
-
     await supabaseClient.auth
       .getSession();
 
 
   if (
-
     error ||
-
     !data.session
-
   ) {
-
 
     showLogin();
 
-
     return;
-
 
   }
 
 
   await showAdmin(
-
     data.session
-
   );
-
 
 }
 
 
 
-/* ============================
-   GET FOLDER PRODUCTS
-============================ */
+/* =====================================
+   GET PRODUCT STATUS ONCE
+===================================== */
 
-
-async function getFolderFiles(folder) {
-
+async function getProductStatuses() {
 
   const session =
-
     await getSessionOrThrow();
 
 
-  const token =
-
-    session.access_token;
-
-
   const response =
-
     await fetch(
 
-
       SUPABASE_URL +
-
-      "/storage/v1/object/list/product%20-image",
-
+      "/rest/v1/product?select=image_url,is_active,category",
 
       {
 
-
-        method: "POST",
-
-
         headers: {
-
 
           apikey:
             SUPABASE_ANON_KEY,
 
-
           Authorization:
-            "Bearer " + token,
+            "Bearer " +
+            session.access_token
 
-
-          "Content-Type":
-            "application/json"
-
-
-        },
-
-
-        body: JSON.stringify({
-
-
-          prefix: folder,
-
-
-          limit: 1000,
-
-
-          offset: 0,
-
-
-          sortBy: {
-
-
-            column: "name",
-
-
-            order: "asc"
-
-
-          }
-
-
-        })
-
+        }
 
       }
-
 
     );
 
 
   if (!response.ok) {
 
-
     const detail =
-
       await response.text();
 
-
     throw new Error(
-
-
-      "Could not load folder " +
-
-      folder +
-
-      ": " +
-
-      detail
-
-
-    );
-
-
-  }
-
-
-  const files =
-
-    await response.json();
-
-
-
-  /* GET PRODUCT ON/OFF STATUS */
-
-
-  const productResponse =
-
-    await fetch(
-
-
-      SUPABASE_URL +
-
-      "/rest/v1/product?select=image_url,is_active,category",
-
-
-      {
-
-
-        headers: {
-
-
-          apikey:
-            SUPABASE_ANON_KEY,
-
-
-          Authorization:
-            "Bearer " + token
-
-
-        }
-
-
-      }
-
-
-    );
-
-
-  if (!productResponse.ok) {
-
-
-    const detail =
-
-      await productResponse.text();
-
-
-    throw new Error(
-
-
       "Could not load product status: " +
-
       detail
-
-
     );
-
 
   }
 
 
-  const products =
-
-    await productResponse.json();
-
-
-  return files.map(file => {
-
-
-    const imageUrl =
-
-      getImageUrl(
-
-        folder,
-
-        file.name
-
-      );
-
-
-    const product =
-
-      products.find(
-
-        p =>
-
-          p.image_url === imageUrl
-
-      );
-
-
-    return {
-
-
-      ...file,
-
-
-      image_url:
-        imageUrl,
-
-
-      productExists:
-        Boolean(product),
-
-
-      is_active:
-
-        product
-
-          ? product.is_active
-
-          : true
-
-
-    };
-
-
-  });
-
+  return await response.json();
 
 }
 
 
 
-/* ============================
-   SAVE PRODUCT ON / OFF
-============================ */
+/* =====================================
+   GET STORAGE FOLDER
+===================================== */
 
-
-async function saveProductState(
-
-  file,
-
-  categoryFolder,
-
-  isActive
-
-) {
-
+async function getFolderFiles(folder) {
 
   const session =
+    await getSessionOrThrow();
 
+
+  const response =
+    await fetch(
+
+      SUPABASE_URL +
+      "/storage/v1/object/list/product%20-image",
+
+      {
+
+        method: "POST",
+
+        headers: {
+
+          apikey:
+            SUPABASE_ANON_KEY,
+
+          Authorization:
+            "Bearer " +
+            session.access_token,
+
+          "Content-Type":
+            "application/json"
+
+        },
+
+        body: JSON.stringify({
+
+          prefix: folder,
+
+          limit: 1000,
+
+          offset: 0,
+
+          sortBy: {
+            column: "name",
+            order: "asc"
+          }
+
+        })
+
+      }
+
+    );
+
+
+  if (!response.ok) {
+
+    const detail =
+      await response.text();
+
+
+    throw new Error(
+      "Could not load folder " +
+      folder +
+      ": " +
+      detail
+    );
+
+  }
+
+
+  return await response.json();
+
+}
+
+
+
+/* =====================================
+   SAVE ON / OFF
+===================================== */
+
+async function saveProductState(
+  file,
+  categoryFolder,
+  isActive
+) {
+
+  const session =
     await getSessionOrThrow();
 
 
   const token =
-
     session.access_token;
 
 
   let response;
 
 
-
   if (file.productExists) {
 
-
     response =
-
       await fetch(
 
-
         SUPABASE_URL +
-
         "/rest/v1/product?image_url=eq." +
-
         encodeURIComponent(
-
           file.image_url
-
         ),
-
 
         {
 
-
           method: "PATCH",
 
-
           headers: {
-
 
             apikey:
               SUPABASE_ANON_KEY,
 
-
             Authorization:
               "Bearer " + token,
-
 
             "Content-Type":
               "application/json",
 
-
             Prefer:
               "return=minimal"
 
-
           },
 
-
           body:
-
             JSON.stringify({
-
 
               category:
                 categoryFolder,
 
-
               is_active:
                 isActive
 
-
             })
-
 
         }
 
-
       );
-
 
   }
 
-
   else {
 
-
     response =
-
       await fetch(
 
-
         SUPABASE_URL +
-
         "/rest/v1/product",
-
 
         {
 
-
           method: "POST",
 
-
           headers: {
-
 
             apikey:
               SUPABASE_ANON_KEY,
 
-
             Authorization:
               "Bearer " + token,
-
 
             "Content-Type":
               "application/json",
 
-
             Prefer:
               "return=minimal"
 
-
           },
 
-
           body:
-
             JSON.stringify({
-
 
               image_url:
                 file.image_url,
 
-
               category:
                 categoryFolder,
-
 
               is_active:
                 isActive
 
-
             })
-
 
         }
 
-
       );
-
 
   }
 
 
   if (!response.ok) {
 
-
     const detail =
-
       await response.text();
 
 
     throw new Error(
-
-
       detail ||
-
-      "Supabase rejected the update."
-
-
+      "Supabase rejected update."
     );
-
 
   }
 
 
   file.productExists = true;
 
-
   file.is_active =
-
     isActive;
-
 
 }
 
 
 
-/* ============================
-   LOAD ADMIN PRODUCTS
-============================ */
+/* =====================================
+   CREATE CATEGORY SECTION
+===================================== */
 
+function createCategorySection(
+  category,
+  files,
+  products
+) {
+
+  const images =
+    files
+      .filter(file =>
+        /\.(png|jpg|jpeg|webp)$/i
+          .test(file.name)
+      )
+      .map(file => {
+
+        const imageUrl =
+          getImageUrl(
+            category.folder,
+            file.name
+          );
+
+
+        const product =
+          products.find(
+            item =>
+              item.image_url ===
+              imageUrl
+          );
+
+
+        return {
+
+          ...file,
+
+          image_url:
+            imageUrl,
+
+          productExists:
+            Boolean(product),
+
+          is_active:
+            product
+              ? product.is_active
+              : true
+
+        };
+
+      });
+
+
+  const section =
+    document.createElement(
+      "section"
+    );
+
+
+  section.className =
+    "category";
+
+
+  section.dataset.category =
+    category.title;
+
+
+  const heading =
+    document.createElement(
+      "h2"
+    );
+
+
+  heading.textContent =
+    category.title;
+
+
+  const count =
+    document.createElement(
+      "div"
+    );
+
+
+  count.className =
+    "count";
+
+
+  count.textContent =
+    images.length +
+    " product(s)";
+
+
+  const grid =
+    document.createElement(
+      "div"
+    );
+
+
+  grid.className =
+    "grid";
+
+
+  images.forEach(file => {
+
+
+    const card =
+      document.createElement(
+        "div"
+      );
+
+
+    card.className =
+      "product";
+
+
+    const toggleArea =
+      document.createElement(
+        "div"
+      );
+
+
+    toggleArea.className =
+      "toggle-area";
+
+
+    const toggle =
+      document.createElement(
+        "input"
+      );
+
+
+    toggle.type =
+      "checkbox";
+
+
+    toggle.checked =
+      file.is_active !== false;
+
+
+    const label =
+      document.createElement(
+        "span"
+      );
+
+
+    label.textContent =
+      toggle.checked
+        ? "ON"
+        : "OFF";
+
+
+    const img =
+      document.createElement(
+        "img"
+      );
+
+
+    img.src =
+      file.image_url;
+
+
+    img.alt =
+      file.name;
+
+
+    const filename =
+      document.createElement(
+        "div"
+      );
+
+
+    filename.className =
+      "filename";
+
+
+    filename.textContent =
+      file.name;
+
+
+
+    toggle.addEventListener(
+      "change",
+      async function () {
+
+        const wantedState =
+          toggle.checked;
+
+
+        toggle.disabled =
+          true;
+
+
+        label.textContent =
+          wantedState
+            ? "ON"
+            : "OFF";
+
+
+        try {
+
+          await saveProductState(
+            file,
+            category.folder,
+            wantedState
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(error);
+
+
+          toggle.checked =
+            !wantedState;
+
+
+          label.textContent =
+            toggle.checked
+              ? "ON"
+              : "OFF";
+
+
+          alert(
+            "Could not update product.\n\n" +
+            error.message
+          );
+
+        }
+
+        finally {
+
+          toggle.disabled =
+            false;
+
+        }
+
+      }
+    );
+
+
+    toggleArea.appendChild(
+      toggle
+    );
+
+
+    toggleArea.appendChild(
+      label
+    );
+
+
+    card.appendChild(
+      toggleArea
+    );
+
+
+    card.appendChild(
+      img
+    );
+
+
+    card.appendChild(
+      filename
+    );
+
+
+    grid.appendChild(
+      card
+    );
+
+  });
+
+
+  section.appendChild(
+    heading
+  );
+
+
+  section.appendChild(
+    count
+  );
+
+
+  section.appendChild(
+    grid
+  );
+
+
+  return section;
+
+}
+
+
+
+/* =====================================
+   LOAD ADMIN
+===================================== */
 
 async function loadAdmin() {
 
-
   const admin =
-
     document
       .getElementById("admin");
 
 
-  admin.innerHTML =
+  const loadingStatus =
+    document
+      .getElementById(
+        "loadingStatus"
+      );
 
-    '<div class="loading">Loading products...</div>';
+
+  admin.innerHTML = "";
+
+
+  loadingStatus.style.display =
+    "block";
 
 
   try {
 
 
-    admin.innerHTML = "";
+    /* GET STATUS TABLE ONLY ONCE */
 
+    const products =
+      await getProductStatuses();
+
+
+
+    /*
+       LOAD EACH CATEGORY.
+
+       IMPORTANT FIX:
+       AFTER EVERY CATEGORY IS ADDED,
+       FILTER IS APPLIED AGAIN.
+    */
 
     for (
-
-      const category
-
-      of categories
-
+      let i = 0;
+      i < categories.length;
+      i++
     ) {
 
 
-      const files =
-
-        await getFolderFiles(
-
-          category.folder
-
-        );
+      const category =
+        categories[i];
 
 
-      const images =
-
-        files.filter(file =>
-
-
-          /\.(png|jpg|jpeg|webp)$/i
-
-            .test(file.name)
-
-
-        );
+      loadingStatus.textContent =
+        "Loading " +
+        category.title +
+        " (" +
+        (i + 1) +
+        "/" +
+        categories.length +
+        ")...";
 
 
-      const section =
-
-        document.createElement(
-
-          "section"
-
-        );
+      try {
 
 
-      section.className =
-
-        "category";
-
-
-      /* SAVE CATEGORY NAME ON SECTION */
-
-      section.dataset.category =
-
-        category.title;
-
-
-      const heading =
-
-        document.createElement(
-
-          "h2"
-
-        );
-
-
-      heading.textContent =
-
-        category.title;
-
-
-      const count =
-
-        document.createElement(
-
-          "div"
-
-        );
-
-
-      count.className =
-
-        "count";
-
-
-      count.textContent =
-
-        images.length +
-
-        " product(s)";
-
-
-      const grid =
-
-        document.createElement(
-
-          "div"
-
-        );
-
-
-      grid.className =
-
-        "grid";
-
-
-      images.forEach(file => {
-
-
-        const card =
-
-          document.createElement(
-
-            "div"
-
+        const files =
+          await getFolderFiles(
+            category.folder
           );
 
 
-        card.className =
-
-          "product";
-
-
-        /* ON / OFF AREA */
-
-
-        const toggleArea =
-
-          document.createElement(
-
-            "div"
-
+        const section =
+          createCategorySection(
+            category,
+            files,
+            products
           );
 
 
-        toggleArea.className =
-
-          "toggle-area";
-
-
-        const toggle =
-
-          document.createElement(
-
-            "input"
-
-          );
-
-
-        toggle.type =
-
-          "checkbox";
-
-
-        toggle.checked =
-
-          file.is_active !== false;
-
-
-        const label =
-
-          document.createElement(
-
-            "span"
-
-          );
-
-
-        label.textContent =
-
-          toggle.checked
-
-            ? "ON"
-
-            : "OFF";
-
-
-        /* PRODUCT IMAGE */
-
-
-        const img =
-
-          document.createElement(
-
-            "img"
-
-          );
-
-
-        img.src =
-
-          file.image_url;
-
-
-        img.alt =
-
-          file.name;
-
-
-        /* FILE NAME */
-
-
-        const filename =
-
-          document.createElement(
-
-            "div"
-
-          );
-
-
-        filename.className =
-
-          "filename";
-
-
-        filename.textContent =
-
-          file.name;
-
-
-        toggleArea.appendChild(
-
-          toggle
-
+        admin.appendChild(
+          section
         );
 
 
-        toggleArea.appendChild(
+        /*
+          THIS IS THE IMPORTANT FIX.
 
-          label
+          If DRINKS is already selected,
+          every new category that loads
+          is immediately hidden unless
+          it is DRINKS.
+        */
 
+        filterAdminCategories();
+
+
+      }
+
+      catch (categoryError) {
+
+
+        console.error(
+          "Could not load " +
+          category.title,
+          categoryError
         );
 
 
-
-        /* =========================
-           ON/OFF CHANGE
-        ========================= */
-
-
-        toggle.addEventListener(
-
-
-          "change",
-
-
-          async () => {
-
-
-            const wantedState =
-
-              toggle.checked;
-
-
-            toggle.disabled =
-
-              true;
-
-
-            label.textContent =
-
-              wantedState
-
-                ? "ON"
-
-                : "OFF";
-
-
-            try {
-
-
-              await saveProductState(
-
-
-                file,
-
-
-                category.folder,
-
-
-                wantedState
-
-
-              );
-
-
-            }
-
-
-            catch (error) {
-
-
-              console.error(
-
-                "Update failed:",
-
-                error
-
-              );
-
-
-              toggle.checked =
-
-                !wantedState;
-
-
-              label.textContent =
-
-                toggle.checked
-
-                  ? "ON"
-
-                  : "OFF";
-
-
-              alert(
-
-
-                "Could not update product.\n\n" +
-
-
-                "Supabase says:\n" +
-
-
-                error.message
-
-
-              );
-
-
-            }
-
-
-            finally {
-
-
-              toggle.disabled =
-
-                false;
-
-
-            }
-
-
-          }
-
-
-        );
-
-
-        card.appendChild(
-
-          toggleArea
-
-        );
-
-
-        card.appendChild(
-
-          img
-
-        );
-
-
-        card.appendChild(
-
-          filename
-
-        );
-
-
-        grid.appendChild(
-
-          card
-
-        );
-
-
-      });
-
-
-
-      section.appendChild(
-
-        heading
-
-      );
-
-
-      section.appendChild(
-
-        count
-
-      );
-
-
-      section.appendChild(
-
-        grid
-
-      );
-
-
-      admin.appendChild(
-
-        section
-
-      );
-
+      }
 
     }
 
 
-    /* APPLY FILTER AFTER PRODUCTS LOAD */
+    loadingStatus.style.display =
+      "none";
+
 
     filterAdminCategories();
 
 
   }
-
 
   catch (error) {
 
@@ -1926,498 +1591,270 @@ async function loadAdmin() {
     console.error(error);
 
 
+    loadingStatus.style.display =
+      "none";
+
+
     admin.innerHTML =
-
-
       '<div class="error">' +
-
-
-      'Could not load the products.' +
-
-
-      '<br><br>' +
-
-
+      'Could not load products.<br><br>' +
       String(
-
         error.message ||
-
         error
-
       ) +
-
-
       '</div>';
 
 
   }
 
-
 }
 
 
 
-/* ============================
-   LOGIN BUTTON
-============================ */
-
-
-document
-
-  .getElementById(
-
-    "loginButton"
-
-  )
-
-  .addEventListener(
-
-    "click",
-
-    loginAdmin
-
-  );
-
-
-
-/* ============================
-   LOGOUT BUTTON
-============================ */
-
-
-document
-
-  .getElementById(
-
-    "logoutButton"
-
-  )
-
-  .addEventListener(
-
-    "click",
-
-    logoutAdmin
-
-  );
-
-
-
-/* ============================
-   ENTER TO LOGIN
-============================ */
-
-
-document
-
-  .getElementById(
-
-    "password"
-
-  )
-
-  .addEventListener(
-
-
-    "keydown",
-
-
-    event => {
-
-
-      if (
-
-        event.key === "Enter"
-
-      ) {
-
-
-        loginAdmin();
-
-
-      }
-
-
-    }
-
-
-  );
-
-
-
-/* ============================
-   AUTH CHANGES
-============================ */
-
-
-supabaseClient.auth
-
-  .onAuthStateChange(
-
-
-    (event, session) => {
-
-
-      if (
-
-        event === "SIGNED_OUT"
-
-      ) {
-
-
-        showLogin();
-
-
-      }
-
-
-      if (
-
-        event === "TOKEN_REFRESHED" &&
-
-        session
-
-      ) {
-
-
-        document
-
-          .getElementById(
-
-            "signedInUser"
-
-          )
-
-          .textContent =
-
-
-          session.user &&
-
-          session.user.email
-
-
-          ? "Signed in: " +
-
-            session.user.email
-
-
-          : "Signed in";
-
-
-      }
-
-
-    }
-
-
-  );
-
-
-
-/* ==========================================
-   CATEGORY SEARCH + DROPDOWN
-========================================== */
-
+/* =====================================
+   CATEGORY FILTER
+===================================== */
 
 function filterAdminCategories() {
 
 
-  const search =
-
+  const select =
     document
-
       .getElementById(
-
-        "categorySearch"
-
-      )
-
-      .value
-
-      .toLowerCase()
-
-      .trim();
-
-
-
-  const selected =
-
-    document
-
-      .getElementById(
-
         "categorySelect"
-
-      )
-
-      .value;
-
-
-
-  const sections =
-
-    document
-
-      .querySelectorAll(
-
-        ".category"
-
       );
 
 
-
-  sections.forEach(section => {
-
-
-    const heading =
-
-      section
-
-        .querySelector("h2");
+  const searchBox =
+    document
+      .getElementById(
+        "categorySearch"
+      );
 
 
-    const categoryName =
-
-      heading
-
-        ? heading
-
-            .textContent
-
-            .trim()
-
-        : "";
+  if (
+    !select ||
+    !searchBox
+  ) {
+    return;
+  }
 
 
-
-    /* SEARCH BOX CHECK */
-
-
-    const searchMatch =
-
-      search === "" ||
-
-      categoryName
-
-        .toLowerCase()
-
-        .includes(search);
+  const selected =
+    select.value
+      .trim()
+      .toUpperCase();
 
 
-
-    /* DROPDOWN CHECK */
-
-
-    const dropdownMatch =
-
-      selected === "all" ||
-
-      categoryName === selected;
+  const search =
+    searchBox.value
+      .trim()
+      .toUpperCase();
 
 
+  const sections =
+    document.querySelectorAll(
+      "#admin .category"
+    );
 
-    /* SHOW OR HIDE */
+
+  sections.forEach(
+    section => {
 
 
-    if (
+      const categoryName =
+        (
+          section.dataset.category ||
+          ""
+        )
+        .trim()
+        .toUpperCase();
 
-      searchMatch &&
 
-      dropdownMatch
+      const categoryMatch =
+        selected === "ALL" ||
+        categoryName ===
+          selected;
 
-    ) {
+
+      const searchMatch =
+        search === "" ||
+        categoryName.includes(
+          search
+        );
 
 
       section.style.display =
+        categoryMatch &&
+        searchMatch
 
-        "block";
+          ? ""
 
-
-    }
-
-
-    else {
-
-
-      section.style.display =
-
-        "none";
+          : "none";
 
 
     }
-
-
-  });
-
+  );
 
 }
 
 
 
-/* ============================
-   SEARCH BOX EVENT
-============================ */
+/* =====================================
+   CATEGORY DROPDOWN
+===================================== */
 
+function selectCategoryAdmin() {
+
+
+  document
+    .getElementById(
+      "categorySearch"
+    )
+    .value = "";
+
+
+  filterAdminCategories();
+
+}
+
+
+
+/* =====================================
+   SEARCH CATEGORY
+===================================== */
+
+function searchCategoryAdmin() {
+
+
+  document
+    .getElementById(
+      "categorySelect"
+    )
+    .value = "ALL";
+
+
+  filterAdminCategories();
+
+}
+
+
+
+/* =====================================
+   LOGIN BUTTON
+===================================== */
 
 document
-
   .getElementById(
-
-    "categorySearch"
-
+    "loginButton"
   )
-
   .addEventListener(
-
-
-    "input",
-
-
-    function () {
-
-
-      /* WHEN TYPING SEARCH,
-         SHOW ALL DROPDOWN FIRST */
-
-
-      document
-
-        .getElementById(
-
-          "categorySelect"
-
-        )
-
-        .value = "all";
-
-
-      filterAdminCategories();
-
-
-    }
-
-
+    "click",
+    loginAdmin
   );
 
 
 
-/* ============================
-   DROPDOWN EVENT
-============================ */
-
+/* =====================================
+   LOGOUT BUTTON
+===================================== */
 
 document
-
   .getElementById(
-
-    "categorySelect"
-
+    "logoutButton"
   )
-
   .addEventListener(
+    "click",
+    logoutAdmin
+  );
 
 
-    "change",
+
+/* =====================================
+   ENTER PASSWORD
+===================================== */
+
+document
+  .getElementById(
+    "password"
+  )
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        loginAdmin();
+
+      }
+
+    }
+  );
 
 
-    function () {
 
+/* =====================================
+   AUTH CHANGE
+===================================== */
 
-      /* CLEAR SEARCH */
-
-
-      document
-
-        .getElementById(
-
-          "categorySearch"
-
-        )
-
-        .value = "";
-
-
-      /* FILTER */
-
-
-      filterAdminCategories();
-
-
-      /* SCROLL TO RESULT */
+supabaseClient.auth
+  .onAuthStateChange(
+    function(
+      event,
+      session
+    ) {
 
 
       if (
+        event ===
+        "SIGNED_OUT"
+      ) {
 
-        this.value !== "all"
+        showLogin();
 
+      }
+
+
+      if (
+        event ===
+        "TOKEN_REFRESHED" &&
+        session
       ) {
 
 
-        const visibleSection =
-
-          Array.from(
-
-            document
-
-              .querySelectorAll(
-
-                ".category"
-
-              )
-
+        document
+          .getElementById(
+            "signedInUser"
           )
+          .textContent =
 
-          .find(
+          session.user &&
+          session.user.email
 
-            section =>
+            ? "Signed in: " +
+              session.user.email
 
-              section.style.display !==
-
-              "none"
-
-          );
-
-
-        if (visibleSection) {
-
-
-          visibleSection
-
-            .scrollIntoView({
-
-
-              behavior: "smooth",
-
-
-              block: "start"
-
-
-            });
-
-
-        }
-
+            : "Signed in";
 
       }
 
 
     }
-
-
   );
 
 
 
-/* ============================
-   START ADMIN
-============================ */
-
+/* =====================================
+   START
+===================================== */
 
 checkLogin();
 
 
 </script>
 
-
 </body>
+
 </html>
