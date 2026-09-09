@@ -7,6 +7,7 @@
   <title>K&M Catalogue Admin</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -119,7 +120,10 @@
       white-space: nowrap;
     }
 
-    /* SEARCH + CATEGORY CHOICE */
+
+    /* =========================
+       SEARCH + DROPDOWN
+    ========================= */
 
     .category-search-wrap {
       margin-bottom: 30px;
@@ -146,7 +150,7 @@
     }
 
     #categorySelect {
-      width: 260px;
+      width: 300px;
       padding: 16px 18px;
       font-size: 16px;
       font-weight: bold;
@@ -162,6 +166,11 @@
       border-color: #003e2b;
       box-shadow: 0 0 0 3px rgba(0,62,43,.12);
     }
+
+
+    /* =========================
+       CATEGORY
+    ========================= */
 
     .category {
       margin-bottom: 45px;
@@ -180,9 +189,15 @@
       margin-bottom: 15px;
     }
 
+
+    /* =========================
+       PRODUCTS
+    ========================= */
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      grid-template-columns:
+        repeat(auto-fill, minmax(380px, 1fr));
       gap: 25px;
     }
 
@@ -235,6 +250,11 @@
       border-radius: 6px;
     }
 
+
+    /* =========================
+       PHONE
+    ========================= */
+
     @media (max-width: 600px) {
 
       main {
@@ -244,6 +264,10 @@
       .category-search-wrap {
         flex-direction: column;
         align-items: stretch;
+      }
+
+      #categorySearch {
+        width: 100%;
       }
 
       #categorySelect {
@@ -261,21 +285,37 @@
       .category h2 {
         font-size: 22px;
       }
+
     }
+
   </style>
 </head>
 
+
 <body>
 
+
 <header>
+
   <h1>K&M CATALOGUE ADMIN</h1>
+
   <p>Product Manager</p>
+
 </header>
 
 
-<div id="loginArea" class="login-container">
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div
+  id="loginArea"
+  class="login-container"
+>
 
   <h2>Admin Login</h2>
+
 
   <input
     type="email"
@@ -284,6 +324,7 @@
     autocomplete="email"
   >
 
+
   <input
     type="password"
     id="password"
@@ -291,37 +332,57 @@
     autocomplete="current-password"
   >
 
-  <button id="loginButton" type="button">
+
+  <button
+    id="loginButton"
+    type="button"
+  >
     LOGIN
   </button>
+
 
   <div id="loginMessage"></div>
 
 </div>
 
 
+
+<!-- =========================
+     ADMIN
+========================= -->
+
 <main id="adminArea">
+
 
   <div class="admin-top">
 
+
     <div
       id="signedInUser"
-      class="signed-in">
+      class="signed-in"
+    >
     </div>
+
 
     <button
       id="logoutButton"
       class="logout-btn"
-      type="button">
+      type="button"
+    >
       LOGOUT
     </button>
+
 
   </div>
 
 
-  <!-- SEARCH + CATEGORY DROPDOWN -->
+
+  <!-- =========================
+       SEARCH + CATEGORY
+  ========================= -->
 
   <div class="category-search-wrap">
+
 
     <input
       type="text"
@@ -330,83 +391,110 @@
       autocomplete="off"
     >
 
+
     <select id="categorySelect">
 
-      <option value="all">ALL CATEGORIES</option>
 
-      <option value="rise">RICE</option>
+      <option value="all">
+        ALL CATEGORIES
+      </option>
 
-      <option value="SAUCES">SAUCES</option>
 
-      <option value="drink">DRINKS</option>
+      <option value="RICE">
+        RICE
+      </option>
 
-      <option value="snacks">
+
+      <option value="SAUCES">
+        SAUCES
+      </option>
+
+
+      <option value="DRINKS">
+        DRINKS
+      </option>
+
+
+      <option value="SNACKS & SWEETS">
         SNACKS & SWEETS
       </option>
 
-      <option value="spices">
+
+      <option value="SPICES">
         SPICES
       </option>
 
-      <option value="beans&chickpease">
+
+      <option value="BEANS & CHICKPEAS">
         BEANS & CHICKPEAS
       </option>
 
-      <option value="cooking essentials">
+
+      <option value="COOKING ESSENTIALS">
         COOKING ESSENTIALS
       </option>
+
 
       <option value="PICKLES">
         PICKLES
       </option>
 
-      <option value="TEA & COFFE">
+
+      <option value="TEA & COFFEE">
         TEA & COFFEE
       </option>
 
-      <option value="Chewing Gum">
+
+      <option value="CHEWING GUM">
         CHEWING GUM
       </option>
 
-      <option value="Candy Sweets & Candy Toys">
+
+      <option value="CANDY SWEETS & CANDY TOYS">
         CANDY SWEETS & CANDY TOYS
       </option>
 
-      <option value="chips">
+
+      <option value="CHIPS">
         CHIPS
       </option>
+
 
       <option value="NUTS">
         NUTS
       </option>
 
+
       <option value="TOILETRIES">
         TOILETRIES
       </option>
 
-      <option value="TESSUE AND WIPES">
+
+      <option value="TISSUE & WIPES">
         TISSUE & WIPES
       </option>
+
 
       <option value="TRADITIONAL">
         TRADITIONAL
       </option>
 
+
       <option value="GENERAL PRODUCTS">
         GENERAL PRODUCTS
       </option>
 
-      <option value="Special offer">
+
+      <option value="SPECIAL OFFER">
         SPECIAL OFFER
       </option>
 
-      <option value="special-offer">
-        SPECIAL OFFER
-      </option>
 
     </select>
 
+
   </div>
+
 
 
   <div id="admin">
@@ -417,13 +505,21 @@
 
   </div>
 
+
 </main>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
 <script>
+
+
+/* ============================
+   SUPABASE
+============================ */
+
 
 const SUPABASE_URL =
 "https://gynnbpmghwwzimdzhxfw.supabase.co";
@@ -435,1140 +531,1893 @@ const SUPABASE_ANON_KEY =
 
 const supabaseClient =
 window.supabase.createClient(
+
   SUPABASE_URL,
+
   SUPABASE_ANON_KEY,
+
   {
+
     auth: {
+
       persistSession: true,
+
       autoRefreshToken: true,
+
       detectSessionInUrl: true
+
     }
+
   }
+
 );
+
 
 
 /* ============================
    CATEGORIES
 ============================ */
 
+
 const categories = [
+
 
   {
     folder: "rise",
     title: "RICE"
   },
 
+
   {
     folder: "SAUCES",
     title: "SAUCES"
   },
+
 
   {
     folder: "drink",
     title: "DRINKS"
   },
 
+
   {
     folder: "snacks",
     title: "SNACKS & SWEETS"
   },
+
 
   {
     folder: "spices",
     title: "SPICES"
   },
 
+
   {
     folder: "beans&chickpease",
     title: "BEANS & CHICKPEAS"
   },
+
 
   {
     folder: "cooking essentials",
     title: "COOKING ESSENTIALS"
   },
 
+
   {
     folder: "PICKLES",
     title: "PICKLES"
   },
+
 
   {
     folder: "TEA & COFFE",
     title: "TEA & COFFEE"
   },
 
+
   {
     folder: "Chewing Gum",
     title: "CHEWING GUM"
   },
+
 
   {
     folder: "Candy Sweets & Candy Toys",
     title: "CANDY SWEETS & CANDY TOYS"
   },
 
+
   {
     folder: "chips",
     title: "CHIPS"
   },
+
 
   {
     folder: "NUTS",
     title: "NUTS"
   },
 
+
   {
     folder: "TOILETRIES",
     title: "TOILETRIES"
   },
+
 
   {
     folder: "TESSUE AND WIPES",
     title: "TISSUE & WIPES"
   },
 
+
   {
     folder: "TRADITIONAL",
     title: "TRADITIONAL"
   },
+
 
   {
     folder: "GENERAL PRODUCTS",
     title: "GENERAL PRODUCTS"
   },
 
+
   {
     folder: "Special offer",
     title: "SPECIAL OFFER"
   },
+
 
   {
     folder: "special-offer",
     title: "SPECIAL OFFER"
   }
 
+
 ];
 
 
+
 let adminLoaded = false;
+
 
 
 /* ============================
    IMAGE URL
 ============================ */
 
-function getImageUrl(folder, filename) {
+
+function getImageUrl(
+  folder,
+  filename
+) {
+
 
   return (
+
     SUPABASE_URL +
+
     "/storage/v1/object/public/product%20-image/" +
+
     encodeURIComponent(folder) +
+
     "/" +
+
     encodeURIComponent(filename)
+
   );
 
+
 }
+
 
 
 /* ============================
    GET LOGIN SESSION
 ============================ */
 
+
 async function getSessionOrThrow() {
 
+
   const { data, error } =
-    await supabaseClient.auth.getSession();
+
+    await supabaseClient.auth
+      .getSession();
+
 
   if (error) {
+
     throw error;
+
   }
+
 
   if (
+
     !data.session ||
+
     !data.session.access_token
+
   ) {
 
+
     throw new Error(
+
       "Your login session has expired. Please log in again."
+
     );
+
+
   }
 
+
   return data.session;
+
+
 }
+
 
 
 /* ============================
    LOGIN
 ============================ */
 
+
 async function loginAdmin() {
 
+
   const email =
+
     document
       .getElementById("email")
       .value
       .trim();
 
+
   const password =
+
     document
       .getElementById("password")
       .value;
 
+
   const message =
-    document.getElementById(
-      "loginMessage"
-    );
+
+    document
+      .getElementById("loginMessage");
+
 
   const button =
-    document.getElementById(
-      "loginButton"
-    );
+
+    document
+      .getElementById("loginButton");
+
 
   message.textContent = "";
 
+
   if (!email || !password) {
 
+
     message.textContent =
+
       "Please enter your email and password.";
 
+
     return;
+
+
   }
+
 
   button.disabled = true;
 
+
   button.textContent =
+
     "LOGGING IN...";
 
+
   const { data, error } =
+
     await supabaseClient.auth
       .signInWithPassword({
 
+
         email: email,
+
         password: password
+
 
       });
 
+
   button.disabled = false;
+
 
   button.textContent = "LOGIN";
 
-  if (error || !data.session) {
+
+  if (
+
+    error ||
+
+    !data.session
+
+  ) {
+
 
     console.error(error);
 
+
     message.textContent =
+
       "Wrong email or password.";
 
+
     return;
+
+
   }
+
 
   document
     .getElementById("password")
     .value = "";
 
+
   adminLoaded = false;
 
+
   await showAdmin(
+
     data.session
+
   );
+
+
 }
+
 
 
 /* ============================
    LOGOUT
 ============================ */
 
+
 async function logoutAdmin() {
 
-  await supabaseClient.auth.signOut();
+
+  await supabaseClient.auth
+    .signOut();
+
 
   adminLoaded = false;
 
-  document.getElementById(
-    "admin"
-  ).innerHTML =
+
+  document
+    .getElementById("admin")
+    .innerHTML =
+
     '<div class="loading">Loading products...</div>';
 
+
   showLogin();
+
+
 }
+
 
 
 /* ============================
    SHOW LOGIN
 ============================ */
 
+
 function showLogin() {
 
-  document.getElementById(
-    "adminArea"
-  ).style.display = "none";
 
-  document.getElementById(
-    "loginArea"
-  ).style.display = "block";
+  document
+    .getElementById("adminArea")
+    .style.display = "none";
 
-  document.getElementById(
-    "signedInUser"
-  ).textContent = "";
+
+  document
+    .getElementById("loginArea")
+    .style.display = "block";
+
+
+  document
+    .getElementById("signedInUser")
+    .textContent = "";
+
+
 }
+
 
 
 /* ============================
    SHOW ADMIN
 ============================ */
 
+
 async function showAdmin(session) {
 
-  document.getElementById(
-    "loginArea"
-  ).style.display = "none";
 
-  document.getElementById(
-    "adminArea"
-  ).style.display = "block";
+  document
+    .getElementById("loginArea")
+    .style.display = "none";
 
-  document.getElementById(
-    "signedInUser"
-  ).textContent =
+
+  document
+    .getElementById("adminArea")
+    .style.display = "block";
+
+
+  document
+    .getElementById("signedInUser")
+    .textContent =
+
 
     session.user &&
+
     session.user.email
 
+
     ? "Signed in: " +
+
       session.user.email
+
 
     : "Signed in";
 
+
   if (!adminLoaded) {
+
 
     adminLoaded = true;
 
+
     await loadAdmin();
+
+
   }
+
+
 }
+
 
 
 /* ============================
-   CHECK EXISTING LOGIN
+   CHECK LOGIN
 ============================ */
+
 
 async function checkLogin() {
 
+
   const { data, error } =
+
     await supabaseClient.auth
       .getSession();
 
+
   if (
+
     error ||
+
     !data.session
+
   ) {
+
 
     showLogin();
 
+
     return;
+
+
   }
 
+
   await showAdmin(
+
     data.session
+
   );
+
+
 }
+
 
 
 /* ============================
    GET FOLDER PRODUCTS
 ============================ */
 
+
 async function getFolderFiles(folder) {
 
+
   const session =
+
     await getSessionOrThrow();
 
+
   const token =
+
     session.access_token;
 
+
   const response =
+
     await fetch(
 
+
       SUPABASE_URL +
+
       "/storage/v1/object/list/product%20-image",
+
 
       {
 
+
         method: "POST",
+
 
         headers: {
 
+
           apikey:
             SUPABASE_ANON_KEY,
+
 
           Authorization:
             "Bearer " + token,
 
+
           "Content-Type":
             "application/json"
+
+
         },
+
 
         body: JSON.stringify({
 
+
           prefix: folder,
+
 
           limit: 1000,
 
+
           offset: 0,
+
 
           sortBy: {
 
+
             column: "name",
 
+
             order: "asc"
+
+
           }
+
+
         })
+
+
       }
+
+
     );
+
 
   if (!response.ok) {
 
+
     const detail =
+
       await response.text();
 
+
     throw new Error(
+
+
       "Could not load folder " +
+
       folder +
+
       ": " +
+
       detail
+
+
     );
+
+
   }
 
+
   const files =
+
     await response.json();
+
 
 
   /* GET PRODUCT ON/OFF STATUS */
 
+
   const productResponse =
+
     await fetch(
 
+
       SUPABASE_URL +
+
       "/rest/v1/product?select=image_url,is_active,category",
+
 
       {
 
+
         headers: {
+
 
           apikey:
             SUPABASE_ANON_KEY,
 
+
           Authorization:
             "Bearer " + token
+
+
         }
+
+
       }
+
+
     );
+
 
   if (!productResponse.ok) {
 
+
     const detail =
+
       await productResponse.text();
 
+
     throw new Error(
+
+
       "Could not load product status: " +
+
       detail
+
+
     );
+
+
   }
 
+
   const products =
+
     await productResponse.json();
+
 
   return files.map(file => {
 
+
     const imageUrl =
+
       getImageUrl(
+
         folder,
+
         file.name
+
       );
 
+
     const product =
+
       products.find(
+
         p =>
+
           p.image_url === imageUrl
+
       );
+
 
     return {
 
+
       ...file,
+
 
       image_url:
         imageUrl,
 
+
       productExists:
         Boolean(product),
 
+
       is_active:
+
         product
+
           ? product.is_active
+
           : true
+
+
     };
+
+
   });
+
+
 }
+
 
 
 /* ============================
    SAVE PRODUCT ON / OFF
 ============================ */
 
+
 async function saveProductState(
+
   file,
+
   categoryFolder,
+
   isActive
+
 ) {
 
+
   const session =
+
     await getSessionOrThrow();
 
+
   const token =
+
     session.access_token;
+
 
   let response;
 
+
+
   if (file.productExists) {
 
+
     response =
+
       await fetch(
 
+
         SUPABASE_URL +
+
         "/rest/v1/product?image_url=eq." +
+
         encodeURIComponent(
+
           file.image_url
+
         ),
+
 
         {
 
+
           method: "PATCH",
 
+
           headers: {
+
 
             apikey:
               SUPABASE_ANON_KEY,
 
+
             Authorization:
               "Bearer " + token,
+
 
             "Content-Type":
               "application/json",
 
+
             Prefer:
               "return=minimal"
+
+
           },
 
+
           body:
+
             JSON.stringify({
+
 
               category:
                 categoryFolder,
 
+
               is_active:
                 isActive
+
+
             })
+
+
         }
+
+
       );
+
+
   }
+
 
   else {
 
+
     response =
+
       await fetch(
 
+
         SUPABASE_URL +
+
         "/rest/v1/product",
+
 
         {
 
+
           method: "POST",
 
+
           headers: {
+
 
             apikey:
               SUPABASE_ANON_KEY,
 
+
             Authorization:
               "Bearer " + token,
+
 
             "Content-Type":
               "application/json",
 
+
             Prefer:
               "return=minimal"
+
+
           },
 
+
           body:
+
             JSON.stringify({
+
 
               image_url:
                 file.image_url,
 
+
               category:
                 categoryFolder,
 
+
               is_active:
                 isActive
+
+
             })
+
+
         }
+
+
       );
+
+
   }
+
 
   if (!response.ok) {
 
+
     const detail =
+
       await response.text();
 
+
     throw new Error(
+
+
       detail ||
+
       "Supabase rejected the update."
+
+
     );
+
+
   }
+
 
   file.productExists = true;
 
+
   file.is_active =
+
     isActive;
+
+
 }
+
 
 
 /* ============================
    LOAD ADMIN PRODUCTS
 ============================ */
 
+
 async function loadAdmin() {
 
+
   const admin =
-    document.getElementById(
-      "admin"
-    );
+
+    document
+      .getElementById("admin");
+
 
   admin.innerHTML =
+
     '<div class="loading">Loading products...</div>';
+
 
   try {
 
+
     admin.innerHTML = "";
 
+
     for (
+
       const category
+
       of categories
+
     ) {
 
+
       const files =
+
         await getFolderFiles(
+
           category.folder
+
         );
+
 
       const images =
+
         files.filter(file =>
 
+
           /\.(png|jpg|jpeg|webp)$/i
+
             .test(file.name)
+
+
         );
+
 
       const section =
+
         document.createElement(
+
           "section"
+
         );
 
+
       section.className =
+
         "category";
 
-      /* IMPORTANT FOR DROPDOWN */
+
+      /* SAVE CATEGORY NAME ON SECTION */
 
       section.dataset.category =
-        category.folder;
+
+        category.title;
 
 
       const heading =
+
         document.createElement(
+
           "h2"
+
         );
 
+
       heading.textContent =
+
         category.title;
 
 
       const count =
+
         document.createElement(
+
           "div"
+
         );
 
+
       count.className =
+
         "count";
 
+
       count.textContent =
+
         images.length +
+
         " product(s)";
 
 
       const grid =
+
         document.createElement(
+
           "div"
+
         );
 
+
       grid.className =
+
         "grid";
 
 
       images.forEach(file => {
 
+
         const card =
+
           document.createElement(
+
             "div"
+
           );
 
+
         card.className =
+
           "product";
 
 
+        /* ON / OFF AREA */
+
+
         const toggleArea =
+
           document.createElement(
+
             "div"
+
           );
 
+
         toggleArea.className =
+
           "toggle-area";
 
 
         const toggle =
+
           document.createElement(
+
             "input"
+
           );
 
+
         toggle.type =
+
           "checkbox";
 
+
         toggle.checked =
+
           file.is_active !== false;
 
 
         const label =
+
           document.createElement(
+
             "span"
+
           );
 
+
         label.textContent =
+
           toggle.checked
+
             ? "ON"
+
             : "OFF";
 
 
+        /* PRODUCT IMAGE */
+
+
         const img =
+
           document.createElement(
+
             "img"
+
           );
 
+
         img.src =
+
           file.image_url;
 
+
         img.alt =
+
           file.name;
+
+
+        /* FILE NAME */
 
 
         const filename =
+
           document.createElement(
+
             "div"
+
           );
 
+
         filename.className =
+
           "filename";
 
+
         filename.textContent =
+
           file.name;
 
 
         toggleArea.appendChild(
+
           toggle
+
         );
 
+
         toggleArea.appendChild(
+
           label
+
         );
+
+
+
+        /* =========================
+           ON/OFF CHANGE
+        ========================= */
 
 
         toggle.addEventListener(
+
+
           "change",
+
+
           async () => {
 
+
             const wantedState =
+
               toggle.checked;
 
+
             toggle.disabled =
+
               true;
 
+
             label.textContent =
+
               wantedState
+
                 ? "ON"
+
                 : "OFF";
+
 
             try {
 
+
               await saveProductState(
+
 
                 file,
 
+
                 category.folder,
 
+
                 wantedState
+
+
               );
 
+
             }
+
 
             catch (error) {
 
+
               console.error(
+
                 "Update failed:",
+
                 error
+
               );
 
+
               toggle.checked =
+
                 !wantedState;
 
+
               label.textContent =
+
                 toggle.checked
+
                   ? "ON"
+
                   : "OFF";
+
 
               alert(
 
+
                 "Could not update product.\n\n" +
+
 
                 "Supabase says:\n" +
 
+
                 error.message
+
+
               );
+
+
             }
+
 
             finally {
 
+
               toggle.disabled =
+
                 false;
+
+
             }
+
+
           }
+
+
         );
 
 
         card.appendChild(
+
           toggleArea
+
         );
 
+
         card.appendChild(
+
           img
+
         );
 
+
         card.appendChild(
+
           filename
+
         );
+
 
         grid.appendChild(
+
           card
+
         );
+
+
       });
 
 
+
       section.appendChild(
+
         heading
+
       );
 
+
       section.appendChild(
+
         count
+
       );
 
+
       section.appendChild(
+
         grid
+
       );
+
 
       admin.appendChild(
+
         section
+
       );
+
+
     }
+
+
+    /* APPLY FILTER AFTER PRODUCTS LOAD */
+
+    filterAdminCategories();
+
+
   }
+
 
   catch (error) {
 
+
     console.error(error);
+
 
     admin.innerHTML =
 
+
       '<div class="error">' +
+
 
       'Could not load the products.' +
 
+
       '<br><br>' +
 
+
       String(
+
         error.message ||
+
         error
+
       ) +
 
+
       '</div>';
+
+
   }
+
+
 }
+
 
 
 /* ============================
    LOGIN BUTTON
 ============================ */
 
+
 document
+
   .getElementById(
+
     "loginButton"
+
   )
+
   .addEventListener(
+
     "click",
+
     loginAdmin
+
   );
+
 
 
 /* ============================
    LOGOUT BUTTON
 ============================ */
 
+
 document
+
   .getElementById(
+
     "logoutButton"
+
   )
+
   .addEventListener(
+
     "click",
+
     logoutAdmin
+
   );
+
 
 
 /* ============================
-   PRESS ENTER TO LOGIN
+   ENTER TO LOGIN
 ============================ */
 
+
 document
+
   .getElementById(
+
     "password"
+
   )
+
   .addEventListener(
+
+
     "keydown",
+
+
     event => {
 
+
       if (
-        event.key ===
-        "Enter"
+
+        event.key === "Enter"
+
       ) {
 
+
         loginAdmin();
+
+
       }
+
+
     }
+
+
   );
+
 
 
 /* ============================
    AUTH CHANGES
 ============================ */
 
+
 supabaseClient.auth
+
   .onAuthStateChange(
+
 
     (event, session) => {
 
+
       if (
-        event ===
-        "SIGNED_OUT"
+
+        event === "SIGNED_OUT"
+
       ) {
+
 
         showLogin();
+
+
       }
+
 
       if (
-        event ===
-        "TOKEN_REFRESHED" &&
+
+        event === "TOKEN_REFRESHED" &&
+
         session
+
       ) {
 
-        document.getElementById(
-          "signedInUser"
-        ).textContent =
+
+        document
+
+          .getElementById(
+
+            "signedInUser"
+
+          )
+
+          .textContent =
+
 
           session.user &&
+
           session.user.email
 
+
           ? "Signed in: " +
+
             session.user.email
 
+
           : "Signed in";
+
+
       }
+
+
     }
+
+
   );
 
 
-/* ============================
-   SEARCH + CATEGORY FILTER
-============================ */
+
+/* ==========================================
+   CATEGORY SEARCH + DROPDOWN
+========================================== */
+
 
 function filterAdminCategories() {
 
+
   const search =
+
     document
+
       .getElementById(
+
         "categorySearch"
+
       )
+
       .value
+
       .toLowerCase()
+
       .trim();
 
 
+
   const selected =
+
     document
+
       .getElementById(
+
         "categorySelect"
+
       )
+
       .value;
 
 
+
   const sections =
-    document.querySelectorAll(
-      ".category"
-    );
+
+    document
+
+      .querySelectorAll(
+
+        ".category"
+
+      );
+
 
 
   sections.forEach(section => {
 
+
     const heading =
-      section.querySelector(
-        "h2"
-      );
+
+      section
+
+        .querySelector("h2");
 
 
     const categoryName =
+
       heading
 
         ? heading
+
             .textContent
-            .toLowerCase()
+
+            .trim()
 
         : "";
 
 
-    const categoryFolder =
-      section.dataset.category || "";
+
+    /* SEARCH BOX CHECK */
 
 
     const searchMatch =
 
       search === "" ||
 
-      categoryName.includes(
-        search
-      ) ||
+      categoryName
 
-      categoryFolder
         .toLowerCase()
+
         .includes(search);
 
 
-    const categoryMatch =
+
+    /* DROPDOWN CHECK */
+
+
+    const dropdownMatch =
 
       selected === "all" ||
 
-      categoryFolder ===
-        selected;
+      categoryName === selected;
 
 
-    section.style.display =
+
+    /* SHOW OR HIDE */
+
+
+    if (
 
       searchMatch &&
-      categoryMatch
 
-        ? ""
+      dropdownMatch
 
-        : "none";
+    ) {
+
+
+      section.style.display =
+
+        "block";
+
+
+    }
+
+
+    else {
+
+
+      section.style.display =
+
+        "none";
+
+
+    }
+
 
   });
+
+
 }
 
 
-/* SEARCH BOX */
+
+/* ============================
+   SEARCH BOX EVENT
+============================ */
+
 
 document
+
   .getElementById(
+
     "categorySearch"
+
   )
+
   .addEventListener(
+
 
     "input",
 
-    filterAdminCategories
-
-  );
-
-
-/* CATEGORY DROPDOWN */
-
-document
-  .getElementById(
-    "categorySelect"
-  )
-  .addEventListener(
-
-    "change",
 
     function () {
 
-      /* CLEAR SEARCH WHEN CHANGING CATEGORY */
+
+      /* WHEN TYPING SEARCH,
+         SHOW ALL DROPDOWN FIRST */
+
 
       document
+
         .getElementById(
-          "categorySearch"
+
+          "categorySelect"
+
         )
-        .value = "";
+
+        .value = "all";
 
 
       filterAdminCategories();
 
 
-      /* MOVE TO SELECTED SECTION */
+    }
+
+
+  );
+
+
+
+/* ============================
+   DROPDOWN EVENT
+============================ */
+
+
+document
+
+  .getElementById(
+
+    "categorySelect"
+
+  )
+
+  .addEventListener(
+
+
+    "change",
+
+
+    function () {
+
+
+      /* CLEAR SEARCH */
+
+
+      document
+
+        .getElementById(
+
+          "categorySearch"
+
+        )
+
+        .value = "";
+
+
+      /* FILTER */
+
+
+      filterAdminCategories();
+
+
+      /* SCROLL TO RESULT */
+
 
       if (
+
         this.value !== "all"
+
       ) {
 
+
         const visibleSection =
+
           Array.from(
-            document.querySelectorAll(
-              ".category"
-            )
+
+            document
+
+              .querySelectorAll(
+
+                ".category"
+
+              )
+
           )
+
           .find(
+
             section =>
+
               section.style.display !==
+
               "none"
+
           );
 
 
         if (visibleSection) {
 
+
           visibleSection
+
             .scrollIntoView({
 
-              behavior:
-                "smooth",
 
-              block:
-                "start"
+              behavior: "smooth",
+
+
+              block: "start"
+
 
             });
+
+
         }
+
+
       }
+
+
     }
+
+
   );
+
 
 
 /* ============================
    START ADMIN
 ============================ */
 
+
 checkLogin();
 
+
 </script>
+
 
 </body>
 </html>
