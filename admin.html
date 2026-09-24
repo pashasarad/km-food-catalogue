@@ -1,20 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1"
->
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>K&M Catalogue Admin</title>
 
-
 <style>
-
 * {
   box-sizing: border-box;
 }
@@ -25,9 +16,6 @@ body {
   background: #f2f2f2;
   color: #222;
 }
-
-
-/* HEADER */
 
 header {
   background: #003e2b;
@@ -47,17 +35,11 @@ header p {
   font-size: 13px;
 }
 
-
-/* MAIN */
-
 main {
   max-width: 1500px;
   margin: auto;
   padding: 20px;
 }
-
-
-/* LOGIN */
 
 .login-container {
   max-width: 420px;
@@ -107,9 +89,6 @@ main {
   min-height: 18px;
 }
 
-
-/* ADMIN */
-
 #adminArea {
   display: none;
 }
@@ -138,47 +117,65 @@ main {
   font-weight: bold;
 }
 
-
-/* SEARCH + CATEGORY */
-
-.category-search-wrap {
+.toolbar {
   display: flex;
   gap: 12px;
   align-items: center;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
-#categorySearch {
+.toolbar input,
+.toolbar select,
+.add-grid input,
+.add-grid select,
+.edit-grid input,
+.edit-grid select {
+  padding: 13px 14px;
+  font-size: 15px;
+  border: 2px solid #d4a62a;
+  border-radius: 8px;
+  background: white;
+  outline: none;
+}
+
+.toolbar input {
   flex: 1;
-  min-width: 0;
-  padding: 16px 18px;
-  font-size: 18px;
-  border: 2px solid #d4a62a;
-  border-radius: 8px;
-  background: white;
-  outline: none;
+  min-width: 220px;
 }
 
-#categorySearch:focus {
-  border-color: #003e2b;
+.toolbar select {
+  min-width: 260px;
 }
 
-#categorySelect {
-  width: 300px;
-  padding: 16px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #003e2b;
-  background: white;
-  border: 2px solid #d4a62a;
-  border-radius: 8px;
-  outline: none;
+button {
+  border: none;
+  border-radius: 7px;
+  padding: 11px 15px;
   cursor: pointer;
+  font-weight: bold;
 }
 
+.primary {
+  background: #003e2b;
+  color: white;
+}
 
-/* LOADING */
+.gold {
+  background: #d4a62a;
+  color: #173a2a;
+}
+
+.light {
+  background: #e9e9e9;
+  color: #222;
+}
+
+.danger {
+  background: #b00020;
+  color: white;
+}
 
 #loadingStatus {
   display: none;
@@ -191,34 +188,93 @@ main {
   font-weight: bold;
 }
 
+.add-panel {
+  display: none;
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+}
 
-/* CATEGORY */
+.add-panel.open {
+  display: block;
+}
+
+.add-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.add-grid .full {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.form-actions,
+.order-tools,
+.cat-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status {
+  min-height: 20px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.ok {
+  color: #08763c;
+}
+
+.error {
+  background: #ffe5e5;
+  color: #a00000;
+  padding: 15px;
+  border-radius: 6px;
+}
 
 .category {
   margin-bottom: 45px;
 }
 
-.category h2 {
-  color: #003e2b;
+.category-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 12px;
   border-bottom: 2px solid #d4a62a;
   padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+.category h2 {
+  color: #003e2b;
   font-size: 26px;
+  margin: 0;
 }
 
 .count {
   font-size: 14px;
   color: #666;
-  margin-bottom: 15px;
+  margin-top: 4px;
 }
-
-
-/* PRODUCTS */
 
 .grid {
   display: grid;
-  grid-template-columns:
-    repeat(auto-fill, minmax(380px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 22px;
 }
 
 .product {
@@ -229,44 +285,81 @@ main {
   box-shadow: 0 3px 12px rgba(0,0,0,.12);
 }
 
+.product.dragging {
+  opacity: .45;
+  outline: 2px dashed #d4a62a;
+}
+
 .product img {
   width: 100%;
-  height: 520px;
+  height: 430px;
   object-fit: contain;
   display: block;
+  background: #fafafa;
+  border-radius: 8px;
 }
 
 .filename {
-  margin-top: 12px;
-  font-size: 15px;
+  margin-top: 10px;
+  font-size: 13px;
   word-break: break-word;
-  color: #555;
+  color: #666;
 }
 
 .toggle-area {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
-  font-size: 17px;
+  margin-bottom: 10px;
+  font-size: 16px;
   font-weight: bold;
 }
 
 .toggle-area input {
-  width: 24px;
-  height: 24px;
+  width: 23px;
+  height: 23px;
   cursor: pointer;
 }
 
-.error {
-  background: #ffe5e5;
-  color: #a00000;
-  padding: 15px;
-  border-radius: 6px;
+.code-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: #eef4f0;
+  color: #003e2b;
+  font-weight: bold;
 }
 
+.edit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
 
-/* PHONE */
+.edit-grid .full {
+  grid-column: 1 / -1;
+}
+
+.order-tools {
+  margin-top: 10px;
+}
+
+.drag-handle {
+  cursor: grab;
+  user-select: none;
+  padding: 8px 10px;
+  background: #f3efe2;
+  border-radius: 7px;
+  font-weight: bold;
+  color: #6d5720;
+}
+
+.small {
+  font-size: 12px;
+  color: #666;
+}
 
 @media (max-width: 700px) {
 
@@ -274,17 +367,26 @@ main {
     padding: 10px;
   }
 
-  .category-search-wrap {
+  .toolbar {
     flex-direction: column;
     align-items: stretch;
   }
 
-  #categorySearch {
+  .toolbar input,
+  .toolbar select,
+  .toolbar button {
     width: 100%;
+    min-width: 0;
   }
 
-  #categorySelect {
-    width: 100%;
+  .add-grid,
+  .edit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .add-grid .full,
+  .edit-grid .full {
+    grid-column: auto;
   }
 
   .grid {
@@ -295,35 +397,25 @@ main {
     height: 480px;
   }
 
+  .category-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
 <header>
-
   <h1>K&M CATALOGUE ADMIN</h1>
-
   <p>Product Manager</p>
-
 </header>
 
 
-
-<!-- LOGIN -->
-
-<div
-  id="loginArea"
-  class="login-container"
->
+<div id="loginArea" class="login-container">
 
   <h2>Admin Login</h2>
-
 
   <input
     type="email"
@@ -332,7 +424,6 @@ main {
     autocomplete="email"
   >
 
-
   <input
     type="password"
     id="password"
@@ -340,25 +431,16 @@ main {
     autocomplete="current-password"
   >
 
-
-  <button
-    id="loginButton"
-    type="button"
-  >
+  <button id="loginButton" type="button">
     LOGIN
   </button>
-
 
   <div id="loginMessage"></div>
 
 </div>
 
 
-
-<!-- ADMIN -->
-
 <main id="adminArea">
-
 
   <div class="admin-top">
 
@@ -366,7 +448,6 @@ main {
       id="signedInUser"
       class="signed-in"
     ></div>
-
 
     <button
       id="logoutButton"
@@ -379,128 +460,166 @@ main {
   </div>
 
 
-
-  <!-- SEARCH + DROPDOWN -->
-
-  <div class="category-search-wrap">
-
+  <div class="toolbar">
 
     <input
-      type="text"
-      id="categorySearch"
-      placeholder="Search category..."
-      autocomplete="off"
-      oninput="searchCategoryAdmin()"
+      id="productSearch"
+      placeholder="Search product code, category or picture..."
     >
 
-
-    <select
-      id="categorySelect"
-      onchange="selectCategoryAdmin()"
-    >
-
+    <select id="categorySelect">
       <option value="ALL">
         ALL CATEGORIES
       </option>
-
-      <option value="RICE">
-        RICE
-      </option>
-
-      <option value="SAUCES">
-        SAUCES
-      </option>
-
-      <option value="DRINKS">
-        DRINKS
-      </option>
-
-      <option value="SNACKS & SWEETS">
-        SNACKS & SWEETS
-      </option>
-
-      <option value="SPICES">
-        SPICES
-      </option>
-
-      <option value="BEANS & CHICKPEAS">
-        BEANS & CHICKPEAS
-      </option>
-
-      <option value="COOKING ESSENTIALS">
-        COOKING ESSENTIALS
-      </option>
-
-      <option value="PICKLES">
-        PICKLES
-      </option>
-
-      <option value="TEA & COFFEE">
-        TEA & COFFEE
-      </option>
-
-      <option value="CHEWING GUM">
-        CHEWING GUM
-      </option>
-
-      <option value="CANDY SWEETS & CANDY TOYS">
-        CANDY SWEETS & CANDY TOYS
-      </option>
-
-      <option value="CHIPS">
-        CHIPS
-      </option>
-
-      <option value="NUTS">
-        NUTS
-      </option>
-
-      <option value="TOILETRIES">
-        TOILETRIES
-      </option>
-
-      <option value="TISSUE & WIPES">
-        TISSUE & WIPES
-      </option>
-
-      <option value="TRADITIONAL">
-        TRADITIONAL
-      </option>
-
-      <option value="GENERAL PRODUCTS">
-        GENERAL PRODUCTS
-      </option>
-
-      <option value="SPECIAL OFFER">
-        SPECIAL OFFER
-      </option>
-
     </select>
 
+    <button
+      id="addProductButton"
+      class="gold"
+    >
+      + ADD PRODUCT
+    </button>
+
+    <button
+      id="refreshButton"
+      class="light"
+    >
+      REFRESH
+    </button>
+
   </div>
+
+
+  <section id="addPanel" class="add-panel">
+
+    <h3 style="margin-top:0;color:#003e2b">
+      Add New Product
+    </h3>
+
+    <div class="add-grid">
+
+      <div class="full">
+
+        <label>
+          Catalogue Picture *
+        </label>
+
+        <input
+          id="newImage"
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>
+          4SALE Product Code *
+        </label>
+
+        <input
+          id="newCode"
+          placeholder="Example: 10133"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>
+          Category *
+        </label>
+
+        <select id="newCategory"></select>
+
+      </div>
+
+
+      <div>
+
+        <label>
+          Position in Category
+        </label>
+
+        <input
+          id="newPosition"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="Blank = end"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>
+          Status
+        </label>
+
+        <select id="newActive">
+
+          <option value="true">
+            ON / SHOWING
+          </option>
+
+          <option value="false">
+            OFF / HIDDEN
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="form-actions"
+      style="margin-top:14px"
+    >
+
+      <button
+        id="saveNewProduct"
+        class="primary"
+      >
+        SAVE PRODUCT
+      </button>
+
+      <button
+        id="cancelNewProduct"
+        class="light"
+      >
+        CANCEL
+      </button>
+
+    </div>
+
+
+    <div
+      id="addStatus"
+      class="status"
+    ></div>
+
+  </section>
 
 
   <div id="loadingStatus">
     Loading products...
   </div>
 
-
   <div id="admin"></div>
-
 
 </main>
 
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <script>
-
-
-/* =====================================
-   SUPABASE
-===================================== */
 
 const SUPABASE_URL =
   "https://gynnbpmghwwzimdzhxfw.supabase.co";
@@ -510,24 +629,9 @@ const SUPABASE_ANON_KEY =
   "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
 
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      }
-    }
-  );
+const BUCKET =
+  "product -image";
 
-
-
-/* =====================================
-   CATEGORIES
-===================================== */
 
 const categories = [
 
@@ -565,10 +669,12 @@ const categories = [
     folder: "cooking essentials",
     title: "COOKING ESSENTIALS"
   },
-{
-  folder: "PULSES",
-  title: "PULSES"
-},
+
+  {
+    folder: "PULSES",
+    title: "PULSES"
+  },
+
   {
     folder: "PICKLES",
     title: "PICKLES"
@@ -620,11 +726,6 @@ const categories = [
   },
 
   {
-    folder: "Special offer",
-    title: "SPECIAL OFFER"
-  },
-
-  {
     folder: "special-offer",
     title: "SPECIAL OFFER"
   }
@@ -632,43 +733,171 @@ const categories = [
 ];
 
 
+const supabaseClient =
+  window.supabase.createClient(
+
+    SUPABASE_URL,
+
+    SUPABASE_ANON_KEY,
+
+    {
+      auth: {
+
+        persistSession: true,
+
+        autoRefreshToken: true,
+
+        detectSessionInUrl: true
+
+      }
+    }
+
+  );
+
+
+let products = [];
+
 let adminLoaded = false;
 
 
 
-/* =====================================
-   PUBLIC IMAGE URL
-===================================== */
+function esc(value) {
 
-function getImageUrl(
-  folder,
-  filename
-) {
+  return String(
+    value ?? ""
+  )
+  .replace(
 
-  return (
-    SUPABASE_URL +
-    "/storage/v1/object/public/product%20-image/" +
-    encodeURIComponent(folder) +
-    "/" +
-    encodeURIComponent(filename)
+    /[&<>"']/g,
+
+    function(match) {
+
+      return {
+
+        "&": "&amp;",
+
+        "<": "&lt;",
+
+        ">": "&gt;",
+
+        '"': "&quot;",
+
+        "'": "&#039;"
+
+      }[match];
+
+    }
+
   );
 
 }
 
 
 
-/* =====================================
-   SESSION
-===================================== */
+function titleFor(folder) {
+
+  const found =
+    categories.find(
+      category =>
+        category.folder === folder
+    );
+
+
+  return found
+    ? found.title
+    : folder;
+
+}
+
+
+
+function filenameFromUrl(url) {
+
+  try {
+
+    return decodeURIComponent(
+
+      new URL(url)
+        .pathname
+        .split("/")
+        .pop() || ""
+
+    );
+
+  }
+
+  catch {
+
+    return "";
+
+  }
+
+}
+
+
+
+function fillCategoryMenus() {
+
+  const options =
+    categories
+      .map(
+        category =>
+
+          '<option value="' +
+          esc(category.folder) +
+          '">' +
+
+          esc(category.title) +
+
+          '</option>'
+
+      )
+      .join("");
+
+
+  document
+    .getElementById(
+      "categorySelect"
+    )
+    .innerHTML =
+
+    '<option value="ALL">' +
+    'ALL CATEGORIES' +
+    '</option>' +
+
+    options;
+
+
+  document
+    .getElementById(
+      "newCategory"
+    )
+    .innerHTML =
+
+    '<option value="">' +
+    'CHOOSE CATEGORY...' +
+    '</option>' +
+
+    options;
+
+}
+
+
+fillCategoryMenus();
+
+
 
 async function getSessionOrThrow() {
 
   const { data, error } =
-    await supabaseClient.auth.getSession();
+    await supabaseClient.auth
+      .getSession();
 
 
   if (error) {
+
     throw error;
+
   }
 
 
@@ -690,10 +919,6 @@ async function getSessionOrThrow() {
 
 
 
-/* =====================================
-   LOGIN
-===================================== */
-
 async function loginAdmin() {
 
   const email =
@@ -711,18 +936,25 @@ async function loginAdmin() {
 
   const message =
     document
-      .getElementById("loginMessage");
+      .getElementById(
+        "loginMessage"
+      );
 
 
   const button =
     document
-      .getElementById("loginButton");
+      .getElementById(
+        "loginButton"
+      );
 
 
   message.textContent = "";
 
 
-  if (!email || !password) {
+  if (
+    !email ||
+    !password
+  ) {
 
     message.textContent =
       "Please enter your email and password.";
@@ -743,6 +975,7 @@ async function loginAdmin() {
       .signInWithPassword({
 
         email: email,
+
         password: password
 
       });
@@ -759,8 +992,6 @@ async function loginAdmin() {
     !data.session
   ) {
 
-    console.error(error);
-
     message.textContent =
       "Wrong email or password.";
 
@@ -770,7 +1001,9 @@ async function loginAdmin() {
 
 
   document
-    .getElementById("password")
+    .getElementById(
+      "password"
+    )
     .value = "";
 
 
@@ -785,19 +1018,19 @@ async function loginAdmin() {
 
 
 
-/* =====================================
-   LOGOUT
-===================================== */
-
 async function logoutAdmin() {
 
-  await supabaseClient.auth.signOut();
+  await supabaseClient.auth
+    .signOut();
+
 
   adminLoaded = false;
+
 
   document
     .getElementById("admin")
     .innerHTML = "";
+
 
   showLogin();
 
@@ -805,56 +1038,61 @@ async function logoutAdmin() {
 
 
 
-/* =====================================
-   SHOW LOGIN
-===================================== */
-
 function showLogin() {
 
   document
-    .getElementById("adminArea")
+    .getElementById(
+      "adminArea"
+    )
     .style.display = "none";
 
 
   document
-    .getElementById("loginArea")
+    .getElementById(
+      "loginArea"
+    )
     .style.display = "block";
 
 
   document
-    .getElementById("signedInUser")
+    .getElementById(
+      "signedInUser"
+    )
     .textContent = "";
 
 }
 
 
 
-/* =====================================
-   SHOW ADMIN
-===================================== */
-
 async function showAdmin(session) {
 
   document
-    .getElementById("loginArea")
+    .getElementById(
+      "loginArea"
+    )
     .style.display = "none";
 
 
   document
-    .getElementById("adminArea")
+    .getElementById(
+      "adminArea"
+    )
     .style.display = "block";
 
 
   document
-    .getElementById("signedInUser")
+    .getElementById(
+      "signedInUser"
+    )
     .textContent =
-      session.user &&
-      session.user.email
 
-        ? "Signed in: " +
-          session.user.email
+    session.user &&
+    session.user.email
 
-        : "Signed in";
+      ? "Signed in: " +
+        session.user.email
+
+      : "Signed in";
 
 
   if (!adminLoaded) {
@@ -868,10 +1106,6 @@ async function showAdmin(session) {
 }
 
 
-
-/* =====================================
-   CHECK LOGIN
-===================================== */
 
 async function checkLogin() {
 
@@ -900,713 +1134,143 @@ async function checkLogin() {
 
 
 
-/* =====================================
-   GET PRODUCT STATUS ONCE
-===================================== */
-
-async function getProductStatuses() {
+async function authHeaders(prefer) {
 
   const session =
     await getSessionOrThrow();
 
 
-  const response =
-    await fetch(
+  const headers = {
 
-      SUPABASE_URL +
-      "/rest/v1/product?select=image_url,is_active,category",
+    apikey:
+      SUPABASE_ANON_KEY,
 
-      {
+    Authorization:
+      "Bearer " +
+      session.access_token,
 
-        headers: {
+    "Content-Type":
+      "application/json"
 
-          apikey:
-            SUPABASE_ANON_KEY,
-
-          Authorization:
-            "Bearer " +
-            session.access_token
-
-        }
-
-      }
-
-    );
+  };
 
 
-  if (!response.ok) {
+  if (prefer) {
 
-    const detail =
-      await response.text();
-
-    throw new Error(
-      "Could not load product status: " +
-      detail
-    );
+    headers.Prefer =
+      prefer;
 
   }
 
 
-  return await response.json();
+  return headers;
 
 }
 
 
-
-/* =====================================
-   GET STORAGE FOLDER
-===================================== */
-
-async function getFolderFiles(folder) {
-
-  const session =
-    await getSessionOrThrow();
-
-
-  const response =
-    await fetch(
-
-      SUPABASE_URL +
-      "/storage/v1/object/list/product%20-image",
-
-      {
-
-        method: "POST",
-
-        headers: {
-
-          apikey:
-            SUPABASE_ANON_KEY,
-
-          Authorization:
-            "Bearer " +
-            session.access_token,
-
-          "Content-Type":
-            "application/json"
-
-        },
-
-        body: JSON.stringify({
-
-          prefix: folder,
-
-          limit: 1000,
-
-          offset: 0,
-
-          sortBy: {
-            column: "name",
-            order: "asc"
-          }
-
-        })
-
-      }
-
-    );
-
-
-  if (!response.ok) {
-
-    const detail =
-      await response.text();
-
-
-    throw new Error(
-      "Could not load folder " +
-      folder +
-      ": " +
-      detail
-    );
-
-  }
-
-
-  return await response.json();
-
-}
-
-
-
-/* =====================================
-   SAVE ON / OFF
-===================================== */
-
-async function saveProductState(
-  file,
-  categoryFolder,
-  isActive
-) {
-
-  const session =
-    await getSessionOrThrow();
-
-
-  const token =
-    session.access_token;
-
-
-  let response;
-
-
-  if (file.productExists) {
-
-    response =
-      await fetch(
-
-        SUPABASE_URL +
-        "/rest/v1/product?image_url=eq." +
-        encodeURIComponent(
-          file.image_url
-        ),
-
-        {
-
-          method: "PATCH",
-
-          headers: {
-
-            apikey:
-              SUPABASE_ANON_KEY,
-
-            Authorization:
-              "Bearer " + token,
-
-            "Content-Type":
-              "application/json",
-
-            Prefer:
-              "return=minimal"
-
-          },
-
-          body:
-            JSON.stringify({
-
-              category:
-                categoryFolder,
-
-              is_active:
-                isActive
-
-            })
-
-        }
-
-      );
-
-  }
-
-  else {
-
-    response =
-      await fetch(
-
-        SUPABASE_URL +
-        "/rest/v1/product",
-
-        {
-
-          method: "POST",
-
-          headers: {
-
-            apikey:
-              SUPABASE_ANON_KEY,
-
-            Authorization:
-              "Bearer " + token,
-
-            "Content-Type":
-              "application/json",
-
-            Prefer:
-              "return=minimal"
-
-          },
-
-          body:
-            JSON.stringify({
-
-              image_url:
-                file.image_url,
-
-              category:
-                categoryFolder,
-
-              is_active:
-                isActive
-
-            })
-
-        }
-
-      );
-
-  }
-
-
-  if (!response.ok) {
-
-    const detail =
-      await response.text();
-
-
-    throw new Error(
-      detail ||
-      "Supabase rejected update."
-    );
-
-  }
-
-
-  file.productExists = true;
-
-  file.is_active =
-    isActive;
-
-}
-
-
-
-/* =====================================
-   CREATE CATEGORY SECTION
-===================================== */
-
-function createCategorySection(
-  category,
-  files,
-  products
-) {
-
-  const images =
-    files
-      .filter(file =>
-        /\.(png|jpg|jpeg|webp)$/i
-          .test(file.name)
-      )
-      .map(file => {
-
-        const imageUrl =
-          getImageUrl(
-            category.folder,
-            file.name
-          );
-
-
-        const product =
-          products.find(
-            item =>
-              item.image_url ===
-              imageUrl
-          );
-
-
-        return {
-
-          ...file,
-
-          image_url:
-            imageUrl,
-
-          productExists:
-            Boolean(product),
-
-          is_active:
-            product
-              ? product.is_active
-              : true
-
-        };
-
-      });
-
-
-  const section =
-    document.createElement(
-      "section"
-    );
-
-
-  section.className =
-    "category";
-
-
-  section.dataset.category =
-    category.title;
-
-
-  const heading =
-    document.createElement(
-      "h2"
-    );
-
-
-  heading.textContent =
-    category.title;
-
-
-  const count =
-    document.createElement(
-      "div"
-    );
-
-
-  count.className =
-    "count";
-
-
-  count.textContent =
-    images.length +
-    " product(s)";
-
-
-  const grid =
-    document.createElement(
-      "div"
-    );
-
-
-  grid.className =
-    "grid";
-
-
-  images.forEach(file => {
-
-
-    const card =
-      document.createElement(
-        "div"
-      );
-
-
-    card.className =
-      "product";
-
-
-    const toggleArea =
-      document.createElement(
-        "div"
-      );
-
-
-    toggleArea.className =
-      "toggle-area";
-
-
-    const toggle =
-      document.createElement(
-        "input"
-      );
-
-
-    toggle.type =
-      "checkbox";
-
-
-    toggle.checked =
-      file.is_active !== false;
-
-
-    const label =
-      document.createElement(
-        "span"
-      );
-
-
-    label.textContent =
-      toggle.checked
-        ? "ON"
-        : "OFF";
-
-
-    const img =
-      document.createElement(
-        "img"
-      );
-
-
-    img.src =
-      file.image_url;
-
-
-    img.alt =
-      file.name;
-
-
-    const filename =
-      document.createElement(
-        "div"
-      );
-
-
-    filename.className =
-      "filename";
-
-
-    filename.textContent =
-      file.name;
-
-
-
-    toggle.addEventListener(
-      "change",
-      async function () {
-
-        const wantedState =
-          toggle.checked;
-
-
-        toggle.disabled =
-          true;
-
-
-        label.textContent =
-          wantedState
-            ? "ON"
-            : "OFF";
-
-
-        try {
-
-          await saveProductState(
-            file,
-            category.folder,
-            wantedState
-          );
-
-        }
-
-        catch (error) {
-
-          console.error(error);
-
-
-          toggle.checked =
-            !wantedState;
-
-
-          label.textContent =
-            toggle.checked
-              ? "ON"
-              : "OFF";
-
-
-          alert(
-            "Could not update product.\n\n" +
-            error.message
-          );
-
-        }
-
-        finally {
-
-          toggle.disabled =
-            false;
-
-        }
-
-      }
-    );
-
-
-    toggleArea.appendChild(
-      toggle
-    );
-
-
-    toggleArea.appendChild(
-      label
-    );
-
-
-    card.appendChild(
-      toggleArea
-    );
-
-
-    card.appendChild(
-      img
-    );
-
-
-    card.appendChild(
-      filename
-    );
-
-
-    grid.appendChild(
-      card
-    );
-
-  });
-
-
-  section.appendChild(
-    heading
-  );
-
-
-  section.appendChild(
-    count
-  );
-
-
-  section.appendChild(
-    grid
-  );
-
-
-  return section;
-
-}
-
-
-
-/* =====================================
-   LOAD ADMIN
-===================================== */
 
 async function loadAdmin() {
 
   const admin =
     document
-      .getElementById("admin");
+      .getElementById(
+        "admin"
+      );
 
 
-  const loadingStatus =
+  const loading =
     document
       .getElementById(
         "loadingStatus"
       );
 
 
-  admin.innerHTML = "";
-
-
-  loadingStatus.style.display =
+  loading.style.display =
     "block";
+
+
+  admin.innerHTML = "";
 
 
   try {
 
 
-    /* GET STATUS TABLE ONLY ONCE */
-
-    const products =
-      await getProductStatuses();
+    const headers =
+      await authHeaders();
 
 
+    const response =
+      await fetch(
 
-    /*
-       LOAD EACH CATEGORY.
+        SUPABASE_URL +
 
-       IMPORTANT FIX:
-       AFTER EVERY CATEGORY IS ADDED,
-       FILTER IS APPLIED AGAIN.
-    */
+        "/rest/v1/product" +
 
-    for (
-      let i = 0;
-      i < categories.length;
-      i++
-    ) {
+        "?select=" +
 
+        "id," +
+        "image_url," +
+        "is_active," +
+        "category," +
+        "display_order," +
+        "code" +
 
-      const category =
-        categories[i];
+        "&order=" +
+        "category.asc," +
+        "display_order.asc," +
+        "id.asc",
 
+        {
+          headers: headers
+        }
 
-      loadingStatus.textContent =
-        "Loading " +
-        category.title +
-        " (" +
-        (i + 1) +
-        "/" +
-        categories.length +
-        ")...";
+      );
 
 
-      try {
+    if (!response.ok) {
 
-
-        const files =
-          await getFolderFiles(
-            category.folder
-          );
-
-
-        const section =
-          createCategorySection(
-            category,
-            files,
-            products
-          );
-
-
-        admin.appendChild(
-          section
-        );
-
-
-        /*
-          THIS IS THE IMPORTANT FIX.
-
-          If DRINKS is already selected,
-          every new category that loads
-          is immediately hidden unless
-          it is DRINKS.
-        */
-
-        filterAdminCategories();
-
-
-      }
-
-      catch (categoryError) {
-
-
-        console.error(
-          "Could not load " +
-          category.title,
-          categoryError
-        );
-
-
-      }
+      throw new Error(
+        await response.text()
+      );
 
     }
 
 
-    loadingStatus.style.display =
-      "none";
+    products =
+      await response.json();
 
 
-    filterAdminCategories();
-
+    renderAdmin();
 
   }
+
 
   catch (error) {
 
 
-    console.error(error);
-
-
-    loadingStatus.style.display =
-      "none";
-
-
     admin.innerHTML =
+
       '<div class="error">' +
-      'Could not load products.<br><br>' +
-      String(
+
+      'Could not load products.' +
+
+      '<br><br>' +
+
+      esc(
         error.message ||
         error
       ) +
+
       '</div>';
 
+  }
+
+
+  finally {
+
+
+    loading.style.display =
+      "none";
 
   }
 
@@ -1614,138 +1278,1816 @@ async function loadAdmin() {
 
 
 
-/* =====================================
-   CATEGORY FILTER
-===================================== */
+function visibleProducts() {
 
-function filterAdminCategories() {
-
-
-  const select =
+  const selected =
     document
       .getElementById(
         "categorySelect"
-      );
-
-
-  const searchBox =
-    document
-      .getElementById(
-        "categorySearch"
-      );
-
-
-  if (
-    !select ||
-    !searchBox
-  ) {
-    return;
-  }
-
-
-  const selected =
-    select.value
-      .trim()
-      .toUpperCase();
+      )
+      .value;
 
 
   const search =
-    searchBox.value
+    document
+      .getElementById(
+        "productSearch"
+      )
+      .value
       .trim()
-      .toUpperCase();
+      .toLowerCase();
 
 
-  const sections =
-    document.querySelectorAll(
-      "#admin .category"
-    );
+  return products.filter(
+
+    function(product) {
 
 
-  sections.forEach(
-    section => {
+      const categoryOK =
 
-
-      const categoryName =
-        (
-          section.dataset.category ||
-          ""
-        )
-        .trim()
-        .toUpperCase();
-
-
-      const categoryMatch =
         selected === "ALL" ||
-        categoryName ===
+
+        product.category ===
           selected;
 
 
-      const searchMatch =
+      const searchableText =
+
+        (
+          (product.code || "") +
+
+          " " +
+
+          (product.category || "") +
+
+          " " +
+
+          filenameFromUrl(
+            product.image_url || ""
+          )
+
+        )
+        .toLowerCase();
+
+
+      const searchOK =
+
         search === "" ||
-        categoryName.includes(
-          search
-        );
+
+        searchableText
+          .includes(search);
 
 
-      section.style.display =
-        categoryMatch &&
-        searchMatch
-
-          ? ""
-
-          : "none";
-
+      return (
+        categoryOK &&
+        searchOK
+      );
 
     }
+
   );
 
 }
 
 
 
-/* =====================================
-   CATEGORY DROPDOWN
-===================================== */
+function renderAdmin() {
 
-function selectCategoryAdmin() {
+  const admin =
+    document
+      .getElementById(
+        "admin"
+      );
 
 
-  document
-    .getElementById(
-      "categorySearch"
+  const visible =
+    visibleProducts();
+
+
+  if (!visible.length) {
+
+    admin.innerHTML =
+      '<div class="small">' +
+      'No products found.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  const grouped = {};
+
+
+  visible.forEach(
+
+    function(product) {
+
+
+      const category =
+
+        product.category ||
+
+        "GENERAL PRODUCTS";
+
+
+      if (!grouped[category]) {
+
+        grouped[category] = [];
+
+      }
+
+
+      grouped[category]
+        .push(product);
+
+    }
+
+  );
+
+
+  let html = "";
+
+
+  categories.forEach(
+
+    function(category) {
+
+
+      if (
+        grouped[
+          category.folder
+        ] &&
+        grouped[
+          category.folder
+        ].length
+      ) {
+
+        html +=
+          renderCategory(
+
+            category.folder,
+
+            category.title,
+
+            grouped[
+              category.folder
+            ]
+
+          );
+
+      }
+
+    }
+
+  );
+
+
+  Object.keys(grouped)
+
+    .filter(
+
+      function(key) {
+
+        return !categories.some(
+
+          category =>
+            category.folder === key
+
+        );
+
+      }
+
     )
-    .value = "";
+
+    .sort()
+
+    .forEach(
+
+      function(key) {
+
+        html +=
+          renderCategory(
+
+            key,
+
+            key,
+
+            grouped[key]
+
+          );
+
+      }
+
+    );
 
 
-  filterAdminCategories();
+  admin.innerHTML =
+    html;
+
+
+  bindDragDrop();
 
 }
 
 
 
-/* =====================================
-   SEARCH CATEGORY
-===================================== */
+function renderCategory(
+  folder,
+  title,
+  list
+) {
 
-function searchCategoryAdmin() {
+  list =
+    [...list]
+      .sort(
+
+        function(a, b) {
+
+          return (
+
+            (Number(
+              a.display_order
+            ) || 0)
+
+            -
+
+            (Number(
+              b.display_order
+            ) || 0)
+
+          )
+
+          ||
+
+          Number(a.id) -
+          Number(b.id);
+
+        }
+
+      );
 
 
-  document
-    .getElementById(
-      "categorySelect"
-    )
-    .value = "ALL";
+  return `
+
+  <section
+    class="category"
+    data-category="${esc(folder)}"
+  >
+
+    <div class="category-head">
+
+      <div>
+
+        <h2>
+          ${esc(title)}
+        </h2>
+
+        <div class="count">
+          ${list.length} product(s)
+        </div>
+
+      </div>
 
 
-  filterAdminCategories();
+      <div class="cat-actions">
+
+        <button
+          class="primary"
+          onclick="saveCategoryOrder(
+            '${String(folder)
+              .replace(/'/g, "\\'")}'
+          )"
+        >
+          SAVE ORDER
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="grid"
+      data-grid="${esc(folder)}"
+    >
+
+      ${
+
+        list
+          .map(
+
+            function(product, index) {
+
+              return renderProductCard(
+
+                product,
+
+                index,
+
+                list.length
+
+              );
+
+            }
+
+          )
+          .join("")
+
+      }
+
+    </div>
+
+  </section>
+
+  `;
 
 }
 
 
 
-/* =====================================
-   LOGIN BUTTON
-===================================== */
+function renderProductCard(
+  product,
+  index,
+  total
+) {
+
+  return `
+
+  <div
+    class="product"
+    draggable="true"
+    data-id="${product.id}"
+    data-category="${esc(
+      product.category || ""
+    )}"
+  >
+
+
+    <div class="toggle-area">
+
+      <input
+        type="checkbox"
+
+        ${
+          product.is_active !== false
+            ? "checked"
+            : ""
+        }
+
+        onchange="
+          toggleProduct(
+            ${product.id},
+            this
+          )
+        "
+      >
+
+      <span>
+
+        ${
+          product.is_active !== false
+            ? "ON"
+            : "OFF"
+        }
+
+      </span>
+
+    </div>
+
+
+    <img
+      src="${esc(
+        product.image_url || ""
+      )}"
+      alt="${esc(
+        filenameFromUrl(
+          product.image_url || ""
+        )
+      )}"
+    >
+
+
+    <div class="code-badge">
+
+      4SALE CODE:
+
+      ${esc(
+        product.code ||
+        "NO CODE"
+      )}
+
+    </div>
+
+
+    <div class="filename">
+
+      ${esc(
+        filenameFromUrl(
+          product.image_url || ""
+        )
+      )}
+
+    </div>
+
+
+    <div class="edit-grid">
+
+
+      <div>
+
+        <label>
+          4SALE CODE
+        </label>
+
+        <input
+          id="code_${product.id}"
+          value="${esc(
+            product.code || ""
+          )}"
+          placeholder="Product code"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>
+          CATEGORY
+        </label>
+
+        <select
+          id="category_${product.id}"
+        >
+
+          ${
+
+            categories
+              .map(
+
+                function(category) {
+
+                  return `
+
+                  <option
+
+                    value="${esc(
+                      category.folder
+                    )}"
+
+                    ${
+                      category.folder ===
+                      product.category
+
+                        ? "selected"
+
+                        : ""
+                    }
+
+                  >
+
+                    ${esc(
+                      category.title
+                    )}
+
+                  </option>
+
+                  `;
+
+                }
+
+              )
+              .join("")
+
+          }
+
+        </select>
+
+      </div>
+
+
+      <div
+        class="full form-actions"
+      >
+
+        <button
+          class="primary"
+          onclick="
+            saveProductDetails(
+              ${product.id}
+            )
+          "
+        >
+          SAVE CODE / CATEGORY
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="order-tools">
+
+      <span class="drag-handle">
+        ☰ DRAG
+      </span>
+
+
+      <button
+        class="light"
+
+        ${
+          index === 0
+            ? "disabled"
+            : ""
+        }
+
+        onclick="
+          moveProduct(
+            ${product.id},
+            -1
+          )
+        "
+      >
+        ↑ UP
+      </button>
+
+
+      <button
+        class="light"
+
+        ${
+          index === total - 1
+            ? "disabled"
+            : ""
+        }
+
+        onclick="
+          moveProduct(
+            ${product.id},
+            1
+          )
+        "
+      >
+        ↓ DOWN
+      </button>
+
+
+      <span class="small">
+
+        Position
+
+        <b>
+          ${index + 1}
+        </b>
+
+      </span>
+
+    </div>
+
+
+  </div>
+
+  `;
+
+}
+
+
+
+async function codeExists(
+  code,
+  ignoreId
+) {
+
+  if (!code) {
+
+    return false;
+
+  }
+
+
+  const headers =
+    await authHeaders();
+
+
+  const url =
+
+    SUPABASE_URL +
+
+    "/rest/v1/product" +
+
+    "?select=id,code" +
+
+    "&code=ilike." +
+
+    encodeURIComponent(code);
+
+
+  const response =
+    await fetch(
+
+      url,
+
+      {
+        headers: headers
+      }
+
+    );
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      await response.text()
+    );
+
+  }
+
+
+  const rows =
+    await response.json();
+
+
+  return rows.some(
+
+    function(row) {
+
+      return (
+
+        Number(row.id) !==
+        Number(ignoreId)
+
+        &&
+
+        String(
+          row.code || ""
+        )
+        .trim()
+        .toLowerCase()
+
+        ===
+
+        code
+          .trim()
+          .toLowerCase()
+
+      );
+
+    }
+
+  );
+
+}
+
+
+
+async function saveProductDetails(id) {
+
+  const product =
+    products.find(
+
+      item =>
+        Number(item.id) ===
+        Number(id)
+
+    );
+
+
+  if (!product) {
+
+    return;
+
+  }
+
+
+  const code =
+    document
+      .getElementById(
+        "code_" + id
+      )
+      .value
+      .trim();
+
+
+  const category =
+    document
+      .getElementById(
+        "category_" + id
+      )
+      .value;
+
+
+  if (!code) {
+
+    alert(
+      "Please enter the 4SALE product code."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    await codeExists(
+      code,
+      id
+    )
+  ) {
+
+    alert(
+      "This 4SALE code is already used by another catalogue product."
+    );
+
+    return;
+
+  }
+
+
+  const headers =
+    await authHeaders(
+      "return=minimal"
+    );
+
+
+  const response =
+    await fetch(
+
+      SUPABASE_URL +
+
+      "/rest/v1/product" +
+
+      "?id=eq." + id,
+
+      {
+
+        method:
+          "PATCH",
+
+        headers:
+          headers,
+
+        body:
+          JSON.stringify({
+
+            code:
+              code,
+
+            category:
+              category
+
+          })
+
+      }
+
+    );
+
+
+  if (!response.ok) {
+
+    alert(
+
+      "Could not save product.\n\n" +
+
+      await response.text()
+
+    );
+
+    return;
+
+  }
+
+
+  product.code =
+    code;
+
+
+  product.category =
+    category;
+
+
+  await loadAdmin();
+
+
+  alert(
+    "Saved."
+  );
+
+}
+
+
+
+async function toggleProduct(
+  id,
+  input
+) {
+
+  const product =
+    products.find(
+
+      item =>
+        Number(item.id) ===
+        Number(id)
+
+    );
+
+
+  if (!product) {
+
+    return;
+
+  }
+
+
+  const wanted =
+    input.checked;
+
+
+  input.disabled =
+    true;
+
+
+  try {
+
+
+    const headers =
+      await authHeaders(
+        "return=minimal"
+      );
+
+
+    const response =
+      await fetch(
+
+        SUPABASE_URL +
+
+        "/rest/v1/product" +
+
+        "?id=eq." + id,
+
+        {
+
+          method:
+            "PATCH",
+
+          headers:
+            headers,
+
+          body:
+            JSON.stringify({
+
+              is_active:
+                wanted
+
+            })
+
+        }
+
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        await response.text()
+      );
+
+    }
+
+
+    product.is_active =
+      wanted;
+
+
+    input
+      .nextElementSibling
+      .textContent =
+
+      wanted
+        ? "ON"
+        : "OFF";
+
+
+  }
+
+
+  catch (error) {
+
+
+    input.checked =
+      !wanted;
+
+
+    alert(
+
+      "Could not update product.\n\n" +
+
+      error.message
+
+    );
+
+  }
+
+
+  finally {
+
+
+    input.disabled =
+      false;
+
+  }
+
+}
+
+
+
+function moveProduct(
+  id,
+  direction
+) {
+
+  const card =
+    document.querySelector(
+
+      '.product[data-id="' +
+      id +
+      '"]'
+
+    );
+
+
+  if (!card) {
+
+    return;
+
+  }
+
+
+  const grid =
+    card.parentElement;
+
+
+  const cards =
+    [...grid.children];
+
+
+  const current =
+    cards.indexOf(card);
+
+
+  const target =
+    current +
+    direction;
+
+
+  if (
+    target < 0 ||
+    target >= cards.length
+  ) {
+
+    return;
+
+  }
+
+
+  if (direction < 0) {
+
+    grid.insertBefore(
+
+      card,
+
+      cards[target]
+
+    );
+
+  }
+
+
+  else {
+
+    grid.insertBefore(
+
+      cards[target],
+
+      card
+
+    );
+
+  }
+
+
+  refreshPositions(
+    grid
+  );
+
+}
+
+
+
+function refreshPositions(grid) {
+
+  [...grid.children]
+    .forEach(
+
+      function(card, index) {
+
+
+        const positionText =
+          card.querySelector(
+            ".order-tools .small"
+          );
+
+
+        if (positionText) {
+
+          positionText.innerHTML =
+
+            "Position <b>" +
+
+            (index + 1) +
+
+            "</b>";
+
+        }
+
+      }
+
+    );
+
+}
+
+
+
+function bindDragDrop() {
+
+  document
+    .querySelectorAll(
+      ".product"
+    )
+    .forEach(
+
+      function(card) {
+
+
+        card.addEventListener(
+
+          "dragstart",
+
+          function(event) {
+
+
+            card.classList.add(
+              "dragging"
+            );
+
+
+            event
+              .dataTransfer
+              .effectAllowed =
+              "move";
+
+          }
+
+        );
+
+
+        card.addEventListener(
+
+          "dragend",
+
+          function() {
+
+            card
+              .classList
+              .remove(
+                "dragging"
+              );
+
+          }
+
+        );
+
+
+        card.addEventListener(
+
+          "dragover",
+
+          function(event) {
+
+
+            event.preventDefault();
+
+
+            const dragging =
+              document.querySelector(
+                ".product.dragging"
+              );
+
+
+            if (
+              !dragging ||
+              dragging === card ||
+              dragging.parentElement !==
+              card.parentElement
+            ) {
+
+              return;
+
+            }
+
+
+            const rect =
+              card
+                .getBoundingClientRect();
+
+
+            const before =
+
+              event.clientY <
+
+              rect.top +
+
+              rect.height / 2;
+
+
+            card.parentElement
+              .insertBefore(
+
+                dragging,
+
+                before
+                  ? card
+                  : card.nextSibling
+
+              );
+
+
+            refreshPositions(
+              card.parentElement
+            );
+
+          }
+
+        );
+
+      }
+
+    );
+
+}
+
+
+
+async function saveCategoryOrder(
+  category
+) {
+
+  const grid =
+    document.querySelector(
+
+      '[data-grid="' +
+      CSS.escape(category) +
+      '"]'
+
+    );
+
+
+  if (!grid) {
+
+    return;
+
+  }
+
+
+  const button =
+    grid
+      .closest(
+        ".category"
+      )
+      .querySelector(
+        ".cat-actions button"
+      );
+
+
+  const cards =
+    [...grid.children];
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "SAVING...";
+
+
+  try {
+
+
+    const headers =
+      await authHeaders(
+        "return=minimal"
+      );
+
+
+    for (
+      let index = 0;
+      index < cards.length;
+      index++
+    ) {
+
+
+      const id =
+        cards[index]
+          .dataset.id;
+
+
+      const response =
+        await fetch(
+
+          SUPABASE_URL +
+
+          "/rest/v1/product" +
+
+          "?id=eq." + id,
+
+          {
+
+            method:
+              "PATCH",
+
+            headers:
+              headers,
+
+            body:
+              JSON.stringify({
+
+                display_order:
+                  index + 1
+
+              })
+
+          }
+
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          await response.text()
+        );
+
+      }
+
+
+      const product =
+        products.find(
+
+          item =>
+            Number(item.id) ===
+            Number(id)
+
+        );
+
+
+      if (product) {
+
+        product.display_order =
+          index + 1;
+
+      }
+
+    }
+
+
+    button.textContent =
+      "SAVED ✓";
+
+
+    setTimeout(
+
+      function() {
+
+        button.textContent =
+          "SAVE ORDER";
+
+      },
+
+      1200
+
+    );
+
+  }
+
+
+  catch (error) {
+
+
+    button.textContent =
+      "SAVE ORDER";
+
+
+    alert(
+
+      "Could not save order.\n\n" +
+
+      error.message
+
+    );
+
+  }
+
+
+  finally {
+
+
+    button.disabled =
+      false;
+
+  }
+
+}
+
+
+
+function cleanFilename(name) {
+
+  const dot =
+    name.lastIndexOf(".");
+
+
+  const extension =
+
+    dot >= 0
+
+      ? name
+          .slice(dot)
+          .toLowerCase()
+
+      : ".png";
+
+
+  const base =
+
+    (
+      dot >= 0
+
+        ? name.slice(
+            0,
+            dot
+          )
+
+        : name
+    )
+
+    .normalize(
+      "NFKD"
+    )
+
+    .replace(
+      /[^a-zA-Z0-9_-]+/g,
+      "-"
+    )
+
+    .replace(
+      /-+/g,
+      "-"
+    )
+
+    .replace(
+      /^-|-$/g,
+      ""
+    )
+
+    .slice(
+      0,
+      90
+    )
+
+    || "product";
+
+
+  return (
+
+    base +
+
+    "-" +
+
+    Date.now() +
+
+    extension
+
+  );
+
+}
+
+
+
+async function addProduct() {
+
+  const file =
+    document
+      .getElementById(
+        "newImage"
+      )
+      .files?.[0];
+
+
+  const code =
+    document
+      .getElementById(
+        "newCode"
+      )
+      .value
+      .trim();
+
+
+  const category =
+    document
+      .getElementById(
+        "newCategory"
+      )
+      .value;
+
+
+  const positionValue =
+    document
+      .getElementById(
+        "newPosition"
+      )
+      .value
+      .trim();
+
+
+  const isActive =
+
+    document
+      .getElementById(
+        "newActive"
+      )
+      .value === "true";
+
+
+  const status =
+    document
+      .getElementById(
+        "addStatus"
+      );
+
+
+  const button =
+    document
+      .getElementById(
+        "saveNewProduct"
+      );
+
+
+  status.textContent = "";
+
+
+  if (!file) {
+
+    status.textContent =
+      "Please choose the catalogue picture.";
+
+    return;
+
+  }
+
+
+  if (!code) {
+
+    status.textContent =
+      "Please enter the 4SALE product code.";
+
+    return;
+
+  }
+
+
+  if (!category) {
+
+    status.textContent =
+      "Please choose the category.";
+
+    return;
+
+  }
+
+
+  if (
+    await codeExists(
+      code,
+      null
+    )
+  ) {
+
+    status.textContent =
+      "That 4SALE code is already used.";
+
+    return;
+
+  }
+
+
+  let displayOrder =
+    Number(
+      positionValue
+    );
+
+
+  if (
+    !Number.isFinite(
+      displayOrder
+    )
+
+    ||
+
+    displayOrder < 1
+  ) {
+
+
+    const sameCategory =
+      products.filter(
+
+        product =>
+          product.category ===
+          category
+
+      );
+
+
+    displayOrder =
+      sameCategory.reduce(
+
+        function(max, product) {
+
+          return Math.max(
+
+            max,
+
+            Number(
+              product.display_order
+            ) || 0
+
+          );
+
+        },
+
+        0
+
+      ) + 1;
+
+  }
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "SAVING...";
+
+
+  try {
+
+
+    const session =
+      await getSessionOrThrow();
+
+
+    const filename =
+      cleanFilename(
+        file.name
+      );
+
+
+    const objectPath =
+
+      category +
+
+      "/" +
+
+      filename;
+
+
+    const encodedPath =
+
+      objectPath
+        .split("/")
+        .map(
+          encodeURIComponent
+        )
+        .join("/");
+
+
+    status.textContent =
+      "Uploading picture...";
+
+
+    const upload =
+      await fetch(
+
+        SUPABASE_URL +
+
+        "/storage/v1/object/" +
+
+        encodeURIComponent(
+          BUCKET
+        ) +
+
+        "/" +
+
+        encodedPath,
+
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            apikey:
+              SUPABASE_ANON_KEY,
+
+            Authorization:
+              "Bearer " +
+              session.access_token,
+
+            "Content-Type":
+              file.type ||
+              "application/octet-stream",
+
+            "x-upsert":
+              "false"
+
+          },
+
+          body:
+            file
+
+        }
+
+      );
+
+
+    if (!upload.ok) {
+
+      throw new Error(
+
+        "Image upload failed: " +
+
+        await upload.text()
+
+      );
+
+    }
+
+
+    const imageUrl =
+
+      SUPABASE_URL +
+
+      "/storage/v1/object/public/" +
+
+      encodeURIComponent(
+        BUCKET
+      ) +
+
+      "/" +
+
+      encodedPath;
+
+
+    status.textContent =
+      "Saving product...";
+
+
+    const headers =
+      await authHeaders(
+        "return=representation"
+      );
+
+
+    const insert =
+      await fetch(
+
+        SUPABASE_URL +
+
+        "/rest/v1/product",
+
+        {
+
+          method:
+            "POST",
+
+          headers:
+            headers,
+
+          body:
+            JSON.stringify({
+
+              image_url:
+                imageUrl,
+
+              category:
+                category,
+
+              is_active:
+                isActive,
+
+              display_order:
+                displayOrder,
+
+              code:
+                code
+
+            })
+
+        }
+
+      );
+
+
+    if (!insert.ok) {
+
+      throw new Error(
+
+        "Product save failed: " +
+
+        await insert.text()
+
+      );
+
+    }
+
+
+    status.innerHTML =
+
+      '<span class="ok">' +
+
+      '✓ Product added. ' +
+
+      '4SALE code saved and connector-ready.' +
+
+      '</span>';
+
+
+    document
+      .getElementById(
+        "newImage"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "newCode"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "newPosition"
+      )
+      .value = "";
+
+
+    await loadAdmin();
+
+  }
+
+
+  catch (error) {
+
+
+    status.textContent =
+
+      error.message ||
+
+      String(error);
+
+  }
+
+
+  finally {
+
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      "SAVE PRODUCT";
+
+  }
+
+}
+
+
 
 document
   .getElementById(
@@ -1757,11 +3099,6 @@ document
   );
 
 
-
-/* =====================================
-   LOGOUT BUTTON
-===================================== */
-
 document
   .getElementById(
     "logoutButton"
@@ -1772,21 +3109,19 @@ document
   );
 
 
-
-/* =====================================
-   ENTER PASSWORD
-===================================== */
-
 document
   .getElementById(
     "password"
   )
   .addEventListener(
+
     "keydown",
+
     function(event) {
 
       if (
-        event.key === "Enter"
+        event.key ===
+        "Enter"
       ) {
 
         loginAdmin();
@@ -1794,16 +3129,101 @@ document
       }
 
     }
+
   );
 
 
+document
+  .getElementById(
+    "productSearch"
+  )
+  .addEventListener(
+    "input",
+    renderAdmin
+  );
 
-/* =====================================
-   AUTH CHANGE
-===================================== */
+
+document
+  .getElementById(
+    "categorySelect"
+  )
+  .addEventListener(
+    "change",
+    renderAdmin
+  );
+
+
+document
+  .getElementById(
+    "refreshButton"
+  )
+  .addEventListener(
+    "click",
+    loadAdmin
+  );
+
+
+document
+  .getElementById(
+    "addProductButton"
+  )
+  .addEventListener(
+
+    "click",
+
+    function() {
+
+      document
+        .getElementById(
+          "addPanel"
+        )
+        .classList
+        .toggle(
+          "open"
+        );
+
+    }
+
+  );
+
+
+document
+  .getElementById(
+    "cancelNewProduct"
+  )
+  .addEventListener(
+
+    "click",
+
+    function() {
+
+      document
+        .getElementById(
+          "addPanel"
+        )
+        .classList
+        .remove(
+          "open"
+        );
+
+    }
+
+  );
+
+
+document
+  .getElementById(
+    "saveNewProduct"
+  )
+  .addEventListener(
+    "click",
+    addProduct
+  );
+
 
 supabaseClient.auth
   .onAuthStateChange(
+
     function(
       event,
       session
@@ -1843,21 +3263,14 @@ supabaseClient.auth
 
       }
 
-
     }
+
   );
 
 
-
-/* =====================================
-   START
-===================================== */
-
 checkLogin();
-
 
 </script>
 
 </body>
-
 </html>
