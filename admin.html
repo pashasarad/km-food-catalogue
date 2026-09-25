@@ -3,127 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>K&M Catalogue Admin</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f2f2f2;
+  color:#222;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
-  color: #222;
+header{
+  background:#003e2b;
+  border-bottom:5px solid #d4a62a;
+  color:white;
+  padding:20px;
 }
 
-header {
-  background: #003e2b;
-  border-bottom: 5px solid #d4a62a;
-  color: white;
-  padding: 20px;
+header h1{
+  margin:0;
+  color:#e2b63d;
+  font-size:24px;
 }
 
-header h1 {
-  margin: 0;
-  color: #e2b63d;
-  font-size: 24px;
+header p{
+  margin:6px 0 0;
+  font-size:13px;
 }
 
-header p {
-  margin: 6px 0 0;
-  font-size: 13px;
+main{
+  max-width:1500px;
+  margin:auto;
+  padding:20px;
 }
 
-main {
-  max-width: 1500px;
-  margin: auto;
-  padding: 20px;
+.login-container{
+  max-width:420px;
+  margin:70px auto;
+  background:white;
+  padding:30px;
+  border-radius:10px;
+  box-shadow:0 3px 15px rgba(0,0,0,.15);
 }
 
-.login-container {
-  max-width: 420px;
-  margin: 70px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 3px 15px rgba(0,0,0,.15);
+.login-container h2{
+  margin-top:0;
+  color:#003e2b;
+  text-align:center;
 }
 
-.login-container h2 {
-  margin-top: 0;
-  color: #003e2b;
-  text-align: center;
+.login-container input{
+  width:100%;
+  padding:14px;
+  margin-bottom:15px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:16px;
 }
 
-.login-container input {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
+.login-container button{
+  width:100%;
+  padding:14px;
+  background:#003e2b;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
 }
 
-.login-container button {
-  width: 100%;
-  padding: 14px;
-  background: #003e2b;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
+#loginMessage{
+  text-align:center;
+  color:#b00020;
+  margin-top:15px;
+  min-height:18px;
 }
 
-.login-container button:disabled {
-  opacity: .65;
-  cursor: wait;
+#adminArea{
+  display:none;
 }
 
-#loginMessage {
-  text-align: center;
-  color: #b00020;
-  margin-top: 15px;
-  font-size: 14px;
-  min-height: 18px;
+.admin-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
 }
 
-#adminArea {
-  display: none;
+.signed-in{
+  font-size:13px;
+  color:#555;
 }
 
-.admin-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+.logout-btn{
+  background:#b00020;
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-.signed-in {
-  font-size: 13px;
-  color: #555;
-  word-break: break-all;
-}
-
-.logout-btn {
-  background: #b00020;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.toolbar {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+.toolbar{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:20px;
 }
 
 .toolbar input,
@@ -131,275 +122,280 @@ main {
 .add-grid input,
 .add-grid select,
 .edit-grid input,
-.edit-grid select {
-  padding: 13px 14px;
-  font-size: 15px;
-  border: 2px solid #d4a62a;
-  border-radius: 8px;
-  background: white;
-  outline: none;
+.edit-grid select{
+  padding:13px 14px;
+  font-size:15px;
+  border:2px solid #d4a62a;
+  border-radius:8px;
+  background:white;
+  outline:none;
 }
 
-.toolbar input {
-  flex: 1;
-  min-width: 220px;
+.toolbar input{
+  flex:1;
+  min-width:220px;
 }
 
-.toolbar select {
-  min-width: 260px;
+.toolbar select{
+  min-width:260px;
 }
 
-button {
-  border: none;
-  border-radius: 7px;
-  padding: 11px 15px;
-  cursor: pointer;
-  font-weight: bold;
+button{
+  border:none;
+  border-radius:7px;
+  padding:11px 15px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-.primary {
-  background: #003e2b;
-  color: white;
+.primary{
+  background:#003e2b;
+  color:white;
 }
 
-.gold {
-  background: #d4a62a;
-  color: #173a2a;
+.gold{
+  background:#d4a62a;
+  color:#173a2a;
 }
 
-.light {
-  background: #e9e9e9;
-  color: #222;
+.light{
+  background:#e9e9e9;
+  color:#222;
 }
 
-.danger {
-  background: #b00020;
-  color: white;
+#loadingStatus{
+  display:none;
+  background:#fff8dc;
+  border:1px solid #d4a62a;
+  border-radius:7px;
+  padding:10px 14px;
+  margin-bottom:20px;
+  color:#003e2b;
+  font-weight:bold;
 }
 
-#loadingStatus {
-  display: none;
-  background: #fff8dc;
-  border: 1px solid #d4a62a;
-  border-radius: 7px;
-  padding: 10px 14px;
-  margin-bottom: 20px;
-  color: #003e2b;
-  font-weight: bold;
+.add-panel{
+  display:none;
+  background:white;
+  padding:18px;
+  border-radius:12px;
+  margin-bottom:24px;
+  box-shadow:0 3px 12px rgba(0,0,0,.12);
 }
 
-.add-panel {
-  display: none;
-  background: white;
-  padding: 18px;
-  border-radius: 12px;
-  margin-bottom: 24px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+.add-panel.open{
+  display:block;
 }
 
-.add-panel.open {
-  display: block;
+.add-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr 1fr;
+  gap:12px;
 }
 
-.add-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: 12px;
+.add-grid .full{
+  grid-column:1/-1;
 }
 
-.add-grid .full {
-  grid-column: 1 / -1;
-}
-
-label {
-  display: block;
-  font-size: 12px;
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 5px;
+label{
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  color:#555;
+  margin-bottom:5px;
 }
 
 .form-actions,
 .order-tools,
-.cat-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
+.cat-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
-.status {
-  min-height: 20px;
-  margin-top: 10px;
-  font-size: 13px;
+.status{
+  min-height:20px;
+  margin-top:10px;
+  font-size:13px;
 }
 
-.ok {
-  color: #08763c;
+.ok{
+  color:#08763c;
 }
 
-.error {
-  background: #ffe5e5;
-  color: #a00000;
-  padding: 15px;
-  border-radius: 6px;
+.error{
+  background:#ffe5e5;
+  color:#a00000;
+  padding:15px;
+  border-radius:6px;
 }
 
-.category {
-  margin-bottom: 45px;
+.category{
+  margin-bottom:45px;
 }
 
-.category-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 12px;
-  border-bottom: 2px solid #d4a62a;
-  padding-bottom: 8px;
-  margin-bottom: 15px;
+.category-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:12px;
+  border-bottom:2px solid #d4a62a;
+  padding-bottom:8px;
+  margin-bottom:15px;
 }
 
-.category h2 {
-  color: #003e2b;
-  font-size: 26px;
-  margin: 0;
+.category h2{
+  color:#003e2b;
+  font-size:26px;
+  margin:0;
 }
 
-.count {
-  font-size: 14px;
-  color: #666;
-  margin-top: 4px;
+.count{
+  font-size:14px;
+  color:#666;
+  margin-top:4px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 22px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+  gap:22px;
 }
 
-.product {
-  background: white;
-  border-radius: 12px;
-  padding: 12px;
-  overflow: hidden;
-  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+.product{
+  background:white;
+  border-radius:12px;
+  padding:12px;
+  overflow:hidden;
+  box-shadow:0 3px 12px rgba(0,0,0,.12);
+  cursor:grab;
 }
 
-.product.dragging {
-  opacity: .45;
-  outline: 2px dashed #d4a62a;
+.product:active{
+  cursor:grabbing;
 }
 
-.product img {
-  width: 100%;
-  height: 430px;
-  object-fit: contain;
-  display: block;
-  background: #fafafa;
-  border-radius: 8px;
+.product.dragging{
+  opacity:.4;
+  outline:3px dashed #d4a62a;
 }
 
-.filename {
-  margin-top: 10px;
-  font-size: 13px;
-  word-break: break-word;
-  color: #666;
+.product img{
+  width:100%;
+  height:430px;
+  object-fit:contain;
+  display:block;
+  background:#fafafa;
+  border-radius:8px;
 }
 
-.toggle-area {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: bold;
+.filename{
+  margin-top:10px;
+  font-size:13px;
+  word-break:break-word;
+  color:#666;
 }
 
-.toggle-area input {
-  width: 23px;
-  height: 23px;
-  cursor: pointer;
+.toggle-area{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:10px;
+  font-size:16px;
+  font-weight:bold;
 }
 
-.code-badge {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 5px 8px;
-  border-radius: 5px;
-  background: #eef4f0;
-  color: #003e2b;
-  font-weight: bold;
+.toggle-area input{
+  width:23px;
+  height:23px;
+  cursor:pointer;
 }
 
-.edit-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 10px;
+.code-badge{
+  display:inline-block;
+  margin-top:10px;
+  padding:5px 8px;
+  border-radius:5px;
+  background:#eef4f0;
+  color:#003e2b;
+  font-weight:bold;
 }
 
-.edit-grid .full {
-  grid-column: 1 / -1;
+.edit-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
 }
 
-.order-tools {
-  margin-top: 10px;
+.edit-grid .full{
+  grid-column:1/-1;
 }
 
-.drag-handle {
-  cursor: grab;
-  user-select: none;
-  padding: 8px 10px;
-  background: #f3efe2;
-  border-radius: 7px;
-  font-weight: bold;
-  color: #6d5720;
+.order-tools{
+  margin-top:10px;
 }
 
-.small {
-  font-size: 12px;
-  color: #666;
+.drag-handle{
+  cursor:grab;
+  user-select:none;
+  padding:8px 10px;
+  background:#f3efe2;
+  border-radius:7px;
+  font-weight:bold;
+  color:#6d5720;
 }
 
-@media (max-width: 700px) {
+.small{
+  font-size:12px;
+  color:#666;
+}
 
-  main {
-    padding: 10px;
+.autosave-order-status{
+  font-weight:bold;
+  color:#08763c;
+}
+
+@media(max-width:700px){
+
+  main{
+    padding:10px;
   }
 
-  .toolbar {
-    flex-direction: column;
-    align-items: stretch;
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
   }
 
   .toolbar input,
   .toolbar select,
-  .toolbar button {
-    width: 100%;
-    min-width: 0;
+  .toolbar button{
+    width:100%;
+    min-width:0;
   }
 
   .add-grid,
-  .edit-grid {
-    grid-template-columns: 1fr;
+  .edit-grid{
+    grid-template-columns:1fr;
   }
 
   .add-grid .full,
-  .edit-grid .full {
-    grid-column: auto;
+  .edit-grid .full{
+    grid-column:auto;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
+  .grid{
+    grid-template-columns:1fr;
   }
 
-  .product img {
-    height: 480px;
+  .product img{
+    height:480px;
   }
 
-  .category-head {
-    align-items: flex-start;
-    flex-direction: column;
+  .category-head{
+    flex-direction:column;
+    align-items:flex-start;
   }
 }
 </style>
@@ -411,7 +407,6 @@ label {
   <h1>K&M CATALOGUE ADMIN</h1>
   <p>Product Manager</p>
 </header>
-
 
 <div id="loginArea" class="login-container">
 
@@ -431,14 +426,13 @@ label {
     autocomplete="current-password"
   >
 
-  <button id="loginButton" type="button">
+  <button id="loginButton">
     LOGIN
   </button>
 
   <div id="loginMessage"></div>
 
 </div>
-
 
 <main id="adminArea">
 
@@ -452,13 +446,11 @@ label {
     <button
       id="logoutButton"
       class="logout-btn"
-      type="button"
     >
       LOGOUT
     </button>
 
   </div>
-
 
   <div class="toolbar">
 
@@ -489,8 +481,10 @@ label {
 
   </div>
 
-
-  <section id="addPanel" class="add-panel">
+  <section
+    id="addPanel"
+    class="add-panel"
+  >
 
     <h3 style="margin-top:0;color:#003e2b">
       Add New Product
@@ -512,7 +506,6 @@ label {
 
       </div>
 
-
       <div>
 
         <label>
@@ -526,7 +519,6 @@ label {
 
       </div>
 
-
       <div>
 
         <label>
@@ -536,7 +528,6 @@ label {
         <select id="newCategory"></select>
 
       </div>
-
 
       <div>
 
@@ -554,12 +545,9 @@ label {
 
       </div>
 
-
       <div>
 
-        <label>
-          Status
-        </label>
+        <label>Status</label>
 
         <select id="newActive">
 
@@ -576,7 +564,6 @@ label {
       </div>
 
     </div>
-
 
     <div
       class="form-actions"
@@ -599,14 +586,12 @@ label {
 
     </div>
 
-
     <div
       id="addStatus"
       class="status"
     ></div>
 
   </section>
-
 
   <div id="loadingStatus">
     Loading products...
@@ -624,10 +609,8 @@ label {
 const SUPABASE_URL =
   "https://gynnbpmghwwzimdzhxfw.supabase.co";
 
-
 const SUPABASE_ANON_KEY =
   "sb_publishable_Fo7pTJH0jrNUMi-ShQHYjA_rUgnIvqR";
-
 
 const BUCKET =
   "product -image";
@@ -635,99 +618,69 @@ const BUCKET =
 
 const categories = [
 
+  {folder:"rise",title:"RICE"},
+
+  {folder:"SAUCES",title:"SAUCES"},
+
+  {folder:"drink",title:"DRINKS"},
+
+  {folder:"snacks",title:"SNACKS & SWEETS"},
+
+  {folder:"spices",title:"SPICES"},
+
   {
-    folder: "rise",
-    title: "RICE"
+    folder:"beans&chickpease",
+    title:"BEANS & CHICKPEAS"
   },
 
   {
-    folder: "SAUCES",
-    title: "SAUCES"
+    folder:"cooking essentials",
+    title:"COOKING ESSENTIALS"
+  },
+
+  {folder:"PULSES",title:"PULSES"},
+
+  {folder:"PICKLES",title:"PICKLES"},
+
+  {
+    folder:"TEA & COFFE",
+    title:"TEA & COFFEE"
   },
 
   {
-    folder: "drink",
-    title: "DRINKS"
+    folder:"Chewing Gum",
+    title:"CHEWING GUM"
   },
 
   {
-    folder: "snacks",
-    title: "SNACKS & SWEETS"
+    folder:"Candy Sweets & Candy Toys",
+    title:"CANDY SWEETS & CANDY TOYS"
+  },
+
+  {folder:"chips",title:"CHIPS"},
+
+  {folder:"NUTS",title:"NUTS"},
+
+  {folder:"TOILETRIES",title:"TOILETRIES"},
+
+  {
+    folder:"TESSUE AND WIPES",
+    title:"TISSUE & WIPES"
   },
 
   {
-    folder: "spices",
-    title: "SPICES"
+    folder:"TRADITIONAL",
+    title:"TRADITIONAL"
   },
 
   {
-    folder: "beans&chickpease",
-    title: "BEANS & CHICKPEAS"
+    folder:"GENERAL PRODUCTS",
+    title:"GENERAL PRODUCTS"
   },
 
   {
-    folder: "cooking essentials",
-    title: "COOKING ESSENTIALS"
-  },
-
-  {
-    folder: "PULSES",
-    title: "PULSES"
-  },
-
-  {
-    folder: "PICKLES",
-    title: "PICKLES"
-  },
-
-  {
-    folder: "TEA & COFFE",
-    title: "TEA & COFFEE"
-  },
-
-  {
-    folder: "Chewing Gum",
-    title: "CHEWING GUM"
-  },
-
-  {
-    folder: "Candy Sweets & Candy Toys",
-    title: "CANDY SWEETS & CANDY TOYS"
-  },
-
-  {
-    folder: "chips",
-    title: "CHIPS"
-  },
-
-  {
-    folder: "NUTS",
-    title: "NUTS"
-  },
-
-  {
-    folder: "TOILETRIES",
-    title: "TOILETRIES"
-  },
-
-  {
-    folder: "TESSUE AND WIPES",
-    title: "TISSUE & WIPES"
-  },
-
-  {
-    folder: "TRADITIONAL",
-    title: "TRADITIONAL"
-  },
-
-  {
-    folder: "GENERAL PRODUCTS",
-    title: "GENERAL PRODUCTS"
-  },
-
-  {
-    folder: "special-offer",
-    title: "SPECIAL OFFER"
+    folder:"special-offer",
+    title:"SPECIAL OFFER"
   }
 
 ];
@@ -741,14 +694,10 @@ const supabaseClient =
     SUPABASE_ANON_KEY,
 
     {
-      auth: {
-
-        persistSession: true,
-
-        autoRefreshToken: true,
-
-        detectSessionInUrl: true
-
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true
       }
     }
 
@@ -760,60 +709,40 @@ let products = [];
 let adminLoaded = false;
 
 
+/* ==============================
+   HTML SAFE
+   ============================== */
 
-function esc(value) {
+function esc(value){
 
   return String(
     value ?? ""
   )
   .replace(
-
     /[&<>"']/g,
-
-    function(match) {
+    function(match){
 
       return {
-
-        "&": "&amp;",
-
-        "<": "&lt;",
-
-        ">": "&gt;",
-
-        '"': "&quot;",
-
-        "'": "&#039;"
-
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
       }[match];
 
     }
-
   );
 
 }
 
 
+/* ==============================
+   IMAGE FILE NAME
+   ============================== */
 
-function titleFor(folder) {
+function filenameFromUrl(url){
 
-  const found =
-    categories.find(
-      category =>
-        category.folder === folder
-    );
-
-
-  return found
-    ? found.title
-    : folder;
-
-}
-
-
-
-function filenameFromUrl(url) {
-
-  try {
+  try{
 
     return decodeURIComponent(
 
@@ -826,7 +755,7 @@ function filenameFromUrl(url) {
 
   }
 
-  catch {
+  catch{
 
     return "";
 
@@ -835,30 +764,27 @@ function filenameFromUrl(url) {
 }
 
 
+/* ==============================
+   CATEGORY MENUS
+   ============================== */
 
-function fillCategoryMenus() {
+function fillCategoryMenus(){
 
   const options =
     categories
       .map(
         category =>
-
           '<option value="' +
           esc(category.folder) +
           '">' +
-
           esc(category.title) +
-
           '</option>'
-
       )
       .join("");
 
 
   document
-    .getElementById(
-      "categorySelect"
-    )
+    .getElementById("categorySelect")
     .innerHTML =
 
     '<option value="ALL">' +
@@ -869,9 +795,7 @@ function fillCategoryMenus() {
 
 
   document
-    .getElementById(
-      "newCategory"
-    )
+    .getElementById("newCategory")
     .innerHTML =
 
     '<option value="">' +
@@ -886,25 +810,26 @@ function fillCategoryMenus() {
 fillCategoryMenus();
 
 
+/* ==============================
+   LOGIN SESSION
+   ============================== */
 
-async function getSessionOrThrow() {
+async function getSessionOrThrow(){
 
-  const { data, error } =
+  const {data,error} =
     await supabaseClient.auth
       .getSession();
 
 
-  if (error) {
-
+  if(error){
     throw error;
-
   }
 
 
-  if (
+  if(
     !data.session ||
     !data.session.access_token
-  ) {
+  ){
 
     throw new Error(
       "Login session expired. Please log in again."
@@ -918,8 +843,11 @@ async function getSessionOrThrow() {
 }
 
 
+/* ==============================
+   LOGIN
+   ============================== */
 
-async function loginAdmin() {
+async function loginAdmin(){
 
   const email =
     document
@@ -936,25 +864,21 @@ async function loginAdmin() {
 
   const message =
     document
-      .getElementById(
-        "loginMessage"
-      );
+      .getElementById("loginMessage");
 
 
   const button =
     document
-      .getElementById(
-        "loginButton"
-      );
+      .getElementById("loginButton");
 
 
   message.textContent = "";
 
 
-  if (
+  if(
     !email ||
     !password
-  ) {
+  ){
 
     message.textContent =
       "Please enter your email and password.";
@@ -970,14 +894,11 @@ async function loginAdmin() {
     "LOGGING IN...";
 
 
-  const { data, error } =
+  const {data,error} =
     await supabaseClient.auth
       .signInWithPassword({
-
-        email: email,
-
-        password: password
-
+        email,
+        password
       });
 
 
@@ -987,10 +908,10 @@ async function loginAdmin() {
     "LOGIN";
 
 
-  if (
+  if(
     error ||
     !data.session
-  ) {
+  ){
 
     message.textContent =
       "Wrong email or password.";
@@ -1001,9 +922,7 @@ async function loginAdmin() {
 
 
   document
-    .getElementById(
-      "password"
-    )
+    .getElementById("password")
     .value = "";
 
 
@@ -1017,8 +936,11 @@ async function loginAdmin() {
 }
 
 
+/* ==============================
+   LOGOUT
+   ============================== */
 
-async function logoutAdmin() {
+async function logoutAdmin(){
 
   await supabaseClient.auth
     .signOut();
@@ -1037,57 +959,49 @@ async function logoutAdmin() {
 }
 
 
+/* ==============================
+   SHOW LOGIN
+   ============================== */
 
-function showLogin() {
-
-  document
-    .getElementById(
-      "adminArea"
-    )
-    .style.display = "none";
-
+function showLogin(){
 
   document
-    .getElementById(
-      "loginArea"
-    )
-    .style.display = "block";
+    .getElementById("adminArea")
+    .style.display =
+    "none";
 
 
   document
-    .getElementById(
-      "signedInUser"
-    )
-    .textContent = "";
+    .getElementById("loginArea")
+    .style.display =
+    "block";
 
 }
 
 
+/* ==============================
+   SHOW ADMIN
+   ============================== */
 
-async function showAdmin(session) {
-
-  document
-    .getElementById(
-      "loginArea"
-    )
-    .style.display = "none";
-
+async function showAdmin(session){
 
   document
-    .getElementById(
-      "adminArea"
-    )
-    .style.display = "block";
+    .getElementById("loginArea")
+    .style.display =
+    "none";
 
 
   document
-    .getElementById(
-      "signedInUser"
-    )
+    .getElementById("adminArea")
+    .style.display =
+    "block";
+
+
+  document
+    .getElementById("signedInUser")
     .textContent =
 
-    session.user &&
-    session.user.email
+    session.user?.email
 
       ? "Signed in: " +
         session.user.email
@@ -1095,7 +1009,7 @@ async function showAdmin(session) {
       : "Signed in";
 
 
-  if (!adminLoaded) {
+  if(!adminLoaded){
 
     adminLoaded = true;
 
@@ -1106,18 +1020,21 @@ async function showAdmin(session) {
 }
 
 
+/* ==============================
+   CHECK LOGIN
+   ============================== */
 
-async function checkLogin() {
+async function checkLogin(){
 
-  const { data, error } =
+  const {data,error} =
     await supabaseClient.auth
       .getSession();
 
 
-  if (
+  if(
     error ||
     !data.session
-  ) {
+  ){
 
     showLogin();
 
@@ -1133,8 +1050,11 @@ async function checkLogin() {
 }
 
 
+/* ==============================
+   AUTH HEADERS
+   ============================== */
 
-async function authHeaders(prefer) {
+async function authHeaders(prefer){
 
   const session =
     await getSessionOrThrow();
@@ -1155,7 +1075,7 @@ async function authHeaders(prefer) {
   };
 
 
-  if (prefer) {
+  if(prefer){
 
     headers.Prefer =
       prefer;
@@ -1168,21 +1088,20 @@ async function authHeaders(prefer) {
 }
 
 
+/* ==============================
+   LOAD PRODUCTS
+   ============================== */
 
-async function loadAdmin() {
+async function loadAdmin(){
 
   const admin =
     document
-      .getElementById(
-        "admin"
-      );
+      .getElementById("admin");
 
 
   const loading =
     document
-      .getElementById(
-        "loadingStatus"
-      );
+      .getElementById("loadingStatus");
 
 
   loading.style.display =
@@ -1192,8 +1111,7 @@ async function loadAdmin() {
   admin.innerHTML = "";
 
 
-  try {
-
+  try{
 
     const headers =
       await authHeaders();
@@ -1221,13 +1139,13 @@ async function loadAdmin() {
         "id.asc",
 
         {
-          headers: headers
+          headers
         }
 
       );
 
 
-    if (!response.ok) {
+    if(!response.ok){
 
       throw new Error(
         await response.text()
@@ -1244,17 +1162,13 @@ async function loadAdmin() {
 
   }
 
-
-  catch (error) {
-
+  catch(error){
 
     admin.innerHTML =
 
       '<div class="error">' +
 
-      'Could not load products.' +
-
-      '<br><br>' +
+      'Could not load products.<br><br>' +
 
       esc(
         error.message ||
@@ -1265,9 +1179,7 @@ async function loadAdmin() {
 
   }
 
-
-  finally {
-
+  finally{
 
     loading.style.display =
       "none";
@@ -1277,22 +1189,21 @@ async function loadAdmin() {
 }
 
 
+/* ==============================
+   FILTER PRODUCTS
+   ============================== */
 
-function visibleProducts() {
+function visibleProducts(){
 
   const selected =
     document
-      .getElementById(
-        "categorySelect"
-      )
+      .getElementById("categorySelect")
       .value;
 
 
   const search =
     document
-      .getElementById(
-        "productSearch"
-      )
+      .getElementById("productSearch")
       .value
       .trim()
       .toLowerCase();
@@ -1300,8 +1211,7 @@ function visibleProducts() {
 
   return products.filter(
 
-    function(product) {
-
+    product => {
 
       const categoryOK =
 
@@ -1311,7 +1221,7 @@ function visibleProducts() {
           selected;
 
 
-      const searchableText =
+      const text =
 
         (
           (product.code || "") +
@@ -1325,22 +1235,19 @@ function visibleProducts() {
           filenameFromUrl(
             product.image_url || ""
           )
-
         )
         .toLowerCase();
 
 
-      const searchOK =
-
-        search === "" ||
-
-        searchableText
-          .includes(search);
-
-
       return (
+
         categoryOK &&
-        searchOK
+
+        (
+          !search ||
+          text.includes(search)
+        )
+
       );
 
     }
@@ -1350,21 +1257,22 @@ function visibleProducts() {
 }
 
 
+/* ==============================
+   RENDER ADMIN
+   ============================== */
 
-function renderAdmin() {
+function renderAdmin(){
 
   const admin =
     document
-      .getElementById(
-        "admin"
-      );
+      .getElementById("admin");
 
 
   const visible =
     visibleProducts();
 
 
-  if (!visible.length) {
+  if(!visible.length){
 
     admin.innerHTML =
       '<div class="small">' +
@@ -1381,17 +1289,14 @@ function renderAdmin() {
 
   visible.forEach(
 
-    function(product) {
-
+    product => {
 
       const category =
-
         product.category ||
-
         "GENERAL PRODUCTS";
 
 
-      if (!grouped[category]) {
+      if(!grouped[category]){
 
         grouped[category] = [];
 
@@ -1411,17 +1316,12 @@ function renderAdmin() {
 
   categories.forEach(
 
-    function(category) {
+    category => {
 
-
-      if (
-        grouped[
-          category.folder
-        ] &&
-        grouped[
-          category.folder
-        ].length
-      ) {
+      if(
+        grouped[category.folder] &&
+        grouped[category.folder].length
+      ){
 
         html +=
           renderCategory(
@@ -1447,16 +1347,11 @@ function renderAdmin() {
 
     .filter(
 
-      function(key) {
-
-        return !categories.some(
-
+      key =>
+        !categories.some(
           category =>
             category.folder === key
-
-        );
-
-      }
+        )
 
     )
 
@@ -1464,17 +1359,13 @@ function renderAdmin() {
 
     .forEach(
 
-      function(key) {
+      key => {
 
         html +=
           renderCategory(
-
             key,
-
             key,
-
             grouped[key]
-
           );
 
       }
@@ -1491,39 +1382,38 @@ function renderAdmin() {
 }
 
 
+/* ==============================
+   CATEGORY
+   ============================== */
 
 function renderCategory(
   folder,
   title,
   list
-) {
+){
 
   list =
     [...list]
       .sort(
 
-        function(a, b) {
+        (a,b) =>
 
-          return (
+          (
+            Number(a.display_order) ||
+            0
+          )
 
-            (Number(
-              a.display_order
-            ) || 0)
+          -
 
-            -
-
-            (Number(
-              b.display_order
-            ) || 0)
-
+          (
+            Number(b.display_order) ||
+            0
           )
 
           ||
 
           Number(a.id) -
-          Number(b.id);
-
-        }
+          Number(b.id)
 
       );
 
@@ -1549,18 +1439,13 @@ function renderCategory(
 
       </div>
 
-
       <div class="cat-actions">
 
-        <button
-          class="primary"
-          onclick="saveCategoryOrder(
-            '${String(folder)
-              .replace(/'/g, "\\'")}'
-          )"
+        <span
+          class="small autosave-order-status"
         >
-          SAVE ORDER
-        </button>
+          Drag products — order saves automatically
+        </span>
 
       </div>
 
@@ -1577,9 +1462,9 @@ function renderCategory(
         list
           .map(
 
-            function(product, index) {
+            (product,index) =>
 
-              return renderProductCard(
+              renderProductCard(
 
                 product,
 
@@ -1587,9 +1472,7 @@ function renderCategory(
 
                 list.length
 
-              );
-
-            }
+              )
 
           )
           .join("")
@@ -1605,12 +1488,15 @@ function renderCategory(
 }
 
 
+/* ==============================
+   PRODUCT CARD
+   ============================== */
 
 function renderProductCard(
   product,
   index,
   total
-) {
+){
 
   return `
 
@@ -1622,7 +1508,6 @@ function renderProductCard(
       product.category || ""
     )}"
   >
-
 
     <div class="toggle-area">
 
@@ -1644,13 +1529,11 @@ function renderProductCard(
       >
 
       <span>
-
         ${
           product.is_active !== false
             ? "ON"
             : "OFF"
         }
-
       </span>
 
     </div>
@@ -1665,6 +1548,7 @@ function renderProductCard(
           product.image_url || ""
         )
       )}"
+      draggable="false"
     >
 
 
@@ -1692,7 +1576,6 @@ function renderProductCard(
 
 
     <div class="edit-grid">
-
 
       <div>
 
@@ -1726,36 +1609,32 @@ function renderProductCard(
             categories
               .map(
 
-                function(category) {
+                category => `
 
-                  return `
+                <option
 
-                  <option
+                  value="${esc(
+                    category.folder
+                  )}"
 
-                    value="${esc(
-                      category.folder
-                    )}"
+                  ${
+                    category.folder ===
+                    product.category
 
-                    ${
-                      category.folder ===
-                      product.category
+                      ? "selected"
 
-                        ? "selected"
+                      : ""
+                  }
 
-                        : ""
-                    }
+                >
 
-                  >
+                  ${esc(
+                    category.title
+                  )}
 
-                    ${esc(
-                      category.title
-                    )}
+                </option>
 
-                  </option>
-
-                  `;
-
-                }
+                `
 
               )
               .join("")
@@ -1767,9 +1646,7 @@ function renderProductCard(
       </div>
 
 
-      <div
-        class="full form-actions"
-      >
+      <div class="full form-actions">
 
         <button
           class="primary"
@@ -1790,9 +1667,8 @@ function renderProductCard(
     <div class="order-tools">
 
       <span class="drag-handle">
-        ☰ DRAG
+        ☰ DRAG WITH MOUSE
       </span>
-
 
       <button
         class="light"
@@ -1813,7 +1689,6 @@ function renderProductCard(
         ↑ UP
       </button>
 
-
       <button
         class="light"
 
@@ -1833,7 +1708,6 @@ function renderProductCard(
         ↓ DOWN
       </button>
 
-
       <span class="small">
 
         Position
@@ -1846,7 +1720,6 @@ function renderProductCard(
 
     </div>
 
-
   </div>
 
   `;
@@ -1854,16 +1727,17 @@ function renderProductCard(
 }
 
 
+/* ==============================
+   DUPLICATE CODE CHECK
+   ============================== */
 
 async function codeExists(
   code,
   ignoreId
-) {
+){
 
-  if (!code) {
-
+  if(!code){
     return false;
-
   }
 
 
@@ -1871,32 +1745,27 @@ async function codeExists(
     await authHeaders();
 
 
-  const url =
-
-    SUPABASE_URL +
-
-    "/rest/v1/product" +
-
-    "?select=id,code" +
-
-    "&code=ilike." +
-
-    encodeURIComponent(code);
-
-
   const response =
     await fetch(
 
-      url,
+      SUPABASE_URL +
+
+      "/rest/v1/product" +
+
+      "?select=id,code" +
+
+      "&code=ilike." +
+
+      encodeURIComponent(code),
 
       {
-        headers: headers
+        headers
       }
 
     );
 
 
-  if (!response.ok) {
+  if(!response.ok){
 
     throw new Error(
       await response.text()
@@ -1911,38 +1780,35 @@ async function codeExists(
 
   return rows.some(
 
-    function(row) {
+    row =>
 
-      return (
+      Number(row.id) !==
+      Number(ignoreId)
 
-        Number(row.id) !==
-        Number(ignoreId)
+      &&
 
-        &&
+      String(
+        row.code || ""
+      )
+      .trim()
+      .toLowerCase()
 
-        String(
-          row.code || ""
-        )
+      ===
+
+      code
         .trim()
         .toLowerCase()
-
-        ===
-
-        code
-          .trim()
-          .toLowerCase()
-
-      );
-
-    }
 
   );
 
 }
 
 
+/* ==============================
+   SAVE CODE / CATEGORY
+   ============================== */
 
-async function saveProductDetails(id) {
+async function saveProductDetails(id){
 
   const product =
     products.find(
@@ -1954,10 +1820,8 @@ async function saveProductDetails(id) {
     );
 
 
-  if (!product) {
-
+  if(!product){
     return;
-
   }
 
 
@@ -1978,7 +1842,7 @@ async function saveProductDetails(id) {
       .value;
 
 
-  if (!code) {
+  if(!code){
 
     alert(
       "Please enter the 4SALE product code."
@@ -1989,12 +1853,12 @@ async function saveProductDetails(id) {
   }
 
 
-  if (
+  if(
     await codeExists(
       code,
       id
     )
-  ) {
+  ){
 
     alert(
       "This 4SALE code is already used by another catalogue product."
@@ -2018,24 +1882,22 @@ async function saveProductDetails(id) {
 
       "/rest/v1/product" +
 
-      "?id=eq." + id,
+      "?id=eq." +
+      id,
 
       {
 
         method:
           "PATCH",
 
-        headers:
-          headers,
+        headers,
 
         body:
           JSON.stringify({
 
-            code:
-              code,
+            code,
 
-            category:
-              category
+            category
 
           })
 
@@ -2044,7 +1906,7 @@ async function saveProductDetails(id) {
     );
 
 
-  if (!response.ok) {
+  if(!response.ok){
 
     alert(
 
@@ -2059,14 +1921,6 @@ async function saveProductDetails(id) {
   }
 
 
-  product.code =
-    code;
-
-
-  product.category =
-    category;
-
-
   await loadAdmin();
 
 
@@ -2077,11 +1931,14 @@ async function saveProductDetails(id) {
 }
 
 
+/* ==============================
+   PRODUCT ON / OFF
+   ============================== */
 
 async function toggleProduct(
   id,
   input
-) {
+){
 
   const product =
     products.find(
@@ -2093,10 +1950,8 @@ async function toggleProduct(
     );
 
 
-  if (!product) {
-
+  if(!product){
     return;
-
   }
 
 
@@ -2108,8 +1963,7 @@ async function toggleProduct(
     true;
 
 
-  try {
-
+  try{
 
     const headers =
       await authHeaders(
@@ -2124,15 +1978,15 @@ async function toggleProduct(
 
         "/rest/v1/product" +
 
-        "?id=eq." + id,
+        "?id=eq." +
+        id,
 
         {
 
           method:
             "PATCH",
 
-          headers:
-            headers,
+          headers,
 
           body:
             JSON.stringify({
@@ -2147,7 +2001,7 @@ async function toggleProduct(
       );
 
 
-    if (!response.ok) {
+    if(!response.ok){
 
       throw new Error(
         await response.text()
@@ -2168,12 +2022,9 @@ async function toggleProduct(
         ? "ON"
         : "OFF";
 
-
   }
 
-
-  catch (error) {
-
+  catch(error){
 
     input.checked =
       !wanted;
@@ -2189,9 +2040,7 @@ async function toggleProduct(
 
   }
 
-
-  finally {
-
+  finally{
 
     input.disabled =
       false;
@@ -2201,11 +2050,15 @@ async function toggleProduct(
 }
 
 
+/* ==============================
+   UP / DOWN
+   AUTO SAVE
+   ============================== */
 
-function moveProduct(
+async function moveProduct(
   id,
   direction
-) {
+){
 
   const card =
     document.querySelector(
@@ -2217,10 +2070,8 @@ function moveProduct(
     );
 
 
-  if (!card) {
-
+  if(!card){
     return;
-
   }
 
 
@@ -2241,37 +2092,28 @@ function moveProduct(
     direction;
 
 
-  if (
+  if(
     target < 0 ||
     target >= cards.length
-  ) {
-
+  ){
     return;
-
   }
 
 
-  if (direction < 0) {
+  if(direction < 0){
 
     grid.insertBefore(
-
       card,
-
       cards[target]
-
     );
 
   }
 
-
-  else {
+  else{
 
     grid.insertBefore(
-
       cards[target],
-
       card
-
     );
 
   }
@@ -2281,27 +2123,34 @@ function moveProduct(
     grid
   );
 
+
+  await autoSaveGridOrder(
+    grid
+  );
+
 }
 
 
+/* ==============================
+   REFRESH POSITION LABEL
+   ============================== */
 
-function refreshPositions(grid) {
+function refreshPositions(grid){
 
   [...grid.children]
     .forEach(
 
-      function(card, index) {
+      (card,index) => {
 
-
-        const positionText =
+        const position =
           card.querySelector(
             ".order-tools .small"
           );
 
 
-        if (positionText) {
+        if(position){
 
-          positionText.innerHTML =
+          position.innerHTML =
 
             "Position <b>" +
 
@@ -2318,8 +2167,12 @@ function refreshPositions(grid) {
 }
 
 
+/* ==============================
+   MOUSE DRAG / DROP
+   AUTO SAVE
+   ============================== */
 
-function bindDragDrop() {
+function bindDragDrop(){
 
   document
     .querySelectorAll(
@@ -2327,19 +2180,36 @@ function bindDragDrop() {
     )
     .forEach(
 
-      function(card) {
+      card => {
+
+        let originalOrder =
+          "";
 
 
         card.addEventListener(
 
           "dragstart",
 
-          function(event) {
+          event => {
+
+            const grid =
+              card.parentElement;
 
 
-            card.classList.add(
-              "dragging"
-            );
+            originalOrder =
+              [...grid.children]
+                .map(
+                  item =>
+                    item.dataset.id
+                )
+                .join(",");
+
+
+            card
+              .classList
+              .add(
+                "dragging"
+              );
 
 
             event
@@ -2356,13 +2226,43 @@ function bindDragDrop() {
 
           "dragend",
 
-          function() {
+          async () => {
+
+            const grid =
+              card.parentElement;
+
 
             card
               .classList
               .remove(
                 "dragging"
               );
+
+
+            refreshPositions(
+              grid
+            );
+
+
+            const newOrder =
+              [...grid.children]
+                .map(
+                  item =>
+                    item.dataset.id
+                )
+                .join(",");
+
+
+            if(
+              newOrder !==
+              originalOrder
+            ){
+
+              await autoSaveGridOrder(
+                grid
+              );
+
+            }
 
           }
 
@@ -2373,8 +2273,7 @@ function bindDragDrop() {
 
           "dragover",
 
-          function(event) {
-
+          event => {
 
             event.preventDefault();
 
@@ -2385,12 +2284,12 @@ function bindDragDrop() {
               );
 
 
-            if (
+            if(
               !dragging ||
               dragging === card ||
               dragging.parentElement !==
               card.parentElement
-            ) {
+            ){
 
               return;
 
@@ -2438,35 +2337,29 @@ function bindDragDrop() {
 }
 
 
+/* ==============================
+   AUTO SAVE CATEGORY ORDER
+   ============================== */
 
-async function saveCategoryOrder(
-  category
-) {
+async function autoSaveGridOrder(
+  grid
+){
 
-  const grid =
-    document.querySelector(
-
-      '[data-grid="' +
-      CSS.escape(category) +
-      '"]'
-
-    );
-
-
-  if (!grid) {
-
+  if(!grid){
     return;
-
   }
 
 
-  const button =
-    grid
-      .closest(
-        ".category"
-      )
+  const categorySection =
+    grid.closest(
+      ".category"
+    );
+
+
+  const status =
+    categorySection
       .querySelector(
-        ".cat-actions button"
+        ".autosave-order-status"
       );
 
 
@@ -2474,16 +2367,11 @@ async function saveCategoryOrder(
     [...grid.children];
 
 
-  button.disabled =
-    true;
+  status.textContent =
+    "Saving order...";
 
 
-  button.textContent =
-    "SAVING...";
-
-
-  try {
-
+  try{
 
     const headers =
       await authHeaders(
@@ -2491,12 +2379,11 @@ async function saveCategoryOrder(
       );
 
 
-    for (
+    for(
       let index = 0;
       index < cards.length;
       index++
-    ) {
-
+    ){
 
       const id =
         cards[index]
@@ -2510,15 +2397,15 @@ async function saveCategoryOrder(
 
           "/rest/v1/product" +
 
-          "?id=eq." + id,
+          "?id=eq." +
+          id,
 
           {
 
             method:
               "PATCH",
 
-            headers:
-              headers,
+            headers,
 
             body:
               JSON.stringify({
@@ -2533,7 +2420,7 @@ async function saveCategoryOrder(
         );
 
 
-      if (!response.ok) {
+      if(!response.ok){
 
         throw new Error(
           await response.text()
@@ -2552,7 +2439,7 @@ async function saveCategoryOrder(
         );
 
 
-      if (product) {
+      if(product){
 
         product.display_order =
           index + 1;
@@ -2562,57 +2449,52 @@ async function saveCategoryOrder(
     }
 
 
-    button.textContent =
-      "SAVED ✓";
+    status.textContent =
+      "Saved automatically ✓";
 
 
     setTimeout(
 
-      function() {
+      () => {
 
-        button.textContent =
-          "SAVE ORDER";
+        status.textContent =
+          "Drag products — order saves automatically";
 
       },
 
-      1200
+      1500
 
     );
 
   }
 
+  catch(error){
 
-  catch (error) {
-
-
-    button.textContent =
-      "SAVE ORDER";
+    status.textContent =
+      "Save failed";
 
 
     alert(
 
-      "Could not save order.\n\n" +
+      "Could not save product order.\n\n" +
 
       error.message
 
     );
 
-  }
 
-
-  finally {
-
-
-    button.disabled =
-      false;
+    await loadAdmin();
 
   }
 
 }
 
 
+/* ==============================
+   SAFE IMAGE FILE NAME
+   ============================== */
 
-function cleanFilename(name) {
+function cleanFilename(name){
 
   const dot =
     name.lastIndexOf(".");
@@ -2633,18 +2515,11 @@ function cleanFilename(name) {
 
     (
       dot >= 0
-
-        ? name.slice(
-            0,
-            dot
-          )
-
+        ? name.slice(0,dot)
         : name
     )
 
-    .normalize(
-      "NFKD"
-    )
+    .normalize("NFKD")
 
     .replace(
       /[^a-zA-Z0-9_-]+/g,
@@ -2684,39 +2559,34 @@ function cleanFilename(name) {
 }
 
 
+/* ==============================
+   ADD PRODUCT
+   ============================== */
 
-async function addProduct() {
+async function addProduct(){
 
   const file =
     document
-      .getElementById(
-        "newImage"
-      )
+      .getElementById("newImage")
       .files?.[0];
 
 
   const code =
     document
-      .getElementById(
-        "newCode"
-      )
+      .getElementById("newCode")
       .value
       .trim();
 
 
   const category =
     document
-      .getElementById(
-        "newCategory"
-      )
+      .getElementById("newCategory")
       .value;
 
 
   const positionValue =
     document
-      .getElementById(
-        "newPosition"
-      )
+      .getElementById("newPosition")
       .value
       .trim();
 
@@ -2724,30 +2594,26 @@ async function addProduct() {
   const isActive =
 
     document
-      .getElementById(
-        "newActive"
-      )
-      .value === "true";
+      .getElementById("newActive")
+      .value ===
+      "true";
 
 
   const status =
     document
-      .getElementById(
-        "addStatus"
-      );
+      .getElementById("addStatus");
 
 
   const button =
     document
-      .getElementById(
-        "saveNewProduct"
-      );
+      .getElementById("saveNewProduct");
 
 
-  status.textContent = "";
+  status.textContent =
+    "";
 
 
-  if (!file) {
+  if(!file){
 
     status.textContent =
       "Please choose the catalogue picture.";
@@ -2757,7 +2623,7 @@ async function addProduct() {
   }
 
 
-  if (!code) {
+  if(!code){
 
     status.textContent =
       "Please enter the 4SALE product code.";
@@ -2767,7 +2633,7 @@ async function addProduct() {
   }
 
 
-  if (!category) {
+  if(!category){
 
     status.textContent =
       "Please choose the category.";
@@ -2777,12 +2643,12 @@ async function addProduct() {
   }
 
 
-  if (
+  if(
     await codeExists(
       code,
       null
     )
-  ) {
+  ){
 
     status.textContent =
       "That 4SALE code is already used.";
@@ -2798,7 +2664,7 @@ async function addProduct() {
     );
 
 
-  if (
+  if(
     !Number.isFinite(
       displayOrder
     )
@@ -2806,8 +2672,7 @@ async function addProduct() {
     ||
 
     displayOrder < 1
-  ) {
-
+  ){
 
     const sameCategory =
       products.filter(
@@ -2822,9 +2687,8 @@ async function addProduct() {
     displayOrder =
       sameCategory.reduce(
 
-        function(max, product) {
-
-          return Math.max(
+        (max,product) =>
+          Math.max(
 
             max,
 
@@ -2832,9 +2696,7 @@ async function addProduct() {
               product.display_order
             ) || 0
 
-          );
-
-        },
+          ),
 
         0
 
@@ -2851,8 +2713,7 @@ async function addProduct() {
     "SAVING...";
 
 
-  try {
-
+  try{
 
     const session =
       await getSessionOrThrow();
@@ -2876,10 +2737,13 @@ async function addProduct() {
     const encodedPath =
 
       objectPath
+
         .split("/")
+
         .map(
           encodeURIComponent
         )
+
         .join("/");
 
 
@@ -2907,7 +2771,7 @@ async function addProduct() {
           method:
             "POST",
 
-          headers: {
+          headers:{
 
             apikey:
               SUPABASE_ANON_KEY,
@@ -2933,7 +2797,7 @@ async function addProduct() {
       );
 
 
-    if (!upload.ok) {
+    if(!upload.ok){
 
       throw new Error(
 
@@ -2983,8 +2847,7 @@ async function addProduct() {
           method:
             "POST",
 
-          headers:
-            headers,
+          headers,
 
           body:
             JSON.stringify({
@@ -2992,8 +2855,7 @@ async function addProduct() {
               image_url:
                 imageUrl,
 
-              category:
-                category,
+              category,
 
               is_active:
                 isActive,
@@ -3001,8 +2863,7 @@ async function addProduct() {
               display_order:
                 displayOrder,
 
-              code:
-                code
+              code
 
             })
 
@@ -3011,7 +2872,7 @@ async function addProduct() {
       );
 
 
-    if (!insert.ok) {
+    if(!insert.ok){
 
       throw new Error(
 
@@ -3036,23 +2897,17 @@ async function addProduct() {
 
 
     document
-      .getElementById(
-        "newImage"
-      )
+      .getElementById("newImage")
       .value = "";
 
 
     document
-      .getElementById(
-        "newCode"
-      )
+      .getElementById("newCode")
       .value = "";
 
 
     document
-      .getElementById(
-        "newPosition"
-      )
+      .getElementById("newPosition")
       .value = "";
 
 
@@ -3060,9 +2915,7 @@ async function addProduct() {
 
   }
 
-
-  catch (error) {
-
+  catch(error){
 
     status.textContent =
 
@@ -3072,9 +2925,7 @@ async function addProduct() {
 
   }
 
-
-  finally {
-
+  finally{
 
     button.disabled =
       false;
@@ -3088,11 +2939,12 @@ async function addProduct() {
 }
 
 
+/* ==============================
+   BUTTONS
+   ============================== */
 
 document
-  .getElementById(
-    "loginButton"
-  )
+  .getElementById("loginButton")
   .addEventListener(
     "click",
     loginAdmin
@@ -3100,9 +2952,7 @@ document
 
 
 document
-  .getElementById(
-    "logoutButton"
-  )
+  .getElementById("logoutButton")
   .addEventListener(
     "click",
     logoutAdmin
@@ -3110,19 +2960,17 @@ document
 
 
 document
-  .getElementById(
-    "password"
-  )
+  .getElementById("password")
   .addEventListener(
 
     "keydown",
 
-    function(event) {
+    event => {
 
-      if (
+      if(
         event.key ===
         "Enter"
-      ) {
+      ){
 
         loginAdmin();
 
@@ -3134,9 +2982,7 @@ document
 
 
 document
-  .getElementById(
-    "productSearch"
-  )
+  .getElementById("productSearch")
   .addEventListener(
     "input",
     renderAdmin
@@ -3144,9 +2990,7 @@ document
 
 
 document
-  .getElementById(
-    "categorySelect"
-  )
+  .getElementById("categorySelect")
   .addEventListener(
     "change",
     renderAdmin
@@ -3154,9 +2998,7 @@ document
 
 
 document
-  .getElementById(
-    "refreshButton"
-  )
+  .getElementById("refreshButton")
   .addEventListener(
     "click",
     loadAdmin
@@ -3164,23 +3006,17 @@ document
 
 
 document
-  .getElementById(
-    "addProductButton"
-  )
+  .getElementById("addProductButton")
   .addEventListener(
 
     "click",
 
-    function() {
+    () => {
 
       document
-        .getElementById(
-          "addPanel"
-        )
+        .getElementById("addPanel")
         .classList
-        .toggle(
-          "open"
-        );
+        .toggle("open");
 
     }
 
@@ -3188,23 +3024,17 @@ document
 
 
 document
-  .getElementById(
-    "cancelNewProduct"
-  )
+  .getElementById("cancelNewProduct")
   .addEventListener(
 
     "click",
 
-    function() {
+    () => {
 
       document
-        .getElementById(
-          "addPanel"
-        )
+        .getElementById("addPanel")
         .classList
-        .remove(
-          "open"
-        );
+        .remove("open");
 
     }
 
@@ -3212,14 +3042,16 @@ document
 
 
 document
-  .getElementById(
-    "saveNewProduct"
-  )
+  .getElementById("saveNewProduct")
   .addEventListener(
     "click",
     addProduct
   );
 
+
+/* ==============================
+   AUTH CHANGE
+   ============================== */
 
 supabaseClient.auth
   .onAuthStateChange(
@@ -3227,34 +3059,29 @@ supabaseClient.auth
     function(
       event,
       session
-    ) {
+    ){
 
-
-      if (
+      if(
         event ===
         "SIGNED_OUT"
-      ) {
+      ){
 
         showLogin();
 
       }
 
 
-      if (
+      if(
         event ===
         "TOKEN_REFRESHED" &&
         session
-      ) {
-
+      ){
 
         document
-          .getElementById(
-            "signedInUser"
-          )
+          .getElementById("signedInUser")
           .textContent =
 
-          session.user &&
-          session.user.email
+          session.user?.email
 
             ? "Signed in: " +
               session.user.email
@@ -3267,6 +3094,10 @@ supabaseClient.auth
 
   );
 
+
+/* ==============================
+   START
+   ============================== */
 
 checkLogin();
 
